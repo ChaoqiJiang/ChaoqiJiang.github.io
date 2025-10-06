@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title>Hello World</title>
+    <url>/2025/10/06/hello-world/</url>
+    <content><![CDATA[Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.
+Quick StartCreate a new post$ hexo new &quot;My New Post&quot;
+
+More info: Writing
+Run server$ hexo server
+
+More info: Server
+Generate static files$ hexo generate
+
+More info: Generating
+Deploy to remote sites$ hexo deploy
+
+More info: Deployment
+]]></content>
+  </entry>
+  <entry>
+    <title>BlogTest</title>
+    <url>/2025/10/06/BlogTest/</url>
+    <content><![CDATA[
+  e1b7ce68cc892d00300a5ce1aa65ccf3c63ff7bd40e20c2ae2ea034f1739091f790b5e6265aaf4dca74e6647b4ebb61c66ff8c6ead7f606717bdb2055956136989a68e66a2e16038fd51b23ccdba879a5a3c684a8763fd09e76a208d996765acf88a2d7f6db1d47e992ec6e797e8f7420a1be247b83c62fe784be81623805cc521271f7049ad1aef2fdc67eabe4d1b77
+  
+    
+      
+      
+        您好, 这里需要密码.
+      
+    
+  
+
+]]></content>
+      <tags>
+        <tag>private</tag>
+      </tags>
+  </entry>
+</search>
