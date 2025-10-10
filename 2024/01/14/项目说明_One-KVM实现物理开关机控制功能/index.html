@@ -1,0 +1,227 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>One-KVM实现物理开关机控制功能 | 柊</title><meta name="author" content="棨"><meta name="copyright" content="棨"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#59b9c6"><meta name="description" content="One-KVM实现物理开关机控制功能">
+<meta property="og:type" content="article">
+<meta property="og:title" content="One-KVM实现物理开关机控制功能">
+<meta property="og:url" content="https://chaoqijiang.github.io/2024/01/14/%E9%A1%B9%E7%9B%AE%E8%AF%B4%E6%98%8E_One-KVM%E5%AE%9E%E7%8E%B0%E7%89%A9%E7%90%86%E5%BC%80%E5%85%B3%E6%9C%BA%E6%8E%A7%E5%88%B6%E5%8A%9F%E8%83%BD/index.html">
+<meta property="og:site_name" content="柊">
+<meta property="og:description" content="One-KVM实现物理开关机控制功能">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://chaoqijiang.github.io/Image/avatar.png">
+<meta property="article:published_time" content="2024-01-14T06:49:30.000Z">
+<meta property="article:modified_time" content="2025-10-10T16:38:36.386Z">
+<meta property="article:author" content="棨">
+<meta property="article:tag" content="KVM">
+<meta property="article:tag" content="protected">
+<meta property="article:tag" content="玩客云">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://chaoqijiang.github.io/Image/avatar.png"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "One-KVM实现物理开关机控制功能",
+  "url": "https://chaoqijiang.github.io/2024/01/14/%E9%A1%B9%E7%9B%AE%E8%AF%B4%E6%98%8E_One-KVM%E5%AE%9E%E7%8E%B0%E7%89%A9%E7%90%86%E5%BC%80%E5%85%B3%E6%9C%BA%E6%8E%A7%E5%88%B6%E5%8A%9F%E8%83%BD/",
+  "image": "https://chaoqijiang.github.io/Image/avatar.png",
+  "datePublished": "2024-01-14T06:49:30.000Z",
+  "dateModified": "2025-10-10T16:38:36.386Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "棨",
+      "url": "https://chaoqijiang.github.io"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://chaoqijiang.github.io/2024/01/14/%E9%A1%B9%E7%9B%AE%E8%AF%B4%E6%98%8E_One-KVM%E5%AE%9E%E7%8E%B0%E7%89%A9%E7%90%86%E5%BC%80%E5%85%B3%E6%9C%BA%E6%8E%A7%E5%88%B6%E5%8A%9F%E8%83%BD/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=5.5.1"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar@0.1.16/dist/snackbar.min.css" media="print" onload="this.media='all'"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#59b9c6')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          const hour = new Date().getHours()
+          const isNight = hour <= 6 || hour >= 24
+          if (theme === undefined) isNight ? activateDarkMode() : activateLightMode()
+          else theme === 'light' ? activateLightMode() : activateDarkMode()
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"pagination":{"enable":false,"hitsPerPage":8},"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":30,"highlightFullpage":true,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: {"chs_to_cht":"已切换为繁体中文","cht_to_chs":"已切换为简体中文","day_to_night":"已切换为深色模式","night_to_day":"已切换为浅色模式","bgLight":"#165e83","bgDark":"#507ea4","position":"bottom-left"},
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.12.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'One-KVM实现物理开关机控制功能',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 8.0.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/Image/avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">24</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">35</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">19</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴/归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-list"></i><span> 清单</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> Music</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> Movie</span></a></li><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> 链接</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/Image/topImage.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><img class="site-icon" src="/Image/Logo.ico" alt="Logo"><span class="site-name">柊</span></a><a class="nav-page-title" href="/"><span class="site-name">One-KVM实现物理开关机控制功能</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴/归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-list"></i><span> 清单</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> Music</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> Movie</span></a></li><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> 链接</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">One-KVM实现物理开关机控制功能</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-01-14T06:49:30.000Z" title="发表于 2024-01-14 14:49:30">2024-01-14</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-10-10T16:38:36.386Z" title="更新于 2025-10-11 00:38:36">2025-10-11</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E7%8E%A9%E5%AE%A2%E4%BA%91/">玩客云</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">9</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>1分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><div class="hbe hbe-container" id="hexo-blog-encrypt" data-wpm="抱歉, 这个密码看着不太对, 请再试试." data-whm="抱歉, 这个文章不能被校验, 不过您还是能看看解密后的内容.">
+  <script id="hbeData" type="hbeData" data-hmacdigest="217df1a6a1f1f58baa24d90cd907737a16de80d8977f56dfba18ff60e4a9b7a2">8e6e23ff52784cdaa23aca558b12e29a111ff2105136f9f21d60ea5585282c89d25be2a1193430650711a909ef6acbe2ee845e0ebe78d362844448cdebfb25d5b71ab9025dab17b6f56b6260dc07e83a657cb2c802b495bb9bd050edaf7a07c83da8c896123441979c6be33522153208143a1d6d3a7380da2d801632611d18416c50ad22538aef2749e297107c4acc78a58451bd3aa9abf06bbda49cf8511cee44c71e5c6ebc5b1dadf804c966198940663d42dfcbbef1e924ab77f2e877ef7294be624cfd2f84ae059e4935dac3226e33923e26900882eafdf1569f4fc7d9ba0f2f7a08d5c59a3cecbde229ec0c7c694f4b25fa1a980088423aadc4c5e5e4f4e8fbdb2fc4daf8e50e47c863eaae20599becef787b771ccf46f040b0e1698deb2f7f0963d9defb7757231e978fc9ba6cd80caa0a82c96c90f91ffa2c52f426f59bd357b8d35b3eed795b3dab044ce391dc83cf9e3aff186b4f48cec97c53df624429cea85aadf61682fe5bd8e3bb1b183f880df4fa2844ec9bf261bdd5632ac2eb2a53e0d8d5534ef4ace7d531e95a3228c8baa1c0e4978dd6e99b0b39eacc9a8f719eb95b8e1fe9924424f1a9c820ff8c9c141817ef4830693e0f9d6c97d87f7e39af209c2c562fb3baf9362e4eee33bb50c16a035fa8d8893e40b75c502d8cf0fb7c0319a526090879ef830e6fdce8c4d3bbcd7fafbf8eb66e66bee5cb9365cac9159f664f3ef1b1bc22a93879da6038876a8cf063ee39a09a9150a90db4daf64e27250a6a77a36ee1c0fc270bf9ac4e7f3ae6cf6a288f4a5989c3d8ed4c3e5d8a7b14bd29a0eea78d5522fca36d333ee1ffc4c95941859b52690ff23e34a1e805c90cc823b6457ed33ab8afbbfc78f1cb4a77d7a882376bdbf8578cece88a49154637118edaa5f7098b669f9c3cacfe7b58743cd60c8101f5e57dbd12b245b477bca43efe019dc5766de452b531095e4511782976116c569d1da01c988cf1aed5c2dc5acbe52a47630ef56f2da11f1f012002551ae4d716531b6c1e7c03ec3bcfbc233d159205f154273ec423e5d921f1089aef088a358cfe207b73b8e482f6a90c53fe45558f012cd25d19cca67d52482297b31c43d7947afa58d6cb8ba3904cf36931ef2e9f7fa2c83afb451f05313b631235a904c6c4164832ffecca7f0a2093ea425883db54d3a28d93d56743559fb206d5c9ff3d569345df004b6a197fcc66d02303914dcb501e6f4c5165e7a21e81e0bca3af40cc7871dc71410ea436f7c9cd00e3e656a6ab16d90bd86c9260c0472a1def3714b5aa4fdb2655d64bb23f153f05bb74d921bff6efb610e7ebe03a272d6dbe86f60fed07f10dcf5c724d8ffc303f8f8fab2a6e338e9415ee81d0b60d9ecefdf175ada1486e218bf873b79f3cbce17b4ec7175f34d3e32ef59abaa38345ded17115aa5755a52a85d0f541d904b2148ec0a66813e6b4cdd9233b90a158b0796f3d894fc9e95b88bdddb5e900c6766892153d49fa94114b547c488136b66faca06ac90ffa12ca2c1585e71118dfca127f33bab7cd9fdb8cf5be18f89f3794c06ec76f9dc062e41d098b236e124484e9dffbf39cb8851cce7ecb197bb45c476a8c01285c9052f275a0acd56fd681af2d7c465687cb672b1b1ad9973e9c94f71bc9505c6fe4d049537e91a3b99bd6d6dc86377d8955cd0fa79c53ab7bf03b6a94efc1e64b3b883041508aee809b621346f37d950a9ddbc91f49f722547162afba225a431a711a15ee67da101118939fb0de388463d2624091c6ef266a9b200f3c06cf5c9f596adf7d01cb074259f1f78c71d53576f20abbaa1caba385fe49530f4e189e282058bf1d29584bf0f253bb9350cba4b5210c7d81143eab66944d494e2f1371296b9e3adfecb47db2cc32d2969bb6332171f46da54b5278b1a8f44e587cae6ec2960b14df044eebe6b55490fad180c81835ba51e7896e78972a2868110809b9747f12588c5583db7e98195479c51b74a2b69a926dec30f4b3b938ca0aa8de05aead2fec6ce2d7ad88e5c08ad70fba94813fdc53d16d1c0116418fd2ccc7f18b04253f2b1e7f66da26f2a561e174ec5db941315426db7ec76eeb94754bcbaff3876d24cfe7b1dfcba0e4afc17e301e31852c00147b577809a714e4689035e4b9a578e43ee44213a658ce8d5e5b4ca0842ad38405434e86cafd70cc9c588c0d818ce3b5f27ad2fad315a119011faa38f2457dc52afae4a21e2f8387369d168414d660b6e364846cc4707ec0a713a6b727996d0d66d8376544d7a1c1f7f38c282c6ac6ac5b11ce699bba910bd4578d81ce693ad1a789ef6ef57d65451fb852078666ae1a330fc592f126b1274825425b74f60f71b248b9adb31ab8a1b1f626dcfac8dc839d07760818d4c41afbead45264c9ffe525fe1174df1999350459adb5f3b3b38e8141c9ba35697a45403d84ac28011fae081fa73be78d73965d3da77e52fd4e0831a92b53fba98f313cbac1ed1d1f7d51e1e0cb37445498ffa22e747261d8b3d995ad43464ef7562c2750d9da1d3d55b8b1e76f86101188a94b4b3b28e279e52907d46574a63565c613752343d7a57a5b6c81f2ce38d95692492764fe280c5127649c82dbfd82433161de2d963f51bf538bc2235785dfdcb1195afa9c54ca2560c10bca29815b26cd653ba9b2f9afa2ffa7185380d4cfb21fc82640f5a8bba2c60398ae20151fa598fbeed25da42fe0ba5cc797e09385abd8a7d2d6f8524e8f528d533cd5c95c5869b00e1042788cca326edc34c04a2dbe0976eaf884908c536d2493e024ad5509495eb719204ea5415746eec0e18104ce90e06010176ae5e884c1c48ac30727e8e51c5658fcc1a89e6c342cd1648ea9dc88a04fca1bfab60f1546543fe7eac7d79468518ab1f83c2d6a035f19a2dc4acbb98e1c94a88f957d2619e2a996153bcfd6c8dc7812476a244b7d0839bb67fa562ec941b20a1d40e5b3754f05e77f5312f8206b82d7fe476160d0903185584d783220e5304df51ce8f2317131ad06661708e14b24f41c066bfccb63553327be46f44a770b4d93ed9e377d1147c9d4bdf8c0671bdd32a2b6316ebfd4b21aefa0c4de9e148a6ed38fb6fafdbfd1518f2afa93ac6d2a66d3e7ec8d884d5c03768779e51f5ab82f7c82d5ecf6f229378f3a43de7a4f011823043f5241d52f675ddd173abb6bd87763f2327882ef95e3dc6f287199f09872aee5907d01ffcbb6ad7a85ef8a9d29fe65c95591a73ea3e87cad75b78abcad3e3e3f0a88c9e436b6b523b47869187dbe301522212dfd2b1443d78d1f975b40f99c98a38c2f5c64b75282b338944fb14d46fe034998a269e1463b6698354d73e0575fce0e698a3650ca426afccb2afe78e47e2f17750a3967896eba89d2f9a90697178998a0298b237e6ea29574befaaab67836bfc543d4c559b268a60a1fb798a4a1d77a0b2b733787a268c8ec7ab68bb1e4fdff8a29e4fb4f3b3dc9df3105eaf4f20c43db25640c6cbabc8749c4e51966808d26921653e45c87b5580b415de961f85a11c88d0edb99c7178ede261a619270d3b50c0e6716980385c8b80bc34ed6a4abe258009b8b4dbc33b1abaa06e76f4390b714469a9aea812a79cfd7d99f8c8946d1b0bb3d585b18b96dbbeebb1afa586732c0a687cbfd8c4ac8c1e8cd6e3cb75c3d084792d0ec74a03a11bf8692809a516d1f3e76097b3e70fac0eb978964335e888a989aacaafe1e9f43587428fe7b991f6f1d60d8f37fae3938fceffd04143f9f9538858f1d9de6c2c9ffe290d14a406d9da74386ba6f2ab059182d709510991894e95198331d9d150d4dc384d95a81742783bba5557e01e5ed2def36afd9ae418442ed1e9612a6725615a9c4f9458cb138257130a2931c95bec59ada486f77e7285978140b31cd5e84fd9a395c95afa11c38b451432be8cec1bdc074ba2ac21e1948e54baefbf9e754fd19391595b3993d11315cfe25bbbc35b74a6798792e40650414d335b44fb83ab523bec794896dc30a22630dcac4a2271ddca87c1ffe63a790ced36860e46d4724f695f87df9cd0762f12bb00ef3c505ae63dafef70bab8eefd3b0ac8a73485e7443a485753a1a32ffd2a6fcdc69b4b9243a7d219dd5df91a57e267c2f5cbb7b288d58ab3f2a6cce6cec1a3e66d4d7bc7660f750e37ed82090b46f328bad4d3a7912b021adf3e5d2692053404da8de344cd04da1e9b84710ea7cfa7baa9cb01d228d0a2156b8f19737a6869f34f852cd969965ab0b192117c26ff9ba17e1032c9b72480264a3f82e8ffc47c5abd925d7ebbdfef66e3a38ca7e9d480be0a2f11691cb1ed26d97633f098f252f4e3da9c477eea748dd672aae22586dc40428ec258f2495f8029b56236fdd57f9845cd77e9af751e2c56179c0d590df128f4c1f71a07a7f64ab5c9895a5d078e79da74baae3b88d32d5bd6202e1a9481202df0aad1c92d19d9d28707c6bb5dfa538717e0fbb65420c1b52636b217beadfac73bd62f6f5123626d602891349a7be313f06964e805af73345bd44d559e4b095c1dfca3da8467718c2d0a1e7256d43ba013a7e76d73dc11110b0ae0d1aa5cdf441b19897bbe81a273bf4a38e8f657cfedf4e0b0fb2066c69bc1225ffe178a8178db1b764f0bf5a0696b23304b0e1a0f03fb0483a635f65f690bb5a7c3f70bc6bb9489ebfebac261838f224ac22078f1adfc4c91b4859eafc232e1d7e8ac7630a6061abb6ca960043b262a14b4fac9ddb9ee6af298ee1869510f4f7ebb094a8f987bdc2393003e2993c34c748131ba7f7fa547c4e4f0c45050eeda6a60632aee28e4356be774852da6ab31fdc51a9f8454edc63dbba17972198cd530a109f5edfcd9af1b2fe8ba734c86396aed1677f5a7e1860f5c73721d391a8400a4014a6e42371c94feb29d1f724ce9febb36fb78e57b653c66b90f07b5aec3ae21ff5df07cb3c503586292e33308028f3189dceb596b620895aa2c3cba75e11ec462bdacbc107ad902a2f3ea7d4325786e80fd0ebbf6e8f4c592c6079d2fb7c5d91117db0a9aca7bf8c02db5499c03fb0be54b53e483d0dce5c2d45c8e5c37db8c344450d121322e65a389a94c9062f1dcd80ec443b65fafff6ce99f165a591546798f8f71861def0c09c5fa11ce638f111c8e5f10fd7efae455b05bb5985fa0be546a85e23a3597b45963586a5921ed121ba6dcbac1aa72f1893b8aaa91ae1cdc680a595ef40371f7531f5427a0a85c7cdc65cc2f450bddcfd81a87c3312478b7966e8f3e82bc2e76d95973ffd350d99e023ef97fbc333870938501fc1d27c26bb043fffc3c65df8049a3285d40d79086f11098e59ff16ee3ba9ccb101ec6c7d7479b04f243efe96be6b3e5ffec602650285770bad601fd5a8aff583916179705cfddb8ff37a339aafa817a3038915df5b7ebe28d214ae96563566ee50c02f629413ba4fa711ab348de109739949b177ea0cb7116dcc35b8292fd42b8a7d1496ff9f2a64ed3b8ddecd1b2aa37c25674492219c8210dfd41073ce52709c43a7ebb7b0f64535a31c00b8239458583b7e2a3bba3d2529bd86792133949739e0dd75f0730534e674137d54d9442f66624487f6d38b25756d6bb02a5672288e17e1efa4c07af8769f7df66c71cd06861474a2efaadb5d5b20f57952022d7753105cf3880795ebcd9bda44f9f715b6a8db22d7c2123779822c887d7742721bc4c970a5d2288272eb0b3a5e3ad9c5f3b4623d5771921fe04d3388e0f958feb1987e53e518cf33ca257d16607e67b9bdeb2013f824c6f70ef59ea3c6bdb45ea452fa1d0bf92cc75ab8939451f61c475291f9c3d95cd32d5891ad8a6a5aeadb3005dca452941d04326b3834540627f1979bdd6c35078c7bd71ddb2e6a73f25bea9620191e5eb055d29992aee10dc9da0025d059ce98000674579d9c7e850dc90dce97a8abfc8823cac0d6b112b1e9d2ef6a5aca69620904fa5ded140f3aebae639344f5803cf565f0a9f2ed004eeecb65ef173824a175819c2e786cb3fa5d89599dc3d442d9c367deba44888361d632fa22a888cfa013243ed8e9943f6252622e5a41d467e3a5d1078eff784ddb8f59ea33a7291040745b3d23d199416ced481f1d49f04c2730b165c52287b30204ceb1697504f7be0cf53ef3ec66599311a5095e4e515aba2b76516c26d4839e19e9b593564ae3675e5e5e5be72ebff60a6c3a09fdb857b7a8021856a405218406076ac7bd856f0d73e6a77f06172520e4a22b25456c196fa3d9388035da24847346d990762414df7e5ae901ca832dda10a8e0aac3be3513a1066fbbde4ecb240369a0f0f37f6bccfcc3834738416a13a9362a18f34fecb4a0b0606fec5947614548788635b8c23f4a6fe61b49de1ca7cee72722f0eb3310e09243e8dbcb8546fc5118dda35b4ac2d7c4fc19054193992c400de489462d5f4f9ecc3b0005d6f2b31d223541871d81df66b6678fff7f666218fa789088adfcf962d80b08e62b28ea2258898480616a040a0e0cfefd4a19c016aa0bbc3aa160352bdf39bcb8dc86d66c2fcfdbd440f393853398b03f16190768242b4d6abb4298ae5a0c91860f843d13a367781f8bd66acad8b4f9bf4574091a7ba30a086036ce85c15aa5ccfa4f7281f0dd91678104d3171b34320ca4273aee478daa0a51abd362e4bc8ed1526bd624b82aa8398c3564f7f079e406f2975f9992476bd66f464606687210f29839064492740223eec347509d79351bd4f9f9ddcfb4c0e71a223e38d7c1990c7b0c9cb407f74b79bcf3db07c5dd86f6ad26cd6f78e329216b209adf6cbdac5a50b549717456da03ee137f49d36daae9774264d05b1ad1b850e710e14f15eb153d39a184123423f1de41981432e0122b088d5914d7d88f943f57542b7970a0fd49f02ccc28b9bac850a389ff2cc13bfa1f9f51005498cc9d6d64cc203fb278c5eea18f56f31fcb6811e4463c230e9130df054c1fa178c2f8efae96f0ee66ec1207c0da137905a63d881e8528b718f70431553e929fca48f6756e268042d546a79f79804a36a9ff4e1bfc1995d8baf87a8982a524668432156a41902b46e29686b00b416c24ac90991e313db51694d863826e281eccf4944c71f2fce655b930f6db3896b93294879788a254abe21c347774c55234d0b2dda2ec5124984a5e54bc6adebab1968ec688c720fa86a96753c538a66c217a3293ba21c97481e11dd807a7db344ca0700ac046b66166d5aee7402a414b0ed776d0977186e2b11aa2ac178850a2b7c46c39743b9c92fd11441f844fc9d895d2579a15ef5531c6ac1f6fea9a1a430aefba4923dbe537f17f8437a9d2d1b7c49d3ab207d4748b00dd1cfa745fa0d645946bff7d7a6aff76eb18cab77450cebe928b4c84793bdb0c24bc105c31031adcde47ba7d76c047b370549c82bd55aa7dbf269797d1d5148adbef657e5b0dd9cf731a10af7a80ab9d4c570af95ee114eeb056143c65e2e4314d87ba993d3c21c3225a14fcbd4bb59733701f9b4b79d202a2ba3713049d03315a85b876d486cd8c96c6f10039ffb19376ce6f96befbb6b14c130ef3102026d72c43cbf611fa1cb7354d2f4c59f3173c4fd13c03609d4d4b4362fed67bc1ce86f37b5314bb8825f2065ef4acf05fb211f53b9a909c79c7ac45160fd2eac83c55e858b8c67839baf9875d86ecb47cb05f5ecf5b0f62b17736720376bb276644a21e18c6268f9603a6ed8d56d054658f455b4c7c51bc7954e6fe64e5aa3a86ce0dcbd604ef8cb851c45bb15643e7ee208a9d5cdf405edf4529986766a1018716fb031f16832914843a28507200be4bfd9184cbff981d3e86375d767e85aba6a2f0ca8e533987b8b8e092f26447c7e51c0c8e3ef9ccd206e2d639c4e5999b8e400effc8e28a0715abd6dabfa4300cb4386f44171485679b6ba8deb01358fc56be028ca3aef9ffea59991614fe035e7809bbe924a917b429a688c4b7ec221b4972ce6a0b248719cb446ddc6bc49956bf307628036e5b58f044ddc73cd87a75b6098babe3def059190cfc937822ff83428e31f24b6f1877bfdeee8c7cd93c53bffccd9122354b0fd09b38373a1d0907ea9ebf08c7d4029cbaf61354667139f4eaf5bc32d945fb2b337158337560d66b04567d2d7049b132b0fd421adc055bd491a90a64cdd8276e2dbd427c3ba90a5c4e2777d6e950175837e2f5e22c668129bdc1c27056c71518328c91fd9f7c9492bd2be275c1dec8a50e9133a5b8de26dadedf77c58428954d83ec11364642b77cb4f62e0a1a5f46ab73db50976cda0592b2883e69303b18851f9e19163117195db51e3d20af860c31cfdfacdc5c2eefef980903b1421a35adc7f48a304fceebaefcbd425af46a46229e72cc7a53bbc679430c3d3718a94341c992ca6e8e8f7a289f80261346432ec630108ae9d04f38d551f38fc1fa150958169854f031fad56079d0f7b53f9ffcc70622aeb7fa0a609587f9ebe98b1e1dece988ef9a72701afa9543fbbafa711ff8cf3a0b629c6a70256112c7dbf4358337d0ba7518c1f4d90ebf74905bf0c96fc6a7a7990118327b80e2822308b44fb08110385f03b084f4787cf6c57edfdf5ab3585a621efa4e6e4c474ba620731391676b6609fe8d8e3e4c26cfd6335095cad877eda3fbbb73403912a897758d1207c345b55d43d7e508dc279c65ef65cf42546870ec03ade83a4436863c45f64d9371aebb65e3e233c6a140715ee662266bd7c3800464ccdce366d7f5f93b4954746265cf0854cb6948317be48536e75041dd4cbe1b54411e6a6c1e6a91f3ed671a0aed2fcd35307b15664ad5bcff4c7aaaa0f2f84f19ded714ac757f11c29670e2a8b54730a398e0708f34f86f67db7c8c67285bd24f778e702721b99a4342649075f496c7511fcab47545eb763a0a1b1c179d91b174a9697c6200d9c022cbd612ed656d7884bc0600d1e7434d0e2bba5207656d1420597b298cf305623e7429695eefaa44cbce95769779c7ed6aab55ffc78e590bac6495252b62ed09f26efe06b6222209cf918486d35198d30afd4fea053cb63b8c377dfdb68cc54decd089f21320159f56f1aa41e1c616d1</script>
+  <div class="hbe hbe-content">
+    <div class="hbe hbe-input hbe-input-default">
+      <input class="hbe hbe-input-field hbe-input-field-default" type="password" id="hbePass">
+      <label class="hbe hbe-input-label hbe-input-label-default" for="hbePass">
+        <span class="hbe hbe-input-label-content hbe-input-label-content-default">您好, 这里需要密码.</span>
+      </label>
+    </div>
+  </div>
+</div>
+<script data-pjax src="/lib/hbe.js"></script><link href="/css/hbe.style.css" rel="stylesheet" type="text/css"></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://chaoqijiang.github.io">棨</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://chaoqijiang.github.io/2024/01/14/%E9%A1%B9%E7%9B%AE%E8%AF%B4%E6%98%8E_One-KVM%E5%AE%9E%E7%8E%B0%E7%89%A9%E7%90%86%E5%BC%80%E5%85%B3%E6%9C%BA%E6%8E%A7%E5%88%B6%E5%8A%9F%E8%83%BD/">https://chaoqijiang.github.io/2024/01/14/项目说明_One-KVM实现物理开关机控制功能/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://chaoqijiang.github.io" target="_blank">柊</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/protected/">protected</a><a class="post-meta__tags" href="/tags/%E7%8E%A9%E5%AE%A2%E4%BA%91/">玩客云</a><a class="post-meta__tags" href="/tags/KVM/">KVM</a></div><div class="post-share"><div class="social-share" data-image="/Image/avatar.png" data-sites="facebook,x,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2024/01/14/%E9%A1%B9%E7%9B%AE%E8%AF%B4%E6%98%8E_One-KVM%E5%90%AF%E7%94%A8MSD%E3%80%81WOL%E5%8A%9F%E8%83%BD/" title="One-KVM启用MSD、WOL功能"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">One-KVM启用MSD、WOL功能</div></div><div class="info-2"><div class="info-item-1">One-KVM启用MSD、WOL功能，实现远程文件上传镜像挂载，以及通过WOL唤醒设备。</div></div></div></a><a class="pagination-related" href="/2024/01/14/%E9%A1%B9%E7%9B%AE%E8%AF%B4%E6%98%8E_One-KVM%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/" title="One-KVM使用指南"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">One-KVM使用指南</div></div><div class="info-2"><div class="info-item-1">基于玩客云硬件和OneKVM软件打造的远控设备，帮助用户通过得到控制设备的HDMI 画面和鼠标键盘，去远程管理服务器、工作站或个人PC等。 和基于软件的远程管理方式不同，你无需在被控电脑安装任何软件，做到无侵入式控制。</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2024/01/14/%E9%A1%B9%E7%9B%AE%E8%AF%B4%E6%98%8E_One-KVM%20FAQ%E5%92%8C%E6%95%85%E9%9A%9C%E6%8E%92%E9%99%A4/" title="One-KVM FAQ和故障排除"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-01-14</div><div class="info-item-2">One-KVM FAQ和故障排除</div></div><div class="info-2"><div class="info-item-1">One-KVM FAQ和故障排除</div></div></div></a><a class="pagination-related" href="/2024/01/14/%E9%A1%B9%E7%9B%AE%E8%AF%B4%E6%98%8E_One-KVM%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/" title="One-KVM使用指南"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-01-14</div><div class="info-item-2">One-KVM使用指南</div></div><div class="info-2"><div class="info-item-1">基于玩客云硬件和OneKVM软件打造的远控设备，帮助用户通过得到控制设备的HDMI 画面和鼠标键盘，去远程管理服务器、工作站或个人PC等。 和基于软件的远程管理方式不同，你无需在被控电脑安装任何软件，做到无侵入式控制。</div></div></div></a><a class="pagination-related" href="/2024/01/14/%E9%A1%B9%E7%9B%AE%E8%AF%B4%E6%98%8E_One-KVM%20Docker%E5%BA%94%E7%94%A8%E6%89%A9%E5%B1%95/" title="One-KVM Docker应用扩展"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-01-14</div><div class="info-item-2">One-KVM Docker应用扩展</div></div><div class="info-2"><div class="info-item-1">One-KVM Docker应用扩展, 以及CasaOS、Openwrt</div></div></div></a><a class="pagination-related" href="/2024/01/14/%E9%A1%B9%E7%9B%AE%E8%AF%B4%E6%98%8E_One-KVM%E5%90%AF%E7%94%A8MSD%E3%80%81WOL%E5%8A%9F%E8%83%BD/" title="One-KVM启用MSD、WOL功能"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-01-14</div><div class="info-item-2">One-KVM启用MSD、WOL功能</div></div><div class="info-2"><div class="info-item-1">One-KVM启用MSD、WOL功能，实现远程文件上传镜像挂载，以及通过WOL唤醒设备。</div></div></div></a><a class="pagination-related" href="/2024/01/14/%E9%A1%B9%E7%9B%AE%E8%AF%B4%E6%98%8E_One-KVM%E5%AE%89%E8%A3%85%E5%AE%8C%E6%95%B4%E6%95%99%E7%A8%8B/" title="One-KVM安装完整教程"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-01-14</div><div class="info-item-2">One-KVM安装完整教程</div></div><div class="info-2"><div class="info-item-1">One-KVM安装完整教程</div></div></div></a><a class="pagination-related" href="/2025/10/08/AI%E6%8F%90%E7%A4%BA%E8%AF%8D_%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E7%94%9F%E6%88%90/" title="AI提示词_学习笔记生成"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-10-08</div><div class="info-item-2">AI提示词_学习笔记生成</div></div><div class="info-2"><div class="info-item-1">AI提示词，用于引导AI生成学习笔记，根据提示的设定，对没有基础背景背景的小白生成学习笔记。</div></div></div></a></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/Image/avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">棨</div><div class="author-info-description"></div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">24</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">35</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">19</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="mailto:chaoqijiang@outlook.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content toc-div-class" style="display:none"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#One-KVM%E5%AE%9E%E7%8E%B0%E7%89%A9%E7%90%86%E5%BC%80%E5%85%B3%E6%9C%BA%E6%8E%A7%E5%88%B6%E5%8A%9F%E8%83%BD"><span class="toc-number">1.</span> <span class="toc-text">One-KVM实现物理开关机控制功能</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%8B%E7%BB%8D"><span class="toc-number">1.1.</span> <span class="toc-text">介绍</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%99%E7%A8%8B"><span class="toc-number">1.2.</span> <span class="toc-text">教程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BD%AF%E4%BB%B6%E6%94%B9%E5%8A%A8"><span class="toc-number">1.3.</span> <span class="toc-text">软件改动</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/10/08/%E9%AB%98%E5%8F%AF%E7%94%A8%E9%AB%98%E5%B9%B6%E5%8F%91%E5%90%8E%E7%AB%AF%E6%9E%B6%E6%9E%84%E9%80%9A%E7%94%A8%E8%93%9D%E5%9B%BE/" title="高可用高并发后端架构通用蓝图">高可用高并发后端架构通用蓝图</a><time datetime="2025-10-08T15:42:00.000Z" title="发表于 2025-10-08 23:42:00">2025-10-08</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/10/08/AI%E6%8F%90%E7%A4%BA%E8%AF%8D_%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E7%94%9F%E6%88%90/" title="AI提示词_学习笔记生成">AI提示词_学习笔记生成</a><time datetime="2025-10-08T15:15:00.000Z" title="发表于 2025-10-08 23:15:00">2025-10-08</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/10/08/AI%E6%8F%90%E7%A4%BA%E8%AF%8D_%E8%AF%95%E9%A2%98%E7%94%9F%E6%88%90/" title="AI提示词_试题生成">AI提示词_试题生成</a><time datetime="2025-10-08T15:15:00.000Z" title="发表于 2025-10-08 23:15:00">2025-10-08</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/10/08/Golang_swag/" title="Golang swag 库">Golang swag 库</a><time datetime="2025-10-08T15:07:00.000Z" title="发表于 2025-10-08 23:07:00">2025-10-08</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/10/06/Golang_validator/" title="Golang validator 库">Golang validator 库</a><time datetime="2025-10-06T15:00:00.000Z" title="发表于 2025-10-06 23:00:00">2025-10-06</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url(/Image/topImage.jpg);"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2023 - 2025 By 棨</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 8.0.0</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.5.1</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.5.1"></script><script src="/js/main.js?v=5.5.1"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar@0.1.16/dist/snackbar.min.js"></script><div class="js-pjax"><script>(() => {
+  const runMermaid = ele => {
+    window.loadMermaid = true
+    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+    ele.forEach((item, index) => {
+      const mermaidSrc = item.firstElementChild
+      const mermaidThemeConfig = `%%{init:{ 'theme':'${theme}'}}%%\n`
+      const mermaidID = `mermaid-${index}`
+      const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+
+      const renderFn = mermaid.render(mermaidID, mermaidDefinition)
+      const renderMermaid = svg => {
+        mermaidSrc.insertAdjacentHTML('afterend', svg)
+      }
+
+      // mermaid v9 and v10 compatibility
+      typeof renderFn === 'string' ? renderMermaid(renderFn) : renderFn.then(({ svg }) => renderMermaid(svg))
+    })
+  }
+
+  const codeToMermaid = () => {
+    const codeMermaidEle = document.querySelectorAll('pre > code.mermaid')
+    if (codeMermaidEle.length === 0) return
+
+    codeMermaidEle.forEach(ele => {
+      const preEle = document.createElement('pre')
+      preEle.className = 'mermaid-src'
+      preEle.hidden = true
+      preEle.textContent = ele.textContent
+      const newEle = document.createElement('div')
+      newEle.className = 'mermaid-wrap'
+      newEle.appendChild(preEle)
+      ele.parentNode.replaceWith(newEle)
+    })
+  }
+
+  const loadMermaid = () => {
+    if (true) codeToMermaid()
+    const $mermaid = document.querySelectorAll('#article-container .mermaid-wrap')
+    if ($mermaid.length === 0) return
+
+    const runMermaidFn = () => runMermaid($mermaid)
+    btf.addGlobalFn('themeChange', runMermaidFn, 'mermaid')
+    window.loadMermaid ? runMermaidFn() : btf.getScript('https://cdn.jsdelivr.net/npm/mermaid@11.12.0/dist/mermaid.min.js').then(runMermaidFn)
+  }
+
+  btf.addGlobalFn('encrypt', loadMermaid, 'mermaid')
+  window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+})()</script></div><canvas class="fireworks" mobile="false"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/dist/fireworks.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><i class="fas fa-spinner fa-pulse" id="loading-status" hidden="hidden"></i><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="local-search-input"><input placeholder="搜索文章" type="text"/></div><hr/><div id="local-search-results"></div><div class="ais-Pagination" id="local-search-pagination" style="display:none;"><ul class="ais-Pagination-list"></ul></div><div id="local-search-stats"></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=5.5.1"></script></div></div></body></html>
