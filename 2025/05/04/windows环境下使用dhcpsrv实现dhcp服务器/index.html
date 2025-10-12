@@ -1,0 +1,246 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>windows环境下使用dhcpsrv实现dhcp服务器 | 柊</title><meta name="author" content="棨"><meta name="copyright" content="棨"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#59b9c6"><meta name="description" content="windows环境下使用dhcpsrv实现dhcp服务器">
+<meta property="og:type" content="article">
+<meta property="og:title" content="windows环境下使用dhcpsrv实现dhcp服务器">
+<meta property="og:url" content="https://chaoqijiang.github.io/2025/05/04/windows%E7%8E%AF%E5%A2%83%E4%B8%8B%E4%BD%BF%E7%94%A8dhcpsrv%E5%AE%9E%E7%8E%B0dhcp%E6%9C%8D%E5%8A%A1%E5%99%A8/index.html">
+<meta property="og:site_name" content="柊">
+<meta property="og:description" content="windows环境下使用dhcpsrv实现dhcp服务器">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://chaoqijiang.github.io/Image/avatar.png">
+<meta property="article:published_time" content="2025-05-04T06:39:00.000Z">
+<meta property="article:modified_time" content="2025-10-11T16:26:37.682Z">
+<meta property="article:author" content="棨">
+<meta property="article:tag" content="DHCP">
+<meta property="article:tag" content="Windows">
+<meta property="article:tag" content="protected">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://chaoqijiang.github.io/Image/avatar.png"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "windows环境下使用dhcpsrv实现dhcp服务器",
+  "url": "https://chaoqijiang.github.io/2025/05/04/windows%E7%8E%AF%E5%A2%83%E4%B8%8B%E4%BD%BF%E7%94%A8dhcpsrv%E5%AE%9E%E7%8E%B0dhcp%E6%9C%8D%E5%8A%A1%E5%99%A8/",
+  "image": "https://chaoqijiang.github.io/Image/avatar.png",
+  "datePublished": "2025-05-04T06:39:00.000Z",
+  "dateModified": "2025-10-11T16:26:37.682Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "棨",
+      "url": "https://chaoqijiang.github.io"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://chaoqijiang.github.io/2025/05/04/windows%E7%8E%AF%E5%A2%83%E4%B8%8B%E4%BD%BF%E7%94%A8dhcpsrv%E5%AE%9E%E7%8E%B0dhcp%E6%9C%8D%E5%8A%A1%E5%99%A8/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=5.5.1"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar@0.1.16/dist/snackbar.min.css" media="print" onload="this.media='all'"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#59b9c6')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          const hour = new Date().getHours()
+          const isNight = hour <= 6 || hour >= 24
+          if (theme === undefined) isNight ? activateDarkMode() : activateLightMode()
+          else theme === 'light' ? activateLightMode() : activateDarkMode()
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"pagination":{"enable":false,"hitsPerPage":8},"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":30,"highlightFullpage":true,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: {"chs_to_cht":"已切换为繁体中文","cht_to_chs":"已切换为简体中文","day_to_night":"已切换为深色模式","night_to_day":"已切换为浅色模式","bgLight":"#165e83","bgDark":"#507ea4","position":"bottom-left"},
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.12.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'windows环境下使用dhcpsrv实现dhcp服务器',
+  isHighlightShrink: false,
+  isToc: false,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 8.0.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/Image/avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">37</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">50</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">33</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴/归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-list"></i><span> 清单</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> Music</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> Movie</span></a></li><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> 链接</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/Image/topImage.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><img class="site-icon" src="/Image/Logo.ico" alt="Logo"><span class="site-name">柊</span></a><a class="nav-page-title" href="/"><span class="site-name">windows环境下使用dhcpsrv实现dhcp服务器</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴/归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-list"></i><span> 清单</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> Music</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> Movie</span></a></li><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> 链接</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">windows环境下使用dhcpsrv实现dhcp服务器</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2025-05-04T06:39:00.000Z" title="发表于 2025-05-04 14:39:00">2025-05-04</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-10-11T16:26:37.682Z" title="更新于 2025-10-12 00:26:37">2025-10-12</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%95%99%E7%A8%8B/">教程</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">501</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>1分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><p>起因是一个很奇葩的需求：乙方要远程升级仪器，用TeamViewer远程控制并ssh到仪器，但仪器内部IP地址没有写死，靠DHCP服务器获取。那么就要在PC建立DHCP服务器，用网线连接仪器，然后才能看到仪器分配的IP，从而进行连接。<br>网上搜了一下dhcpsrv是一个很好的帮助建立DHCP服务的软件。官网：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">http://www.dhcpserver.de/cms/</span><br></pre></td></tr></table></figure>
+
+<p>最新版本需要donate才能下载，下载以前的版本即可。<br>首先右键“我的电脑”，选择“管理”，左边选择“服务”，查看DHCP Server并未运行。</p>
+<p><img src="/./Image/windows%E7%8E%AF%E5%A2%83%E4%B8%8B%E4%BD%BF%E7%94%A8dhcpsrv%E5%AE%9E%E7%8E%B0dhcp%E6%9C%8D%E5%8A%A1%E5%99%A8.assets/1750227-20191018144939807-1390641097.gif" alt="img"></p>
+<p>运行dhcpwiz.exe，下一步。</p>
+<p><img src="/./Image/windows%E7%8E%AF%E5%A2%83%E4%B8%8B%E4%BD%BF%E7%94%A8dhcpsrv%E5%AE%9E%E7%8E%B0dhcp%E6%9C%8D%E5%8A%A1%E5%99%A8.assets/1750227-20191018145146803-506389991.gif" alt="img"></p>
+<p>选择你需要连接的以太网口，把其IP作为DHCP服务器的IP，下一步。</p>
+<p><img src="/./Image/windows%E7%8E%AF%E5%A2%83%E4%B8%8B%E4%BD%BF%E7%94%A8dhcpsrv%E5%AE%9E%E7%8E%B0dhcp%E6%9C%8D%E5%8A%A1%E5%99%A8.assets/1750227-20191018145552335-1641190559.gif" alt="img"></p>
+<p>我们只是把PC当作DHCP服务器，并不要设置DNS，什么都不做，下一步。</p>
+<p><img src="/./Image/windows%E7%8E%AF%E5%A2%83%E4%B8%8B%E4%BD%BF%E7%94%A8dhcpsrv%E5%AE%9E%E7%8E%B0dhcp%E6%9C%8D%E5%8A%A1%E5%99%A8.assets/1750227-20191018145804625-2095407898.gif" alt="img"></p>
+<p>选择可分配的IP池，为了更容易ping到仪器（一开始不知道分配的IP可查- -），我们选择在本机网段内只分配2个IP给仪器（101和102）。其它不需要设置，下一步。</p>
+<p><img src="/./Image/windows%E7%8E%AF%E5%A2%83%E4%B8%8B%E4%BD%BF%E7%94%A8dhcpsrv%E5%AE%9E%E7%8E%B0dhcp%E6%9C%8D%E5%8A%A1%E5%99%A8.assets/1750227-20191018150136868-398680594.jpg" alt="img"></p>
+<p>打勾并把我们前面的配置写到ini</p>
+<p><img src="/./Image/windows%E7%8E%AF%E5%A2%83%E4%B8%8B%E4%BD%BF%E7%94%A8dhcpsrv%E5%AE%9E%E7%8E%B0dhcp%E6%9C%8D%E5%8A%A1%E5%99%A8.assets/1750227-20191018151104390-137974539.jpg" alt="img"></p>
+<p>查看解压文件夹里面的dhcpsrv.ini，下一步。</p>
+<p><img src="/./Image/windows%E7%8E%AF%E5%A2%83%E4%B8%8B%E4%BD%BF%E7%94%A8dhcpsrv%E5%AE%9E%E7%8E%B0dhcp%E6%9C%8D%E5%8A%A1%E5%99%A8.assets/1750227-20191018151454507-1215037343.jpg" alt="img"></p>
+<p>这里打开和在系统服务里打开是一样的，主要是生成的ini文件很重要！我们直接点击“完成”。</p>
+<p><img src="/./Image/windows%E7%8E%AF%E5%A2%83%E4%B8%8B%E4%BD%BF%E7%94%A8dhcpsrv%E5%AE%9E%E7%8E%B0dhcp%E6%9C%8D%E5%8A%A1%E5%99%A8.assets/1750227-20191018151704630-2098944234.jpg" alt="img"></p>
+<p>在服务管理里面，右键启动DHCP服务。看到服务正在运行。</p>
+<p><img src="/./Image/windows%E7%8E%AF%E5%A2%83%E4%B8%8B%E4%BD%BF%E7%94%A8dhcpsrv%E5%AE%9E%E7%8E%B0dhcp%E6%9C%8D%E5%8A%A1%E5%99%A8.assets/1750227-20191018152251148-703649340.jpg" alt="img"></p>
+<p>用网线插上仪器。查看dhcpsrv.ini，此时在最下方会多出几行表明IP分配成功，并会显示已分配的IP。如果这里不成功，请看最后！</p>
+<p><img src="/./Image/windows%E7%8E%AF%E5%A2%83%E4%B8%8B%E4%BD%BF%E7%94%A8dhcpsrv%E5%AE%9E%E7%8E%B0dhcp%E6%9C%8D%E5%8A%A1%E5%99%A8.assets/1750227-20191018152841889-1593944219.jpg" alt="img"></p>
+<p>wim+R+cmd打开终端，可以ping通仪器。</p>
+<p><img src="/./Image/windows%E7%8E%AF%E5%A2%83%E4%B8%8B%E4%BD%BF%E7%94%A8dhcpsrv%E5%AE%9E%E7%8E%B0dhcp%E6%9C%8D%E5%8A%A1%E5%99%A8.assets/1750227-20191018153228342-924918446.jpg" alt="img"></p>
+<p>好了，到这里对方就可以远程访问仪器了~</p>
+<p>遇到的问题：<br>一开始在启动DHCP服务后，我们一直无法ping通仪器，最后发现要关闭主机上的防火墙</p>
+<p><img src="/./Image/windows%E7%8E%AF%E5%A2%83%E4%B8%8B%E4%BD%BF%E7%94%A8dhcpsrv%E5%AE%9E%E7%8E%B0dhcp%E6%9C%8D%E5%8A%A1%E5%99%A8.assets/1750227-20191018153444863-1676561888.jpg" alt="img"></p>
+<p><img src="/./Image/windows%E7%8E%AF%E5%A2%83%E4%B8%8B%E4%BD%BF%E7%94%A8dhcpsrv%E5%AE%9E%E7%8E%B0dhcp%E6%9C%8D%E5%8A%A1%E5%99%A8.assets/1750227-20191018153455934-1836440117.jpg" alt="img"></p>
+<p>如果连接的也是windows电脑，对方的防火墙也要关闭！</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://chaoqijiang.github.io">棨</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://chaoqijiang.github.io/2025/05/04/windows%E7%8E%AF%E5%A2%83%E4%B8%8B%E4%BD%BF%E7%94%A8dhcpsrv%E5%AE%9E%E7%8E%B0dhcp%E6%9C%8D%E5%8A%A1%E5%99%A8/">https://chaoqijiang.github.io/2025/05/04/windows环境下使用dhcpsrv实现dhcp服务器/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://chaoqijiang.github.io" target="_blank">柊</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/protected/">protected</a><a class="post-meta__tags" href="/tags/Windows/">Windows</a><a class="post-meta__tags" href="/tags/DHCP/">DHCP</a></div><div class="post-share"><div class="social-share" data-image="/Image/avatar.png" data-sites="facebook,x,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2024/10/04/UnRaid%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/" title="UnRaid使用指南"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">UnRaid使用指南</div></div><div class="info-2"><div class="info-item-1">UnRaid使用指南</div></div></div></a><a class="pagination-related" href="/2025/10/06/Golang_validator/" title="Golang validator 库"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">Golang validator 库</div></div><div class="info-2"><div class="info-item-1">主要讲解如何在Go中使用validator库进行数据验证。通过一系列章节，你将学会如何使用validator库来确保你的数据符合预期。从基本的验证规则到自定义的验证函数，再到处理错误信息的高级技巧，本教程将带你一步步深入学习。validator 是一个非常强大的库，它可以帮助你确保你的数据在进入程序之前就已经是干净、合规的。让我们一起开始这段学习之旅吧！</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2023/02/28/Windwos%E7%8E%AF%E5%A2%83%E4%B8%8BF%E9%94%AE%E7%9A%84%E5%8A%9F%E8%83%BD%E4%BB%8B%E7%BB%8D/" title="Windwos环境下F键的功能介绍"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2023-02-28</div><div class="info-item-2">Windwos环境下F键的功能介绍</div></div><div class="info-2"><div class="info-item-1">Windwos环境下F键的功能介绍</div></div></div></a><a class="pagination-related" href="/2025/10/08/AI%E6%8F%90%E7%A4%BA%E8%AF%8D_%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E7%94%9F%E6%88%90/" title="AI提示词_学习笔记生成"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-10-08</div><div class="info-item-2">AI提示词_学习笔记生成</div></div><div class="info-2"><div class="info-item-1">AI提示词，用于引导AI生成学习笔记，根据提示的设定，对没有基础背景背景的小白生成学习笔记。</div></div></div></a><a class="pagination-related" href="/2025/10/08/AI%E6%8F%90%E7%A4%BA%E8%AF%8D_%E8%AF%95%E9%A2%98%E7%94%9F%E6%88%90/" title="AI提示词_试题生成"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-10-08</div><div class="info-item-2">AI提示词_试题生成</div></div><div class="info-2"><div class="info-item-1">AI提示词，用于根据提示信息生成对应的试题，帮助学习者检验理解深度。</div></div></div></a><a class="pagination-related" href="/2025/10/06/Golang_validator/" title="Golang validator 库"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-10-06</div><div class="info-item-2">Golang validator 库</div></div><div class="info-2"><div class="info-item-1">主要讲解如何在Go中使用validator库进行数据验证。通过一系列章节，你将学会如何使用validator库来确保你的数据符合预期。从基本的验证规则到自定义的验证函数，再到处理错误信息的高级技巧，本教程将带你一步步深入学习。validator 是一个非常强大的库，它可以帮助你确保你的数据在进入程序之前就已经是干净、合规的。让我们一起开始这段学习之旅吧！</div></div></div></a><a class="pagination-related" href="/2025/10/08/Golang_swag/" title="Golang swag 库"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-10-08</div><div class="info-item-2">Golang swag 库</div></div><div class="info-2"><div class="info-item-1">Go swag 从入门到实践，带你一步步掌握如何自动生成 API 文档。从安装、使用注解到理解其工作原理，再到常见问题的解决，让你轻松应对团队协作中的文档需求。</div></div></div></a><a class="pagination-related" href="/2024/02/28/HTTP%20%E7%8A%B6%E6%80%81%E7%A0%81%E5%88%97%E8%A1%A8/" title="HTTP 状态码列表"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-02-28</div><div class="info-item-2">HTTP 状态码列表</div></div><div class="info-2"><div class="info-item-1">HTTP 状态码列表</div></div></div></a></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/Image/avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">棨</div><div class="author-info-description"></div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">37</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">50</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">33</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="mailto:chaoqijiang@outlook.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/12/14/%E6%A8%A1%E6%9D%BF/" title=" "> </a><time datetime="2025-12-14T06:44:30.000Z" title="发表于 2025-12-14 14:44:30">2025-12-14</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/10/08/%E9%AB%98%E5%8F%AF%E7%94%A8%E9%AB%98%E5%B9%B6%E5%8F%91%E5%90%8E%E7%AB%AF%E6%9E%B6%E6%9E%84%E9%80%9A%E7%94%A8%E8%93%9D%E5%9B%BE/" title="高可用高并发后端架构通用蓝图">高可用高并发后端架构通用蓝图</a><time datetime="2025-10-08T15:42:00.000Z" title="发表于 2025-10-08 23:42:00">2025-10-08</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/10/08/AI%E6%8F%90%E7%A4%BA%E8%AF%8D_%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E7%94%9F%E6%88%90/" title="AI提示词_学习笔记生成">AI提示词_学习笔记生成</a><time datetime="2025-10-08T15:15:00.000Z" title="发表于 2025-10-08 23:15:00">2025-10-08</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/10/08/AI%E6%8F%90%E7%A4%BA%E8%AF%8D_%E8%AF%95%E9%A2%98%E7%94%9F%E6%88%90/" title="AI提示词_试题生成">AI提示词_试题生成</a><time datetime="2025-10-08T15:15:00.000Z" title="发表于 2025-10-08 23:15:00">2025-10-08</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/10/08/Golang_swag/" title="Golang swag 库">Golang swag 库</a><time datetime="2025-10-08T15:07:00.000Z" title="发表于 2025-10-08 23:07:00">2025-10-08</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url(/Image/topImage.jpg);"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2023 - 2025 By 棨</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 8.0.0</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.5.1</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.5.1"></script><script src="/js/main.js?v=5.5.1"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar@0.1.16/dist/snackbar.min.js"></script><div class="js-pjax"><script>(() => {
+  const runMermaid = ele => {
+    window.loadMermaid = true
+    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+    ele.forEach((item, index) => {
+      const mermaidSrc = item.firstElementChild
+      const mermaidThemeConfig = `%%{init:{ 'theme':'${theme}'}}%%\n`
+      const mermaidID = `mermaid-${index}`
+      const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+
+      const renderFn = mermaid.render(mermaidID, mermaidDefinition)
+      const renderMermaid = svg => {
+        mermaidSrc.insertAdjacentHTML('afterend', svg)
+      }
+
+      // mermaid v9 and v10 compatibility
+      typeof renderFn === 'string' ? renderMermaid(renderFn) : renderFn.then(({ svg }) => renderMermaid(svg))
+    })
+  }
+
+  const codeToMermaid = () => {
+    const codeMermaidEle = document.querySelectorAll('pre > code.mermaid')
+    if (codeMermaidEle.length === 0) return
+
+    codeMermaidEle.forEach(ele => {
+      const preEle = document.createElement('pre')
+      preEle.className = 'mermaid-src'
+      preEle.hidden = true
+      preEle.textContent = ele.textContent
+      const newEle = document.createElement('div')
+      newEle.className = 'mermaid-wrap'
+      newEle.appendChild(preEle)
+      ele.parentNode.replaceWith(newEle)
+    })
+  }
+
+  const loadMermaid = () => {
+    if (true) codeToMermaid()
+    const $mermaid = document.querySelectorAll('#article-container .mermaid-wrap')
+    if ($mermaid.length === 0) return
+
+    const runMermaidFn = () => runMermaid($mermaid)
+    btf.addGlobalFn('themeChange', runMermaidFn, 'mermaid')
+    window.loadMermaid ? runMermaidFn() : btf.getScript('https://cdn.jsdelivr.net/npm/mermaid@11.12.0/dist/mermaid.min.js').then(runMermaidFn)
+  }
+
+  btf.addGlobalFn('encrypt', loadMermaid, 'mermaid')
+  window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+})()</script></div><canvas class="fireworks" mobile="false"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/dist/fireworks.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><i class="fas fa-spinner fa-pulse" id="loading-status" hidden="hidden"></i><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="local-search-input"><input placeholder="搜索文章" type="text"/></div><hr/><div id="local-search-results"></div><div class="ais-Pagination" id="local-search-pagination" style="display:none;"><ul class="ais-Pagination-list"></ul></div><div id="local-search-stats"></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=5.5.1"></script></div></div></body></html>

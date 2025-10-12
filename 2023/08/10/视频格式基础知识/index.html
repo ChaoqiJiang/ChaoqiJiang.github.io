@@ -1,0 +1,822 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>视频格式基础知识 | 柊</title><meta name="author" content="棨"><meta name="copyright" content="棨"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#59b9c6"><meta name="description" content="视频格式基础知识">
+<meta property="og:type" content="article">
+<meta property="og:title" content="视频格式基础知识">
+<meta property="og:url" content="https://chaoqijiang.github.io/2023/08/10/%E8%A7%86%E9%A2%91%E6%A0%BC%E5%BC%8F%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/index.html">
+<meta property="og:site_name" content="柊">
+<meta property="og:description" content="视频格式基础知识">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://chaoqijiang.github.io/Image/avatar.png">
+<meta property="article:published_time" content="2023-08-09T16:04:00.000Z">
+<meta property="article:modified_time" content="2025-10-11T16:24:21.646Z">
+<meta property="article:author" content="棨">
+<meta property="article:tag" content="protected">
+<meta property="article:tag" content="知识杂谈">
+<meta property="article:tag" content="视频格式">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://chaoqijiang.github.io/Image/avatar.png"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "视频格式基础知识",
+  "url": "https://chaoqijiang.github.io/2023/08/10/%E8%A7%86%E9%A2%91%E6%A0%BC%E5%BC%8F%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/",
+  "image": "https://chaoqijiang.github.io/Image/avatar.png",
+  "datePublished": "2023-08-09T16:04:00.000Z",
+  "dateModified": "2025-10-11T16:24:21.646Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "棨",
+      "url": "https://chaoqijiang.github.io"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://chaoqijiang.github.io/2023/08/10/%E8%A7%86%E9%A2%91%E6%A0%BC%E5%BC%8F%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=5.5.1"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar@0.1.16/dist/snackbar.min.css" media="print" onload="this.media='all'"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#59b9c6')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          const hour = new Date().getHours()
+          const isNight = hour <= 6 || hour >= 24
+          if (theme === undefined) isNight ? activateDarkMode() : activateLightMode()
+          else theme === 'light' ? activateLightMode() : activateDarkMode()
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"pagination":{"enable":false,"hitsPerPage":8},"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":30,"highlightFullpage":true,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: {"chs_to_cht":"已切换为繁体中文","cht_to_chs":"已切换为简体中文","day_to_night":"已切换为深色模式","night_to_day":"已切换为浅色模式","bgLight":"#165e83","bgDark":"#507ea4","position":"bottom-left"},
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.12.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '视频格式基础知识',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 8.0.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/Image/avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">37</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">50</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">33</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴/归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-list"></i><span> 清单</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> Music</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> Movie</span></a></li><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> 链接</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/Image/topImage.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><img class="site-icon" src="/Image/Logo.ico" alt="Logo"><span class="site-name">柊</span></a><a class="nav-page-title" href="/"><span class="site-name">视频格式基础知识</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴/归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-list"></i><span> 清单</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> Music</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> Movie</span></a></li><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> 链接</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">视频格式基础知识</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-08-09T16:04:00.000Z" title="发表于 2023-08-10 00:04:00">2023-08-10</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-10-11T16:24:21.646Z" title="更新于 2025-10-12 00:24:21">2025-10-12</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E7%9F%A5%E8%AF%86%E6%9D%82%E8%B0%88/">知识杂谈</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E7%9F%A5%E8%AF%86%E6%9D%82%E8%B0%88/%E6%A0%BC%E5%BC%8F/">格式</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">22.4k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>70分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h1 id="视频格式的基础知识"><a href="#视频格式的基础知识" class="headerlink" title="视频格式的基础知识"></a>视频格式的基础知识</h1><h2 id="封装格式-MP4-MKV…-vs-媒体格式-H-264-FLAC-AAC…"><a href="#封装格式-MP4-MKV…-vs-媒体格式-H-264-FLAC-AAC…" class="headerlink" title="封装格式(MP4&#x2F;MKV…)  vs 媒体格式(H.264&#x2F;FLAC&#x2F;AAC…)"></a>封装格式(MP4&#x2F;MKV…)  vs 媒体格式(H.264&#x2F;FLAC&#x2F;AAC…)</h2><h3 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h3><p>​	MP4+MKV是下载的视频文件最常见的种类。这些文件其实类似一个包裹，它的后缀则是包裹的包装方式。</p>
+<p>​	这些包裹里面，包含了视频（只有图像），音频（只有声音），字幕等。当播放器在播放的时候，首先对这个包裹进行拆包（专业术语叫做分离&#x2F;splitting）,把其中的视频、音频等拿出来，再进行播放。</p>
+<p>​	既然它们只是一个包裹，就意味着这个<strong>后缀不能保证里面的东西</strong>是啥，也<strong>不能保证到底有多少东西</strong>。包裹里面的每一件物品，我们称之为<code>轨道</code>(track)，一般有这么些： </p>
+<ul>
+<li><p>视频(Video): 一般来说肯定都有，但是也有例外，比如<code>mka</code>格式的外挂音轨，其实就是没视频的mkv。注意我们说到视频的时候，是不包括声音的。</p>
+</li>
+<li><p>音频(Audio)：一般来说也肯定有，但是有些情况是静音的，就没必要带了。</p>
+</li>
+<li><p>章节(Chapter): 蓝光原盘中自带的分段信息。如果文件带上了，那么你可以在播放器中看到带章节的效果：</p>
+<ul>
+<li><p>.potplayer右键画面，选项-播放-在进度条上显示书签&#x2F;章节标记</p>
+</li>
+<li><p>.mpc-hc 右键画面，选项-调节-在进度条显示章节标记</p>
+</li>
+</ul>
+</li>
+<li><p>字幕(Subtitles)：有些时候文件自带字幕，并且字幕并非是直接整合于视频的硬字幕，那么就是一起被打包在封装容器中。</p>
+</li>
+<li><p>其他可能还有附件等，不一一列举。每个类型也不一定只有一条轨道，比如经常见到带多音轨的MKV。</p>
+</li>
+</ul>
+<p>​	每个轨道，都有自己的格式。比如大家常说的，视频是H.264，音频是AAC，这些就是每个轨道的格式。</p>
+<p>​	视频的格式，常见的有H.264(可以细分为8bit&#x2F;10bit)，H.265(当前也有8bit&#x2F;10bit之分)，RealVideo(常见于早期rm&#x2F;rmvb)，VC-1(微软主导的，常见于wmv)。基本上，<code>H.264=AVC=AVC1</code>, <code>H.265=HEVC</code>。</p>
+<p>​	音频的格式，常见的有 FLAC&#x2F;ALAC&#x2F;TrueHD&#x2F;DTS-HD MA这四种无损，和AAC&#x2F;MP3&#x2F;AC3&#x2F;DTS(Core)这四种有损。但请注意，如Flac格式的音频，只是支持无损，并不代表全部都是无损。比如将aac格式的音频转成flac，虽然格式变了，但其中的音频还是原来的有损。</p>
+<blockquote>
+<p>这里插播一个小的知识点，有损压缩是不可逆的，当信息丢失后，除非有辅助手段，否则丢失的信息是找不回来的。马赛克就可以视为一种局部的手动丢失信息的措施，因此经过打码的图片or视频是无法还原的，但可以使用ai都手段，“脑补”出打码之前的原始形态。</p>
+</blockquote>
+<h2 id="MKV-vs-MP4的主要区别"><a href="#MKV-vs-MP4的主要区别" class="headerlink" title="MKV vs MP4的主要区别"></a>MKV vs MP4的主要区别</h2><ul>
+<li>MKV支持封装FLAC作为音频，MP4则不支持。但是MP4也可以封装无损音轨(比如说ALAC，虽然普遍认为ALAC的效率不如FLAC优秀)</li>
+<li>MKV支持封装ASS&#x2F;SSA格式的字幕，MP4则不支持。一般字幕组制作的字幕是ASS格式，所以内封字幕多见于MKV格式</li>
+<li>MP4作为工业标准，在视频编辑软件和播放设备上的兼容性一般好于MKV。这也是vcb-s那些为移动设备优化的视频基本上选择MP4封装的原因。</li>
+</ul>
+<p>​	除此之外，这两个格式很大程度上可以互相代替。比如它们都支持封装AVC和HEVC，包括8bit&#x2F;10bit的精度。所以所谓的MP4画质不如MKV好，这种论断是非常无知的——它们完全可以封装一样的视频。</p>
+<p>​	为什么会有这样的分歧，就是历史原因了。MKV是民间研发，为了代替古老的AVI，从而更好地支持H264，它开发和修改的灵活度使得它可以兼容flac&#x2F;ass这类非工业标准的格式；而MP4则是出生豪门，作为工业标准，替代更古老的MPG，作为新一代视频&#x2F;音频封装服务的。</p>
+<h2 id="视频的基础参数：分辨率，帧率和码率。"><a href="#视频的基础参数：分辨率，帧率和码率。" class="headerlink" title="视频的基础参数：分辨率，帧率和码率。"></a>视频的基础参数：分辨率，帧率和码率。</h2><p>​	视频是由连续的图像构成的。每一张图像，我们称为一帧(frame)。图像则是由像素(pixel)构成的。一张图像有多少像素，称为这个图像的分辨率。比如说1920×1080的图像，说明它是由横纵1920×1080个像素点构成。视频的分辨率就是每一帧图像的分辨率。 </p>
+<p>​	一个视频，每一秒由多少图像构成，称为这个视频的帧率(frame-rate)。常见的帧率有24000&#x2F;1001&#x3D;23.976, 30000&#x2F;1001&#x3D;29.970, 60000&#x2F;1001&#x3D;59.940, 25.000, 50.000等等。这个数字是一秒钟内闪过的图像的数量。比如23.976，就是1001秒内，有24000张图像。视频的帧率是可以是恒定的(cfr, Const Frame-Rate)，也可以是变化的(vfr, Variable Frame-Rate) </p>
+<p>​	码率的定义是视频文件体积除以时间。单位一般是Kbps(Kbit&#x2F;s)或者Mbps(Mbit&#x2F;s)。注意1B(Byte)&#x3D;8b(bit)。所以一个24分钟，900MB的视频：</p>
+<ul>
+<li><p>体积：900MB &#x3D; 900MByte &#x3D; 7200Mbit</p>
+</li>
+<li><p>时间：24min &#x3D; 1440s</p>
+</li>
+<li><p>码率：7200&#x2F;1440  &#x3D; 5000 Kbps &#x3D; 5Mbps</p>
+</li>
+</ul>
+<p>当视频文件的时间基本相同的时候（比如现在一集番大概是24分钟），码率和体积基本上是等价的，都是用来描述视频大小的参数。长度分辨率都相同的文件，体积不同，实际上就是码率不同。</p>
+<p>码率也可以解读为单位时间内，用来记录视频的数据总量。码率越高的视频，意味着用来记录视频的数据量越多，潜在的解读就是视频可以拥有更好的质量。（注意，仅仅是潜在，后文我们会分析为什么高码率不一定等于高画质）</p>
+<h2 id="图像的表示方法：RGB模型-vs-YUV模型"><a href="#图像的表示方法：RGB模型-vs-YUV模型" class="headerlink" title="图像的表示方法：RGB模型 vs YUV模型"></a>图像的表示方法：RGB模型 vs YUV模型</h2><p>光的三原色是红(Red)、绿(Green)、蓝(Blue)。现代的显示器技术就是通过组合不同强度的三原色，来达成几乎任何一种可见光的颜色。图像储存中，通过记录每个像素红绿蓝强度，来记录图像的方法，称为RGB模型 (RGB Model)</p>
+<p>常见的图片格式中，PNG和BMP这两种就是基于RGB模型的。</p>
+<p>比如说原图：</p>
+<img src="./Image/视频格式基础知识.assets/1691572378724.jpg" alt="1691572378724" style="zoom:50%;" />
+
+<p>分别只显示R G B通道的强度，效果如下：</p>
+<img src="./Image/视频格式基础知识.assets/1691572704713.jpg" alt="1691572704713" style="zoom:50%;" />
+
+<img src="./Image/视频格式基础知识.assets/1691572726393.jpg" alt="1691572726393" style="zoom:50%;" />
+
+<img src="./Image/视频格式基础知识.assets/1691572736325.jpg" alt="1691572736325" style="zoom:50%;" />
+
+
+
+<p>​	三个通道下，信息量和细节程度不一定是均匀分布的。比如说可以注意南小鸟脸上的红晕，在3个平面上的区分程度就不同——红色平面下几乎无从区分，造成区别的主要是绿色和蓝色的平面。外围白色的脸颊，三色都近乎饱和；但是红晕部分，只有红色饱和，绿色和蓝色不饱和。这是造成红色凸显的原因。 </p>
+<p>​	除了RGB模型，还有一种广泛采用的模型，称为YUV模型，又被称为亮度-色度模型（Luma-Chroma）。它是通过数学转换，将RGB三个通道，转换为一个代表亮度的通道(Y,又称为Luma)，和两个代表色度的通道(UV，并成为Chroma)。</p>
+<p>​	举个形象点的例子：一家养殖场饲养猪和牛，一种记数方式是：（猪的数量，牛的数量）</p>
+<p>​	但是也可以这么记录：（总数量&#x3D;猪的数量+牛的数量，相差&#x3D;猪的数量-牛的数量）。两种方法之间有数学公式可以互转。</p>
+<p>YUV模型干的是类似的事儿。通过对RGB数据的合理转换，得到另一种表示方式。YUV模型下，还有不同的实现方式。举个用的比较多的YCbCr模型：它把RGB转换成一个亮度(Y)，和 蓝色色度(Cb) 以及 红色色度(Cr)。转换背后复杂的公式大家不需要了解，只需要看看效果：</p>
+<p>只有亮度通道：</p>
+<p><img src="/./Image/%E8%A7%86%E9%A2%91%E6%A0%BC%E5%BC%8F%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86.assets/1691572880955.jpg" alt="1691572880955"></p>
+<p>只有蓝色色度：</p>
+<p><img src="/./Image/%E8%A7%86%E9%A2%91%E6%A0%BC%E5%BC%8F%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86.assets/1691572905520(1).jpg" alt="1691572905520(1)"></p>
+<p>只有红色色度：</p>
+<p><img src="/./Image/%E8%A7%86%E9%A2%91%E6%A0%BC%E5%BC%8F%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86.assets/1691572923217.jpg" alt="1691572923217"></p>
+<p>在图像视频的加工与储存中，YUV格式一般更受欢迎，理由如下： </p>
+<p>1、人眼对亮度的敏感度远高于色度，因此人眼看到的有效信息主要来自于亮度。YUV模型可以将绝大多数的有效信息分配到Y通道。UV通道相对记录的信息少的多。相对于RGB模型较为平均的分配，YUV模型将多数有效信息集中在Y通道，不但减少了冗余信息量，还为压缩提供了便利</p>
+<p>2、保持了对黑白显示设备的向下兼容</p>
+<p>3、图像编辑中，调节亮度和颜色饱和度，在YUV模型下更方便。</p>
+<p>几乎所有的视频格式，以及广泛使用的JPEG图像格式，都是基于YCbCr模型的。播放的时候，播放器需要将YCbCr的信息，通过计算，转换为RGB。这个步骤称为渲染（Rendering）</p>
+<p>每个通道的记录，通常是用整数来表示。比如RGB24，就是RGB各8个bit，用0~255 (8bit的二进制数范围)来表示某个颜色的强弱。YUV模型也不例外，也是用整数来表示每个通道的高低。</p>
+<h2 id="色深"><a href="#色深" class="headerlink" title="色深"></a>色深</h2><p>色深(bit-depth)，就是我们通常说的8bit和10bit，是指每个通道的精度。8bit就是每个通道用一个8bit整数(0~255)代表，10bit就是用10bit整数(0~1023)来显示。16bit则是0~65535</p>
+<p>(注意，上文的表述是不严谨的，视频在编码的时候，并非一定能用到0~255的所有范围，而是可能有所保留，只用到一部分，比如16~235。这我们就不详细展开了) </p>
+<p>你的显示器是8bit的，代表它能显示RGB每个通道0~255所有强度。但是视频的色深是YUV的色深，播放的时候，YUV需要通过计算转换到RGB。因此，10bit的高精度是间接的，它使得运算过程中精度增加，以让最后的颜色更细腻。 </p>
+<p>如何理解8bit显示器，播放10bit是有必要的呢：</p>
+<ul>
+<li><p>一个圆的半径是12.33m, 求它的面积，保留两位小数。</p>
+</li>
+<li><p>半径的精度给定两位小数，结果也要求两位小数，那么圆周率精度需要给多高呢？也只要两位小数么？<br>取pi&#x3D;3.14, 面积算出来是477.37平方米<br>取pi&#x3D;3.1416，面积算出来是477.61平方米<br>取pi精度足够高，面积算出来是477.61平方米。所以取pi&#x3D;3.1416是足够的，但是3.14就不够了。</p>
+</li>
+</ul>
+<p>​	换言之，即便最终输出的精度要求较低，也不意味着参与运算的数字，以及运算过程，可以保持较低的精度。在最终输出是8bit RGB的前提下，10bit YUV比起8bit YUV依旧具有精度优势的原因就在这里。事实上，8bit YUV转换后，覆盖的精度大概相当于8bit RGB的26%，而10bit转换后的精度大约可以覆盖97%——你想让你家8bit显示器发挥97%的细腻度么？看10bit吧。</p>
+<p>8bit精度不足，主要表现在亮度较低的区域，容易形成色带：</p>
+<p><img src="/./Image/%E8%A7%86%E9%A2%91%E6%A0%BC%E5%BC%8F%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86.assets/1691574105747.jpg" alt="1691574105747"></p>
+<p>注意这图右边那一圈圈跟波浪一样的效果。这就是颜色精度不足的表现。</p>
+<p>10bit的优势不只在于显示精度的提高，在提高视频压缩率，减少失真方面，相对8bit也有优势。这方面就不展开了。</p>
+<h2 id="色度半采样"><a href="#色度半采样" class="headerlink" title="色度半采样"></a>色度半采样</h2><p>​	在YUV模型的应用中，Y和UV的重要性是不等同的。图像视频的实际储存和传输中，通常将Y以全分辨率记录，UV以减半甚至1&#x2F;4的分辨率记录。这个手段被称为色度半采样(Chroma Sub-Sampling)。色度半采样可以有效减少传输带宽，和加大UV平面的压缩率，但是不可避免的会损失UV平面的有效信息。 </p>
+<p>​	我们平常的视频，最常见的是420采样。配合YUV格式，常常被写作yuv420。这种采样是Y保留全部，UV只以(1&#x2F;2) x (1&#x2F;2)的分辨率记录。比如说1920×1080的视频，其实只有亮度平面是1920×1080。两个色度平面都只有960×540的分辨率。</p>
+<p>​	当然了，你也可以选择不做缩减。这种称为444采样，或者yuv444。YUV三个平面全是满分辨率。 </p>
+<p>​	在做YUV-&gt;RGB的时候，首先需要将缩水的UV分辨率拉升到Y的分辨率（madVR中允许自定义算法，在Chroma Upscaling当中），然后再转换到RGB。做RGB-&gt;YUV的转换，也是先转换到444（YUV的分辨率相同），再将UV分辨率降低。 </p>
+<p>​	一般能拿到的片源，包括所有蓝光原盘，都是420采样的。所以成品一般也保留420采样。所以yuv420就表示这个视频是420采样的yuv格式。</p>
+<p>​	将420做成444格式，需要自己手动将UV分辨率拉升2×2倍。在今天madVR等渲染器可以很好地拉升UV平面的情况下，这种做法无异于毫无必要的拉升DVD做成伪高清。</p>
+<p>​	当然了，有时候也需要在444&#x2F;RGB平面下做处理和修复，常见的比如视频本身RGB平面不重叠（比如摩卡少女樱），这种修复过程首先要将UV分辨率拉升，然后转RGB，做完修复再转回YUV。修复后的结果相当于全新构图，这种情况下保留444格式就是有理由，有必要的。 </p>
+<p>​	H264格式编码444格式，需要High 4:4:4 Predictive Profile（简称Hi444pp）。所以看到Hi444pp&#x2F;yuv444 之类的标示，你就需要去找压制者的陈述，为什么他要做这么个拉升。如果找不到有效的理由，你应该默认作者是在瞎做。</p>
+<h2 id="空间上的低频与高频：平面，纹理和线条"><a href="#空间上的低频与高频：平面，纹理和线条" class="headerlink" title="空间上的低频与高频：平面，纹理和线条"></a>空间上的低频与高频：平面，纹理和线条</h2><p>在视频处理中，空间(spatial)的概念指的是一帧图片以内（你可以认为就是一张图所呈现的二维空间&#x2F;平面）。跟时间(temporal)相对；时间的概念就强调帧与帧之间的变换。 </p>
+<p>于是我们重新来看这张亮度的图：</p>
+<p><img src="/./Image/%E8%A7%86%E9%A2%91%E6%A0%BC%E5%BC%8F%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86.assets/1691579919014.jpg" alt="1691579919014"></p>
+<p>亮度变化较快，变动幅度大的区域，我们称之为高频区域。否则，亮度变化缓慢且不明显的区域，我们称为低频区域。 </p>
+<ul>
+<li>图中的蓝圈就是一块典型的低频区域，或者就叫做平面（平坦的部分）。亮度几乎没有变化</li>
+<li>绿圈中，亮度呈现跳跃式的突变，这种高频区域我们称之为线条。</li>
+<li>红圈中，亮度频繁变化，幅度有高有低，这种高频区域我们称为纹理。</li>
+</ul>
+<p>有时候，线条和纹理（高频区域）统称为线条，平面（低频区域）又叫做非线条。 </p>
+<p>​	这是亮度平面。色度平面，高频低频，线条等概念也同样适用，就是描述色度变化的快慢轻重。一般我们所谓的“细节”，就是指图像中的高频信息。</p>
+<p>​	一般来说，一张图的高频信息越多，意味着这张图信息量越大，所需要记录的数据量就越多，编码所需要的运算量也越大。如果一个视频包含的空间性高频信息很多（通俗点说就是每一帧内细节很多），意味着这个视频的空间复杂度很高。</p>
+<p>​	记录一张图片，编码器需要决定给怎样的部分多少码率。码率在一张图内不同部分的分配，叫做码率的空间分配。分配较好的时候，往往整幅图目视观感比较统一；分配不好常见的后果，就是线条纹理尚可，背景平面区域出现大量色带色块（码率被过分的分配给线条）；或者背景颜色过渡自然，纹理模糊，线条烂掉（码率被过分的分配给非线条）。</p>
+<h2 id="时间上的低频与高频：动态"><a href="#时间上的低频与高频：动态" class="headerlink" title="时间上的低频与高频：动态"></a>时间上的低频与高频：动态</h2><p>在视频处理中，时间(temporal)的概念强调帧与帧之间的变换。跟空间(spatial)相对。</p>
+<p>​	动态的概念无需多解释；就是帧与帧之间图像变化的强弱，变化频率的高低。一段视频如果动态很高，变化剧烈，我们称为时间复杂度较高，时域上的高频信息多。否则如果视频本身舒缓多静态，我们称为时间复杂度低，时域上的低频信息多。 </p>
+<p>​	一般来说，一段视频的时域高频信息多，动态的信息量就大，所需要记录的数据量就越多，编码所需要的运算量也越大。但是另一方面，人眼对高速变化的场景，敏感度不如静态的图片来的高（你没有时间去仔细观察细节），所以动态场景的优先度可以低于静态场景。如何权衡以上两点去分配码率，被称为码率的时间分配。分配较好的时候，看视频无论动态还是静态效果都较好；分配不好的时候往往是静态部分看着还行，动态部分糊烂掉；或者动态部分效果过分的好，浪费了大量码率，造成静态部分欠码，瑕疵明显。</p>
+<p>​	很多人喜欢看静止的截图对比，来判断视频的画质。从观看的角度，这种做法其实并不完全科学——如果你觉得比较烂的一帧其实是取自高动态场景，那么这一帧稍微烂点无可厚非，反正观看的时候你注意不到，将码率省下来给静态部分会更好。</p>
+<h2 id="清晰度与画质简述"><a href="#清晰度与画质简述" class="headerlink" title="清晰度与画质简述"></a>清晰度与画质简述</h2><p>我们经常讨论，一个视频清晰度如何，画质好不好。但是如何给这两个术语做定义呢？ </p>
+<p>​	经常看到的说法：“这个视频清晰度是1080p的”。其实看过上文你就应该知道，1080p只是视频的分辨率，它不能直接代表清晰度——比如说，我可以把一个480p的dvd视频拉升到1080p，那又怎样呢？它的清晰度难道就提高了么？ </p>
+<p>​	一个比较接近清晰度的概念，是上文所讲述的，空间高频信息量，就是一帧内的细节。一张图，一个视频的细节多，它的清晰度就高。分辨率决定了高频信息量的上限；就是它最清晰能到什么地步。1080p之所以比480p好，是因为它可以允许图像记录的高频信息多。这个说法看样子很靠谱，但是，有反例：</p>
+<p><img src="/./Image/%E8%A7%86%E9%A2%91%E6%A0%BC%E5%BC%8F%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86.assets/1691580180363.jpg" alt="1691580180363"></p>
+<p>​	右图的高频信息远比左图多——它的线条很锐利，有大量致密的噪点（注意<strong>噪点完全符合高频信息的定义</strong>；它使得图像变化的非常快）</p>
+<p>​	但是你真的觉得右图清晰度高么？</p>
+<p>​	事实上，右图完全是通过左图加工而来。通过过度锐化+强噪点，人为的增加无效的高频信息。</p>
+<p>​	所以清晰度的定义我更倾向于这样一个说法：图像或视频中，原生、有效的高频信息。<br>原生，强调这种清晰度是非人工添加的；有效；强调细节本身有意义，而不是毫无意义的噪点特效。 </p>
+<p>​	值得一提的是，人为增加的高频信息不见得完全没有帮助。有的时候适度锐化的确能够起到不错的目视效果：</p>
+<p><img src="/./Image/%E8%A7%86%E9%A2%91%E6%A0%BC%E5%BC%8F%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86.assets/1691580264115.jpg" alt="1691580264115"></p>
+<p>​	这是一幅适度锐化后的效果。如果有人觉得右图更好，至少某些部分更好，相信我，你不是一个人。所以适度锐化依旧是视频和图像处理中，可以接受的一种主观调整的手段，一定的场合下，它确实有助于提高目视效果。 </p>
+<p>​	以上是清晰度的概述。注意，清晰度只是空间方面（就是一帧以内）。如果再考虑到动态效果的优秀与否（视频是不是那种一动起来就糊成一团的，或者动起来感觉卡顿明显的，常见于早起RMVB），空间和时间上优秀的观看效果共同定义了画质。所以我们说madVR&#x2F;svp那些倍帧效果有助于提高画质，实际上它们增强了时间上的观看效果。 </p>
+<p>​	好的画质，是制作者和观众共同追求的。怎么样的视频会有好的画质呢？是不是码率越高的视频画质越好呢？真不见得。视频的画质，是由以下几点共同决定的： </p>
+<p>1、源的画质。<br>俗话说的好，上梁不正下梁歪。如果源的画质本身很差，那么再如何折腾都别指望画质好到哪去。所以压制者往往会选择更好的源进行压制——举个栗子，BDRip一般都比TVRip来的好，哪怕是720p。蓝光也分销售地区，一般日本销售的日版，画质上比美版、台版、港版啥的都来得好，所以同样是BDRip，选取更好的源，就能做到画质上优先一步。 </p>
+<p>2、播放条件。<br>观众是否用了足矣支持高画质播放的硬件和软件。这就是为啥我们在发布Rip的同时大力普及好的播放器；有时候一个好的播放器胜过多少在制作方面的精力投入。 </p>
+<p>3、码率投入vs编码复杂度。<br>视频的时间和空间复杂度，并称为编码复杂度。编码复杂度高的视频，往往细节多，动态高（比如《魔法少女小圆剧场版 叛逆的物语》），这样的视频天生需要较高的码率去维持一个优秀的观看效果。<br>相反，有些视频编码复杂度低（比如《请问今天要来点兔子么》，动态少，线条细节柔和），这种视频就是比较节省码率的。 </p>
+<p>4、码率分配的效率和合理度。<br>同样多的码率，能起到怎样好的效果，被称为效率。比如H264就比之前的RealVideo效率高；10bit比8bit效率高；编码器先进，参数设置的比较合理，编码器各种高端参数全开（通常以编码时间作为代价），码率效率就高。<br>合理度就是码率在时空分配方面合理与否，合理的分配，给观众的观看效果就比较统一协调。 码率分配的效率和合理度，是对制作者的要求，要求制作者对片源分析，参数设置有比较到位的理解。</p>
+<p>码率分配和合理度做的好，就常常能做出低码率高画质的良心作品。 </p>
+<p>这里再多提一句，至少在这个时间点，也就是此文发布的2014年年底，HEVC相对于AVC可以提高50%的效率，依旧是一个纸面上的理论值。实际操作中，因为HEVC编码器的成熟度远不及经过了十几年发展的AVC编码器，导致现在HEVC的潜力远没有能发挥出来，特别是高画质下甚至不如。</p>
+<p>对于目前主流的，定位收藏画质的BDRip，同样码率下x265的画质相对于x264没有优势；所以在近期，大家不用优先的去下载HEVC版作为收藏目的，更不必迷信什么“码率降低一半”。再强调一次，这个时间点；如果一年后以上陈述被不断进步的HEVC编码器推翻，我毫不惊讶。 </p>
+<p>5、编码前的预处理。预处理分三种：</p>
+<p>①，客观修复。强调修复片源固有的瑕疵，比如锯齿，色带，晕轮等等。<br>②，主观调整，强调将片源调整的更适合人眼观看，比如适度的锐化，调色（有时候你是可以通过科学方法判定片源的颜色有问题，然后针对的做修复的）。<br>③，移除无效高频信息，比如降噪，避免码率浪费在无效的噪点上</p>
+<p>​	预处理做的好，往往能达到画质上超越片源，或是在几乎不牺牲清晰度的前提下，节省码率开销。</p>
+<p>​	但是预处理是一把双刃剑，优化的同时，可能引入副效果。降噪、抗锯齿、去晕轮等操作会不可避免的损失一些有效细节（或多或少，取决于制作者水准）；主观调整很可能会引入副效果（比如过度锐化会导致锯齿和晕轮），或是变成了作者的自我满足，形成对观众的欺骗。 </p>
+<p>​	综上，一个优秀的画质，是由片源、制作者、观看者共同决定的；码率高低也只是部分因素，并非决定性的效果。</p>
+<h1 id="播放器背后的知识"><a href="#播放器背后的知识" class="headerlink" title="播放器背后的知识"></a>播放器背后的知识</h1><h2 id="播放器的工作流程：分离，解码，渲染"><a href="#播放器的工作流程：分离，解码，渲染" class="headerlink" title="播放器的工作流程：分离，解码，渲染"></a>播放器的工作流程：分离，解码，渲染</h2><p>简单说就三个大步骤：分离、解码、渲染。</p>
+<p>​	分离，指的是拿到媒体文件(MKV&#x2F;MP4&#x2F;MKA)等，先收集相关的文件（包括外挂音轨、字幕），然后将所有轨道拆开，拆分成单独的内容。视频流、音频流、字幕、章节信息，等等。负责执行分离的模块滤镜，叫做分离器(splitter&#x2F;demuxer)。</p>
+<p>​	当同样类型的轨道不止一条的时候（比如多音轨），分离器还负责挑选其中的一条。通常同类型多轨道，会有一条轨道被设定为“默认轨”（比如多音轨MKV一般以主音轨为默认），你想选择副音轨，你就需要在分离器中手动切换。很多播放器会在自己的界面中提供音轨&#x2F;字幕切换的功能，其实也是间接利用分离器实现的。</p>
+<p>​	分离器现在能用的基本上只有LAV&#x2F;ffmpeg了（这俩几乎可以算一家），以前还有个Haali，然而停止更新已久，不能适应HEVC时代了。</p>
+<p>​	分离器一般不耗费运算性能。因为它只是简单地收集、拆分和选择。</p>
+<p>​	解码，指的是将分离器丢来的各种原生压缩格式，比如H264&#x2F;H265的视频，FLAC&#x2F;AAC的音频，解码为非压缩的格式，比如视频是YUV&#x2F;RGB（相当于bmp），音频是PCM（相当于wav），然后丢给下游模块。负责解码的模块滤镜称为解码器(decoder)。常见的有LAV&#x2F;ffmpeg, ffdshow(同样停止更新了)……</p>
+<p>​	当解码器能完全解码一个轨道中所有有效信息的时候，我们成为完全解码（现在绝大多数情况是如此），否则称为不完全解码。比如说，早期一些显卡的硬解，不能完全处理H264视频流的所有，解码出的画质有折扣；又或者DTS-HD MA解码器开源之前，基于ffmpeg&#x2F;lav等解码器只能解码出部分信息，导致音频是有损的。</p>
+<p>​	解码出来的格式，都需要加上精度的度量。比如说10bit 视频完全解码后是YUV 10bit，8bit视频是YUV 8bit，16bit flac格式是PCM 16bit整数，aac是PCM 32bit浮点。麻烦在于，解码器下游的模块不见得能照单全收。比如说以前播放器就不支持10bit YUV丢给下游，解码器只好转为YUV 8bit（后来madVR之所以是一个极大的提升，就是因为madVR基本上全部通吃）。同理；很多声卡能支持24bit整数PCM已经是极限，所以32bit浮点的PCM需要转为24bit整数。</p>
+<p>​	如果解码器可以将最原始的数据，或者更高精度（比如有时候为了方便，将10bit转为16bit）输出给下游，我们称为全精度输出；否则，解码器会试图降低精度输出，我们称为低精度输出。少数时候，我们会让解码器做一些转换（比如vcb-s新播放器教程中，让lav解码器做YUV-&gt;RGB的转换），我们称为转换输出。</p>
+<p>​	解码器，特别是视频解码器，往往成为大量消耗运算资源的地方。这个问题在H264早期非常严重，那时候的主流CPU很难负担720p&#x2F;1080p的高清解码，能耗巨大，移动平台尤其如此。所以才催生了各种硬件加速和硬件解码，并逐渐成为一个规范标准。</p>
+<p>​	渲染，指的是将解码后的数据，在pc硬件上（显示器、扬声器）进行播放。负责渲染的模块我们称之为渲染器(Render)，视频渲染器主流有EVR（Enhanced Video Render, 微软送的）以及madVR(madshi Video Render)。</p>
+<p>​	音频渲染器一般都是系统自带的（同样是微软送的），也有可以自定义的。比如MPC播放器有MPC Audio Render，可以支持类似wasapi输出等其他功能。</p>
+<p>​	因为显示器是RGB显示，而解码后的视频多为YUV格式，渲染器一般也需要负责将YUV转换为RGB，并保证输出的图像大小跟播放窗口吻合。</p>
+<p>​	多数播放器自带的滤镜（mpc&#x2F;pot都有很多调色之类的功能），显卡的加成，以及SVP，都作用于解码器和渲染器中间。它们接过解码器解码的数据，对其进行处理，然后将处理后的数据送给渲染器。因为渲染器是需要借助显卡进行图形运算，YUV数据基本上需要先进入显存，所以显卡可以检测到丢来的YUV数据，对其进行“优化”。同样需要当心的是，这些滤镜和处理，往往入口精度低，处理精度也低。导致的后果就是解码器被迫低精度输出，给这些滤镜低精度处理，从而大幅降低视频精度，导致色带色块问题。</p>
+<p>​	字幕的加载可能在渲染器前（将字幕信息整合进YUV&#x2F;RGB数据给渲染器），也可能在渲染器后（播放器来将字幕整合入生成完毕的RGB图像）。</p>
+<p>多数解码包的配置界面，主要就是让你选择分离器、解码器和渲染器的：</p>
+<p><img src="/./Image/%E8%A7%86%E9%A2%91%E6%A0%BC%E5%BC%8F%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86.assets/1691582593887.jpg" alt="1691582593887"></p>
+<p>如上图，上方就有让你选择视频渲染器，然后下方左右分别是针对不同文件格式的分离器，以及针对不同媒体格式的解码器。</p>
+<h2 id="硬解的定义与分类"><a href="#硬解的定义与分类" class="headerlink" title="硬解的定义与分类"></a>硬解的定义与分类</h2><p>​	如上文所说，硬解是为了缓解高分辨率新编码面世初期，CPU不堪重负的解码压力，而诞生的技术。如果说软解的定义是：利用CPU通用运算能力，进行解码，那么硬解的定义可以这么说：不利用CPU通用运算能力，而是依赖其他集成电路，无论是否特制，来进行解码。</p>
+<p>​	更古老的时候，有些显卡没办法进行完全解码，只是帮助计算部分解码过程中的运算，那么可以归为“<code>硬件加速</code>”。估计Intel下一代CPU“混合加速HEVC解码”也是一样的道理。</p>
+<p>硬解现在比较常见的是以下种类：</p>
+<ul>
+<li>DXVA(DirectX Video Acceleration)，比较古老的方案了。Windows XP以及之前系统上流行的。上古ffdshow的硬解就是利用DXVA。DXVA规范下容易出现不完全解码，导致画质降低。Vista以后，渐渐地被抛弃。</li>
+<li>DXVA2，目前主流的硬解方式。主要由GPU来实现，但是并非利用GPU的流处理器，INA三家都是使用了单独附在GPU芯片上的一块专职电路来完成。GPU硬解能力往往不与显卡游戏性能相关，而与搭载的专职电路先进与否相关。典型的就是GT610，它是NVIDIA第一款能硬解4K视频的GPU，同时代其他GTX650&#x2F;GTX580什么面对4K视频只有傻眼的份儿，就因为它的GPU塞入的专职电路，是刚开发出最先进的一款（代号为VP5，其他同时代的都是VP4）。</li>
+</ul>
+<p>使用DXVA解码，都需要先将视频数据（压缩的格式）传输到显存中，然后再让GPU进行解码。</p>
+<p>DXVA2有两种实现方式：native和copy-back。区别是解码后的数据是否还要传回内存。</p>
+<p>​	native选择不传，直接丢给同样依赖GPU工作的渲染器，数据从头到尾都在显存中。而copy-back选择传，数据会传回内存，一番处理后再传回显存，让渲染器工作。native的输出必须为YUV 8bit，而copy-back则可以为10bit。</p>
+<p>​	之所以需要有copy-back这么个传来传去的过程，就是因为有些滤镜，比如SVP，比如LAV的转格式，必须依赖CPU+内存进行工作。不传回来没办法继续处理。copy-back保证了硬解的流程类似软解，可以不漏下任何后处理。而代价是传来传去必定降低性能，增加能耗。需要注意的是，即便用native，也可能导致解码后的数据被“优化”，因为有些处理，包括播放器、显卡驱动带的那些，是可以完全作用在GPU环境中的。</p>
+<p>​	除了DXVA2，还有两种特殊的硬解：Intel Quick Sync, 和NVIDIA CUVID。如同名称所示，它们是Intel和NV的专属。</p>
+<p>​	Intel Quick Sync是集成在CPU中的逻辑电路承担的。注意的是这玩意并非隶属于Intel的集显，而是CPU的直属。它直接读写内存，运行表现和软解非常类似。Intel Quick Sync堪称速度快，能耗低。</p>
+<p>​	NVIDIA CUVID，是基于NV自己的接口，写的一个类似DXVA2(copy-back)的升级版。</p>
+<p>硬解的模式可以在LAV Decoder的设置中选择：</p>
+<p><img src="/./Image/%E8%A7%86%E9%A2%91%E6%A0%BC%E5%BC%8F%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86.assets/1691583168565.jpg" alt="1691583168565"></p>
+<p>红框的下拉框可选None(软解)，CUVID，QuickSync，DXVA2(native 和 copy back)。</p>
+<p>每选择一个模式（除了None），蓝框会显示一个单词：</p>
+<ul>
+<li>Active：当前正在使用这种模式解码</li>
+<li>Available：应该可以使用这种模式</li>
+<li>Not Available：不支持使用这种模式</li>
+</ul>
+<p>绿框当中则是显示当前在使用哪个解码器。如果是软解，显示avcodec，否则显示类似dxva2cb, dxva2n等标示。</p>
+<p>碰到没办法开启硬解，比如设备不能正常工作，或者碰到10bit AVC这种不支持的，那么自动转为软解。</p>
+<h2 id="YUV-RGB转换过程中的细节"><a href="#YUV-RGB转换过程中的细节" class="headerlink" title="YUV-&gt;RGB转换过程中的细节"></a>YUV-&gt;RGB转换过程中的细节</h2><p>​	将解码器输出的YUV格式，转为RGB，并且缩放到播放窗口输出，是视频渲染器的职能。可以说，如果解码过程是完全解码，也不主动添加播放器调校和驱动增强，渲染的环节决定了最终成品的画质。造成画质区别的可以说就三点：缩放算法，运算精度，和抖动算法。任何试图优化渲染器效果的尝试，都应该从这三个方面着手。</p>
+<p>缩放算法造成的区别，比较好理解。例如原图(150*150)：</p>
+<p><img src="/./Image/%E8%A7%86%E9%A2%91%E6%A0%BC%E5%BC%8F%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86.assets/1691584415464(1).jpg" alt="1691584415464(1)"></p>
+<p>用双线性算法（上，多数播放器默认算法）和nnedi3(下)放大到272 * 272像素：</p>
+<p><img src="/./Image/%E8%A7%86%E9%A2%91%E6%A0%BC%E5%BC%8F%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86.assets/1691584450747.jpg" alt="1691584450747"></p>
+<p><img src="/./Image/%E8%A7%86%E9%A2%91%E6%A0%BC%E5%BC%8F%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86.assets/1691584459084.jpg" alt="1691584459084"></p>
+<p>不同算法造成的效果肉眼可见。注意上图中随处可见的锯齿，以及细线的模糊。</p>
+<p>​	精度，是指运算的过程中，参与运算的数，有效位数的高低。在计算机中表现为使用怎样的格式来进行，8bit&#x2F;16bit&#x2F;32bit整数，16bit&#x2F;32bit浮点。精度不足的表现在上篇教程中已经有展示，不做赘述，然而还是提醒一句：千万不要以为显示器是8bit，就认为8bit 整数 的片源精度&#x2F;处理精度是足够的。</p>
+<p>​	另外，RGB处理相对YUV处理，精度要求相对较低；或者说，RGB处理相比较，精度稍低带来的影响不明显。（不幸的是多数时候处理的数据都是YUV，然后根据水桶原理……）播放过程中，应该尽量减少RGB-YUV互转的次数，每一次转换都要做一次计算与取整，都会导致实际精度降低。</p>
+<p>​	抖动算法(Dithering Algorithm)，通常出现在高精度转低精度中。在数字图像高转低处理中，全部四舍五入不见得是好习惯。抖动算法通过科学的添加噪点，来掩盖精度的不足。比如说原图（RGB24，即RGB 8bit）：</p>
+<p><img src="/./Image/%E8%A7%86%E9%A2%91%E6%A0%BC%E5%BC%8F%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86.assets/1691585042305.jpg" alt="1691585042305"></p>
+<p>分别用四舍五入（上） 和 Floyd–Steinberg 抖动算法（下），将此图转为RGB16(RGB分别为5bit，6bit和5bit，早期windows桌面的“16色”，区别于RGB24的“真彩色”)</p>
+<p><img src="/./Image/%E8%A7%86%E9%A2%91%E6%A0%BC%E5%BC%8F%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86.assets/1691585068677.jpg" alt="1691585068677"></p>
+<p><img src="/./Image/%E8%A7%86%E9%A2%91%E6%A0%BC%E5%BC%8F%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86.assets/1691585080576.jpg" alt="1691585080576"></p>
+<p>​	可以看出，使用抖动算法的图片较好的掩盖了精度不足引起的色带和偏色问题。在YUV 和 RGB的运算过程中，如果出现高精度转低精度，是否使用抖动，使用的抖动算法如何，也会决定输出效果。</p>
+<p>现在，我们来模拟一下渲染器的工作流程，并用加粗标注出可能造成画质差别的地方：</p>
+<p>1、渲染器从解码器那里获取YUV数据。注意拿到的数据可能是全精度，<strong>也可能是降精度</strong>，取决于渲染器接口类型；</p>
+<p>2、播放器和显卡驱动可能会试图“<strong>优化</strong>”画面；</p>
+<p>3、如果不是YUV444格式的，<strong>渲染器会先将UV平面放大到Y平面的大小</strong>。这个步骤称为Chroma upscaling；</p>
+<p>4、将YUV444的数据，转为RGB。转换的过程势必需要浮点运算（YUV-&gt;RGB一些参与运算的常数是浮点数）；</p>
+<p>5、播放器或者渲染器<strong>将RGB用特定的算法缩放到播放窗口大小</strong>。这个步骤称为Image Upscaling(图像放大)&#x2F;Downscaling(图像缩小)；</p>
+<p>6、因为4的步骤中，必须以浮点数运算，而输出结果一定是RGB 8bit整数，因此输出之前<strong>必须有一个高转低的过程</strong>。</p>
+<p>2~6每一步都涉及数字运算，<strong>因此有运算精度的区别</strong>。</p>
+<p>问：什么样的渲染器，什么样的输出画面是标准的、完美的？<br>答：没有。因为运算精度总可以无限的高，缩放算法也永远有提升的空间，<strong>所以视频播放不存在“标准、完美”一说</strong>；只有相比较而言的好与差，以及在人眼识别程度内的“接近完美”</p>
+<p>问：有哪些渲染器能“接近完美”的处理以上<strong>所有</strong>情况？<br>答：<strong>只有</strong>madVR。</p>
+<p>问：Windows<del>充话费</del>送的那个EVR，默认情况下有啥不好？<br>答：1、接口精度低，强迫YUV 8bit&#x2F;RGB 8bit的输入；2、缩放算法默认是平庸的双线性；3、运算精度较低，默认只有8bit整数和16bit浮点数；4、抖动算法有，较为单一和固定；5、如果输入的是YUV数据，EVR会任由播放器和驱动乱来。</p>
+<p>问：我们能怎么拯救EVR？<br>答：1、因为RGB对精度要求不敏感，而且输入RGB后，驱动和播放器基本没办法插手，所以设法永远输入RGB 8bit，不让YUV数据经过低精度处理；2、让LAV解码器来做YUV-&gt;RGB。LAV可以以32bit浮点的高精度、双立方的UV放大算法、随机抖动算法，较高质量的完成转换；3、图像缩放算法手动设置为更高级的双立方。</p>
+<p>问：听上去不错，我们应该怎么操作？<br>答：参见<a target="_blank" rel="noopener" href="http://vcb-s.com/archives/4384%E6%88%96%E8%80%85http://vcb-s.com/archives/4407">http://vcb-s.com/archives/4384或者http://vcb-s.com/archives/4407</a></p>
+<p>所以，如果你使用的是madVR渲染器，你应该允许LAV输出它默认设置的那些格式，YUV&#x2F;RGB。LAV会以全精度输出YUV给madVR进行处理；如果你使用EVR渲染器，你应该永远只允许LAV输出RGB 8bit。</p>
+<p>RGB 8bit 包括RGB24和RGB32。RGB32多一个透明层通道，看似带了个没用的东西，但是因为计算机更喜欢2的次方，所以部分运算下RGB32比RGB24快。在视频播放中，这两个格式几乎完全等同；互转也人畜无害（加一个空的透明度通道 vs 去掉透明度通道）。</p>
+<p>之前基于EVR CP教程中，之所以pot推荐RGB24输出，而mpc推荐RGB32输出，是测试的结果。这样设置播放器不会再多一次转换（虽然就算转换了也没啥）。</p>
+<h2 id="硬解的优劣与选择"><a href="#硬解的优劣与选择" class="headerlink" title="硬解的优劣与选择"></a>硬解的优劣与选择</h2><p>​	绝大多数vcb-s的教程，都让大家不要开启硬解，就算开启，优先使用DXVA2(copy-back)，这里我们做一个详细的解释。</p>
+<p>​	首先考虑一个问题：什么样的视频能被硬解？</p>
+<p>​	8bit AVC可以被各种显卡硬解；然而8bit AVC格式的软解压力小的可怜，以vcb-s常发的24fps 1080p的视频算，现在CPU软解，占用率普遍不到5%。</p>
+<p>​	10bit AVC没有能硬解的。（所以10bit版炮姐时代，试图硬解的洗洗睡吧。）软解，解码压力尚可，不是很可怕，24fps 1080p的视频，现在的cpu大约10%</p>
+<p>​	8bit HEVC现在最新显卡普遍能硬解；然而因为8bit x265的缺陷（或者说8bit x264的优越性），我们发现这玩意表现多数还不及8bit AVC，所以vcb-s从来不用；相对而言，它的解码压力也不大，大致相当于10bit AVC。</p>
+<p>​	10bit HEVC，目前只有NV的GTX950和GTX960支持硬解。它的软解压力算是比较大，现在主流的CPU占用在20%左右；对于上古CPU或者一些低端笔记本CPU，流畅解码会比较吃力，特别是60fps的特典。对于将来的4K 60fps，现在桌面4核心CPU基本上完全无力软解。</p>
+<p>​	能硬解的视频必须是YUV420格式。</p>
+<p>分析完毕了，你觉得自己需要硬解么？</p>
+<p>如果你没有GTX960&#x2F;GTX950，你也基本碰不到1080p 60fps乃至4K的8bit HEVC，那么你只能去硬解8bit AVC，省那么5%不到的CPU占用率——真有这个必要么？软解吃力的硬解解不了，硬解解得了的软解解的飞起，那我们为什么要冒着各种潜在风险去开硬解呢？</p>
+<p>好吧，就算你说我真有理由要开硬解：我有GTX960&#x2F;950，我的CPU真的太烂……我们来分析下不同情况下，硬解应该怎么开。硬解设置跟你使用的渲染器有关：</p>
+<p>如果你使用madVR，通常是不建议你开硬解的。众所周知madVR会消耗大量显卡运算，因此没必要再去把大量数据塞进GPU和显存，跟madVR抢夺资源。让CPU分担解码，让GPU专心跑madVR，是比较推荐的做法；</p>
+<p>如果你使用GTX960&#x2F;950硬解10bit HEVC，<strong>请务必设置为DXVA2(copy-back)</strong>，这是现在唯一可以开启10bit HEVC硬解的模式；(2020年更新：现在native&#x2F;D3D11也行了，那就选这俩加加速吧）</p>
+<p>其他情况下，如果你真的非要开硬解搭配madVR，建议顺序（保证你硬件可用）： Intel QS, DXVA2(native), NV CUVID, DXVA2(copy-back)，其实用哪个都没有太多关系，主要的功耗消耗点在madVR。</p>
+<p>如果你使用EVR CP（调节过缩放算法），希望追求较高质量的播放，<strong>你首先要排除的是DXVA2(Native)</strong>。因为这种模式下，LAV会直接输出YUV 8bit给显卡，哪怕强制规定了输出只能是RGB。用DXVA2(copy-back)是可以的；这种模式下，解码后的数据将回传给CPU，继续做高质量转RGB的后续操作。</p>
+<p>一般情况下，建议顺序： Intel QS, NV CUVID, DXVA2(copy-back)</p>
+<p>所以不难理解为什么之前教程我说了，要开硬解请用DXVA2(copy-back)。<strong>这种软解流程、硬解运算的泛用性模式，是最人畜无害的，哪怕这种模式折腾程度，导致在性能和功耗上大多是得不偿失。</strong></p>
+<p>追求最大性能的，特别是用来对付那些<strong>能够被硬解</strong>的高清病毒的，请使用EVR默认，搭配DXVA2(Native)播放。这样效率应该是最高的，各种专治8bit AVC 4K的高清病毒。只不过这种做法会损失画质，因此不建议日常使用。</p>
+<h2 id="图像格式的标识与查看方法"><a href="#图像格式的标识与查看方法" class="headerlink" title="图像格式的标识与查看方法"></a>图像格式的标识与查看方法</h2><p>在播放器中，不同格式、不同精度的图像，有着规范的定义和标号。这一点可以在LAV的设置界面很清楚的看到：</p>
+<p><img src="/./Image/%E8%A7%86%E9%A2%91%E6%A0%BC%E5%BC%8F%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86.assets/1691585606340.jpg" alt="1691585606340"></p>
+<p>其中蓝色部分标示的这些是最常见到的，主要是YUV 420的不同精度，以及RGB格式（注意16bit RGB，即RGB48，在现有播放器体系下还没有实装，所以现在播放器中的RGB基本就是RGB 8bit）</p>
+<p>使用DXVA2(Native)硬解的时候，输出是DXVA，也是YUV420 8bit。</p>
+<p>RGB格式除了上文所说的RGB32和RGB24，播放器中还有XRGB和ARGB的标示，也都是一回事儿。</p>
+<p>Potplayer中观察方法，可以用tab键显示：</p>
+<p><img src="/./Image/%E8%A7%86%E9%A2%91%E6%A0%BC%E5%BC%8F%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86.assets/1691585632014.jpg" alt="1691585632014"></p>
+<p>potplayer会给出视频解码器（图中是LAV）</p>
+<p>解码器输入的格式是HVC1(HEVC)，输出是RGB给渲染器。YUV-&gt;RGB的过程完全是LAV处理。</p>
+<p>渲染器是EVR CP，渲染整个过程，格式都是RGB，没有转回YUV。需要注意的是你必须关闭pot自带的内置滤镜（按F5，进入”参数选项”设置。 2、点击“滤镜”，将右边的”内置图像处理滤镜设置”激活条件设置为：”不使用”），否则potplayer一定会自作主张转回YUV的。</p>
+<p>缩放算法是Lanczos 3。(注意如果你播放画面跟视频画面相同，比如你在1080p的显示器上全屏播放，缩放算法会显示临近采样，这是正常的)</p>
+<p>MPC-HC&#x2F;MPC-BE中，按Ctrl+J可以调出类似的信息：(再按1~2次取消)</p>
+<p><img src="/./Image/%E8%A7%86%E9%A2%91%E6%A0%BC%E5%BC%8F%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86.assets/1691585666200.jpg" alt="1691585666200"></p>
+<p>红框中勾选的，Formats表示渲染过程中格式变化，从始至终都是RGB；</p>
+<p>Video Size给出了原始尺寸和播放尺寸，以及使用的缩放算法(双立方 A&#x3D;-0.6)</p>
+<p>Decoder则是解码器；输出是RGB。</p>
+<p>通过这样的查看方法，你可以知道你的播放器工作流程，以及设置是否按照预期。</p>
+<h2 id="动漫画面区别于常规录制视频的特殊性"><a href="#动漫画面区别于常规录制视频的特殊性" class="headerlink" title="动漫画面区别于常规录制视频的特殊性"></a>动漫画面区别于常规录制视频的特殊性</h2><p>​	一直以来都有这样的说法：“10bit, madVR这些东西都是那些压动漫的人弄出来的歪门邪道，我是看不出这些东西在电影上有个P用。”</p>
+<p>​	其实吧，这还真不是这群人眼力不好或者装睡不醒。区别于录制视频，比如电影之类的，动漫、CG等有着自己的特殊性。总结起来就两点：1、<strong>噪点少</strong>，2、<strong>线条非常突兀</strong>。</p>
+<p>​	视频拍摄，限制于器材水准，噪点是不可避免的，在后续制作等过程中也难以完全去除。而<strong>动漫天生可以0噪点</strong>，动漫中的噪点更多是数字图像处理中主动加上去的。噪点的一大作用就是极大地降低视频处理和压制，对于精度的需要。说的简单点：高噪点的视频不怕低精度，反之亦然。</p>
+<p>怎么理解这个概念呢？我们借助一个简化的图片来演示。假设我们有一条平滑、高精度的曲线(这是y&#x3D;1&#x2F;x在[10,30]上的图)：</p>
+<p><img src="/./Image/%E8%A7%86%E9%A2%91%E6%A0%BC%E5%BC%8F%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86.assets/1691585758663.jpg" alt="1691585758663"></p>
+<p>现在，我们把所有函数值，四舍五入到小数点后三位数：</p>
+<p><img src="/./Image/%E8%A7%86%E9%A2%91%E6%A0%BC%E5%BC%8F%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86.assets/1691585773836.jpg" alt="1691585773836"></p>
+<p>降低精度的效果很明显，我们现在的图看上去跟楼梯一样，出现了明显的”断层”。表现在视频中，这种断层就是色带。同时值得注意的是，越是平坦、变化小的地方（就是之前科普中的”平面”），色带表现越严重。</p>
+<p>现在，我们模仿给图像加噪点，来给这个函数加一个小幅度(约为1%)随机抖动：</p>
+<p><img src="/./Image/%E8%A7%86%E9%A2%91%E6%A0%BC%E5%BC%8F%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86.assets/1691585815666.jpg" alt="1691585815666"></p>
+<p>然后我们也把它的精度限制为小数点后3位：</p>
+<p><img src="/./Image/%E8%A7%86%E9%A2%91%E6%A0%BC%E5%BC%8F%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86.assets/1691585839300.jpg" alt="1691585839300"></p>
+<p>可见，这一次精度降低，图像似乎没有受到太多影响，精度降低造成的阶梯状效果也很不明显。表现在数字图像处理中，意味着噪点重的图片，在降低精度的时候收到的影响很小。</p>
+<p>这就是为什么那些致力于改善精度的提升，对于电影等视频几乎没有用——播放过程的精度低怎么了；能有什么视觉影响？</p>
+<p>类似的现象，噪点会使得人眼对图像锐利度等差异不敏感，或者说，缩放算法造成的区别，变得不太可见。以之前的图为例，假如为两幅图都加上强度相同的噪点：</p>
+<p><img src="/./Image/%E8%A7%86%E9%A2%91%E6%A0%BC%E5%BC%8F%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86.assets/1691585879464.jpg" alt="1691585879464"></p>
+<p><img src="/./Image/%E8%A7%86%E9%A2%91%E6%A0%BC%E5%BC%8F%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86.assets/1691585886053.jpg" alt="1691585886053"></p>
+<p>区别已然几乎不可见。注意噪点是如何帮忙掩盖拉升过程中的锯齿等瑕疵，并加入虚假的高频信息，让图像看上去细节很丰富。这还是应用在线条&#x2F;平面非常分明的动漫；换作电影，这样的差异只会更不起眼。</p>
+<p>小结一下，当有噪点存在的时候，主打高精度、优秀缩放算法的播放器，优势将不再明显。<strong>从另一个方面讲，面对较少噪点、较为突出线条的动漫，对播放器的精度和缩放算法提出的要求就很高</strong>。编码器也是一样的道理，动漫非常需要10bit x264&#x2F;x265这样原生高精度的编码器来提升画质。</p>
+<p>因此，再面对本节开头的说法，不需要反驳，那是很自然的（摊手）。</p>
+<p>问：既然加噪点可以有效避免精度降低，为什么在动漫压制中不用这个方法呢？</p>
+<p>答：噪点作为一种高频信息，需要浪费成倍的码率。在今天10bit编码可以不增加（甚至减少）码率完美解决问题的前提下，我们为什么要用10年前的理解呢？</p>
+<p>PS: 10年前只有8bit编码器的时候，主动加噪确实是很常见的防色带、去色带手段。在今天商业性蓝光编码器只有8bit精度的限制下，很多动漫蓝光后期也是通过加噪点解决的（Sony那高大上的“SBMV技术”的核心）。然而，蓝光可以不惜码率，Rip不行，除非你是Yousei。（所以Yousei的Devil-Jin至今用着这种手段）</p>
+<h2 id="播放器软件的现状与分析"><a href="#播放器软件的现状与分析" class="headerlink" title="播放器软件的现状与分析"></a>播放器软件的现状与分析</h2><p>​	接上文分析。面对占绝对多数的电影观众，现有的播放器，pot&#x2F;mpc默认，已然足够好了。再好的设置能带来的观感提升几乎没有，还不如在什么一键增强，左眼效果，以及在线字幕、弹幕上下功夫。</p>
+<p>​	面对多数动漫党，稍微修改一下基于EVR CP+LAV的播放设置，也能达到很满意的效果，很平衡的兼顾画质、性能与稳定性。所以如果你不求折腾（还把这么长的教程看到这里，真是辛苦你了），建议使用vcb-s最新写的两篇64bit播放器教程。</p>
+<p>​	如果你真的欲求不满，那么你就可以试着接触madVR，SVP这些东西。但是有一点需要提醒的是：这些纯粹由fans开发的东西，甚至包括mpc&#x2F;pot这些软件，是高度不可靠的。哪怕所谓的“稳定版”，出bug的几率都很高。（更别提现在madVR一直都是“测试版”，版本号还在0.x）MadVR至今有个问题，就是它所在的目录路径不能有中文。这个问题存在几年了，作者压根不屑于，或者说，抽不出精力去修复它——你见过几个正儿八经的软件不支持安装目录有中文？！</p>
+<p>​	更恐怖的是，高质量播放依赖的组件数量庞大，而彼此之间缺乏系统性的联系测试。开发者往往是各自测试各自的，没有组织、没有公司说作为一个整体来调试一套方案。当播放软件趋于复杂，组件数量增多，功能强化，出错的概率指数级上升。一个基于potplayer+madVR的播放方案，不考虑音频，涉及到以下可能出问题的地方：</p>
+<p>​	potplayer本体,  LAV分离器，LAV视频解码器，madVR渲染器，操作系统，显卡和显卡驱动。</p>
+<p>假设每一个组件出错的平均概率是3%，求问这一套方案正常运行不出错的概率是多少？1-0.97^6&#x3D;83%。</p>
+<p>​	也就是说，平均5个人里面，就有一个人用这套方案出错。出错的理由往往很难查到，每个人都有每个人的原因。</p>
+<blockquote>
+<p>（举个我自己的例子，虽然我写的教程基于mpc-hc，但我自己在用mpc-be。因为对于mpc-hc，我设置让EVR渲染器使用双立方缩放，mpc-hc始终都使用的是最朴素的双线性，导致缩放效果很差（对我来说）。各种途径查错无功而返，最终换mpc-be问题解决。）</p>
+</blockquote>
+<p>所以以后请别问我为什么不写madVR+SVP+Reclock+XySubFilter这些高端货的教程，更别出了错问我错在哪里、怎么解决——臣妾做不到啊！</p>
+<h2 id="其他常见播放器配件简介"><a href="#其他常见播放器配件简介" class="headerlink" title="其他常见播放器配件简介"></a>其他常见播放器配件简介</h2><p>除了madVR，其他播放器折腾一般还有这些配件：</p>
+<p>​	SVP(Smooth Video Project)比较众所周知了，它是一个插值平滑软件。本身依赖avisynth开发，通过ffdshow&#x2F;ffdraw来加载，作用在解码器之后，渲染器之前。SVP只能支持YUV420 8bit输入输出。</p>
+<p>​	SVP的性能消耗非常可观，特别是开启OpenCL之后，如果再开启madVR（接EVR CP容易导致精度问题，这时候可以手动在ffdshow&#x2F;ffdraw中加噪点来缓解），对显卡的性能和驱动稳定性都是考验。尽管如此，SVP的插值平滑带来的观看提升也是非常可观的，强烈建议madVR的倍帧满足不了、同时又有很强配置的观众们爬文安装。</p>
+<p>​	XySubFilter，是目前最先进的字幕插件，对高级字幕特效的支持，渲染的质量，性能的优化，对高精度播放以及madVR的配合都做得很到位。如果你患有字幕强迫症末期，建议去折腾一下这个插件。</p>
+<p>​	Reclock，一个致力于改善播放视频帧率不稳定的插件，不过多数人用它的目的可能还是为了它的wasapi输出。实际表现完全聊胜于无，特别是wasapi现在mpc自带的audio render就内置了，而且Reclock没有64bit版，因此不建议折腾。</p>
+<h2 id="播放器配置学习的建议"><a href="#播放器配置学习的建议" class="headerlink" title="播放器配置学习的建议"></a>播放器配置学习的建议</h2><p>​	对于想自学高级播放器设置的同学们，教程总是不缺的，网上一搜一大堆，各大论坛什么的置顶帖，万年冷冻库，等等。写的比vcb-s现有几篇教程更新、更详细、更高端的比比皆是，也都可以作为很不错的教程。然而我一直认为，这些教程只是授人以鲤，或者授人以鳊、鲢、鳙……，导致的结果就是来一只鲫，或者给你个渔网让你按照自己喜好捞一只，很多人一下子就傻眼了。</p>
+<p>​	这也是我写这篇教程的初衷，讲述一下现在网上林林总总的教程，不会跟你说的很多细节与知识。有的人madVR设置玩出了花，结果不知道检查pot内置的ffmpeg解码器，会把YUV420 10bit 降低精度+瞎转换 为YUV422 8bit丢给madVR，然后又说自己看不出区别……这折腾的意义何在呢。</p>
+<p>学习播放器配置，有这么几条原则，是我希望分享给大家的：</p>
+<p>1、实事求是。不要盲目的去折腾，也不要为了心理安慰去折腾。一套更好的方案，只有你确实感觉到了提升，并且这个提升在你心理满意度上，足够抵消麻烦，才值得你去升级。比较的过程中，相信自己的眼睛，而不是相信别人的说教。比如说我真不推荐笔记本用户折腾任何顶级缩放算法——那么小个屏幕你能看出点啥？教程里说出花的放大算法跟你有几毛钱关系？</p>
+<p>2、循序渐进。先把一套简单基础的方案弄好弄懂，再去学习和尝试更好的方法。对于新的插件，你要尝试测试它们在你机器上的表现；对于别人的设置，设法了解他这么推荐的原因，以及这个原因是否适用于你。最典型的，很多人用着madVR问我，你在新教程里教我们LAV只勾选RGB，我要改么？看了这篇教程你应该知道要不要改与背后的原因了吧。</p>
+<p>3、量力而行。播放器越高级，组件越多，往往性能消耗越大，出错概率也越高，同时收益越少。学会放弃与妥协，毕竟，你看的是片子，不是播放器组件和参数。</p>
+<h1 id="动漫视频常见的瑕疵-缺陷介绍"><a href="#动漫视频常见的瑕疵-缺陷介绍" class="headerlink" title="动漫视频常见的瑕疵&#x2F;缺陷介绍"></a>动漫视频常见的瑕疵&#x2F;缺陷介绍</h1><h2 id="前情提要"><a href="#前情提要" class="headerlink" title="前情提要"></a>前情提要</h2><p>​	这篇科普教程本身有两个目的，第一个作为给观众们的科普，讲述一下动漫处理中常见的画面问题，帮助大家理解每次vcb-s发布帖当中那些技术描述；第二个作为vcb-s内部处理教程的基础部分，帮助组内组外所有入门压制的新手们了解所面对的“敌人”。</p>
+<p>​	需要注意的是，下文列举的大多数瑕疵，大多数情况下，是无法修复&#x2F;无法完全修复&#x2F;无法不具备破坏力部分修复的。多数瑕疵可修复的程度，取决于问题的轻重，rippers水准，以及牺牲的有效细节多寡……</p>
+<p>​	<strong>阅读本教程前，强烈建议先理解 <code>视频格式的基础知识</code> 中的内容，并在大屏pc上观看（方便看图）</strong></p>
+<p><strong>本文中，如果图像看不明显，建议点击单独打开，并缩放到1:1观看</strong>。放大版图片使用的是临近采样放大到2x倍，相当于一个像素放大到2×2倍大小，方便大家理解。</p>
+<p><strong>本教程中所有图例，除非有说明，否则均来自于动漫蓝光原盘截图。</strong></p>
+<h2 id="色带-banding-color-banding"><a href="#色带-banding-color-banding" class="headerlink" title="色带(banding&#x2F;color banding)"></a>色带(banding&#x2F;color banding)</h2><p>​	色带是出现频率最多的瑕疵，没有之一。色带产生的原因是精度不足。因为几乎100%的片源采用YUV 8bit编码，而这种编码是不足以达到可视范围精度的极限，所以编码本身的瓶颈，决定了从制作到放源，几乎一定会因为精度不足产生色带。</p>
+<p><img src="/./Image/%E8%A7%86%E9%A2%91%E6%A0%BC%E5%BC%8F%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86.assets/1691587268671.jpg" alt="1691587268671"></p>
+<p>色带的表现大家应该看得多了，颜色在渐变区域表现为波浪状、环状的阶梯型。常见于暗场处。</p>
+<p>去色带一般被叫做deband&#x2F;de-banding</p>
+<h2 id="锯齿-aliasing"><a href="#锯齿-aliasing" class="headerlink" title="锯齿(aliasing)"></a>锯齿(aliasing)</h2><p>锯齿是最典型、最常见的线条部分瑕疵，通常是因为制作分辨率较低，且不规范拉升到更高分辨率造成的：</p>
+<p><img src="/./Image/%E8%A7%86%E9%A2%91%E6%A0%BC%E5%BC%8F%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86.assets/1691587312450.jpg" alt="1691587312450"></p>
+<p>锯齿的处理方式叫做抗锯齿(anti-aliasing, aa)</p>
+<h2 id="晕轮-振铃-ringing-haloing"><a href="#晕轮-振铃-ringing-haloing" class="headerlink" title="晕轮&#x2F;振铃(ringing&#x2F;haloing)"></a>晕轮&#x2F;振铃(ringing&#x2F;haloing)</h2><p>严格来说这俩是不同的东西，但是表现非常相似，处理时候也通常不区分。它们也是较为典型的线条瑕疵，通常是因为制作分辨率较低，且不规范拉升到更高分辨率，且&#x2F;或 过度锐化造成的：</p>
+<p><img src="/./Image/%E8%A7%86%E9%A2%91%E6%A0%BC%E5%BC%8F%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86.assets/1691587347729.jpg" alt="1691587347729"></p>
+<p>瑕疵表现为线条周围似乎裹着一层明亮的光晕，如果上图看不出，下图放大版，仔细看线条两侧：</p>
+<p><img src="/./Image/%E8%A7%86%E9%A2%91%E6%A0%BC%E5%BC%8F%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86.assets/1691587379620.jpg" alt="1691587379620"></p>
+<p>ringing&#x2F;haloing通常和aliasing是伴生的，这在upscale片源中尤其常见。</p>
+<p>播放器拉大、锐化等处理（包括madVR的功能），也很容易出现这两种瑕疵。</p>
+<p>ringing&#x2F;haloing的处理方法叫做去晕轮(dering&#x2F;de-ringing,  dehalo&#x2F;de-haloing)</p>
+<h2 id="MacroBlock-blocking-色块"><a href="#MacroBlock-blocking-色块" class="headerlink" title="MacroBlock&#x2F;blocking(色块)"></a>MacroBlock&#x2F;blocking(色块)</h2><p>色块一般是严重欠码，或者是视频损坏，导致的图像如网格状凸显，横平竖直:</p>
+<p><img src="/./Image/%E8%A7%86%E9%A2%91%E6%A0%BC%E5%BC%8F%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86.assets/1691587407292.jpg" alt="1691587407292"></p>
+<p>更严重的大家自己去看各种在线视频就好。上图是LL的演唱会蓝光。</p>
+<p>色块一般跟色带共生。解决方法称为去色块(deblock&#x2F;de-blocking)</p>
+<h2 id="拉丝-横纹-combing"><a href="#拉丝-横纹-combing" class="headerlink" title="拉丝&#x2F;横纹(combing)"></a>拉丝&#x2F;横纹(combing)</h2><p>拉丝是指图像中相邻两行错位造成的视觉效果：</p>
+<p><img src="/./Image/%E8%A7%86%E9%A2%91%E6%A0%BC%E5%BC%8F%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86.assets/1691587430569.jpg" alt="1691587430569"></p>
+<p>​	拉丝的产生，一般是原生隔行扫描(interlaced)的片源，没有经过任何处理（或者部分片段漏了处理），然后在逐行扫描(progressive)的设备上（比如pc显示器）播放的结果。</p>
+<p>​	隔行扫描和逐行扫描啥意思啥区别大家不用细究，你只要知道，前者是老技术，后者是新技术，两者之间需要一定步骤做转换，不转换就可能出这种问题。</p>
+<p>​	这玩意是你在任何小白向的压制论坛，见到最多的提问：为啥我压制出来的东西播放有横纹？</p>
+<p>根据片源类型的不同，处理方式一般有以下几类：</p>
+<p>反交错(de-interlacing)&#x2F;场匹配(field-matching)&#x2F;反交卷过带(ivtc)</p>
+<h3 id="缟缟-此名称有一定争议，但是vcb-s的发布页看到这个单词，你默认就是下图的效果"><a href="#缟缟-此名称有一定争议，但是vcb-s的发布页看到这个单词，你默认就是下图的效果" class="headerlink" title="缟缟(此名称有一定争议，但是vcb-s的发布页看到这个单词，你默认就是下图的效果)"></a>缟缟(此名称有一定争议，但是vcb-s的发布页看到这个单词，你默认就是下图的效果)</h3><p>缟缟的效果兼具拉丝和锯齿的效果，有其特殊的线条特征：</p>
+<p><img src="/./Image/%E8%A7%86%E9%A2%91%E6%A0%BC%E5%BC%8F%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86.assets/1691587534546.jpg" alt="1691587534546"></p>
+<p>缟缟的产生是隔行扫描的源，没有先转换为逐行扫描，而是在隔行状态下，用逐行扫描的算法放大的结果。</p>
+<p>缟缟按照具体表现及程度有不同的处理方法，统称去缟缟。</p>
+<h2 id="鬼影（blending-ghosting）"><a href="#鬼影（blending-ghosting）" class="headerlink" title="鬼影（blending&#x2F;ghosting）"></a>鬼影（blending&#x2F;ghosting）</h2><p>排除掉视频本身采用的特效，这里鬼影指的是非正常的帧融合，造成的动态瑕疵（图片自制，其实寒蝉的BD挺适合拿来展示，但是当初我下好准备做BDRip，看了一眼就shift+delete了）：</p>
+<p><img src="/./Image/%E8%A7%86%E9%A2%91%E6%A0%BC%E5%BC%8F%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86.assets/1691587586243.jpg" alt="1691587586243"></p>
+<p>blending一般是不规范的反交错&#x2F;交卷过带产生，且&#x2F;或者是滥用不可靠的时域处理造成的。</p>
+<p>多数情况下无解（比如寒蝉那BDBOX）；少数有规律可循的，一定手段可以还原。一般称为de-blending&#x2F;ghost-removal</p>
+<h3 id=""><a href="#" class="headerlink" title=""></a></h3><h2 id="颜色越界（overflow-underflow）"><a href="#颜色越界（overflow-underflow）" class="headerlink" title="颜色越界（overflow&#x2F;underflow）"></a>颜色越界（overflow&#x2F;underflow）</h2><p>数字图像处理中，数据如同道路上机动车的速度一样，在规章制度下有着严格的范围限定。而颜色溢出则是发生了数据在既定规范下上下溢出的问题。典型的如dal的OP：</p>
+<p><img src="/./Image/%E8%A7%86%E9%A2%91%E6%A0%BC%E5%BC%8F%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86.assets/1691587713634.jpg" alt="1691587713634"></p>
+<p>黑咕隆咚的，看我变出点纹理细节来：</p>
+<p><img src="/./Image/%E8%A7%86%E9%A2%91%E6%A0%BC%E5%BC%8F%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86.assets/1691587730899.jpg" alt="1691587730899"></p>
+<p>越界的调整一般需要对数字图像规范有着专业的了解，同时还得熟知中间的变换公式。记为fix overflow&#x2F;underflow</p>
+<h2 id="噪点；彩色噪点-色度噪点（Noise-Grain-chroma-noise-grain）"><a href="#噪点；彩色噪点-色度噪点（Noise-Grain-chroma-noise-grain）" class="headerlink" title="噪点；彩色噪点&#x2F;色度噪点（Noise&#x2F;Grain; chroma noise&#x2F;grain）"></a>噪点；彩色噪点&#x2F;色度噪点（Noise&#x2F;Grain; chroma noise&#x2F;grain）</h2><p>噪点不多介绍了；这里单独贴一下Chroma平面的噪点，往往表现为噪点本身花花绿绿的：</p>
+<p><img src="/./Image/%E8%A7%86%E9%A2%91%E6%A0%BC%E5%BC%8F%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86.assets/1691587766826.jpg" alt="1691587766826"></p>
+<p>如果你表示看不出啥，加一张去掉上图中色度噪点的：</p>
+<p><img src="/./Image/%E8%A7%86%E9%A2%91%E6%A0%BC%E5%BC%8F%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86.assets/1691587778522.jpg" alt="1691587778522"></p>
+<p>一般来说手段就是降噪(de-noise&#x2F;de-grain)。</p>
+<p>不讨论特效噪点，就普通数字噪点，降噪本身应该与否，这是被讨论烂的问题。这里简单说一下我个人的一些看法，注意这是很主观的，完全不是什么“普世价值”：</p>
+<p>1、噪点的重要性低于有效细节，然而，噪点依旧是组成画面的重要部分，<strong>在片源噪点明显时候，定位于中&#x2F;高还原度的BDRip，噪点不应该被一刀切，导致源和成品画风突变</strong>；</p>
+<p>2、噪点会消耗大量码率这是不争的事实；因此，<strong>越是本身细节丰富动态高的视频，且低码率压制，那么降噪的意义越大</strong>，因为可以把有限的码率省下来给真正需要的细节。</p>
+<p>3、<strong>降噪会不可避免的损失有效细节</strong>，特别是暗场处，因此，降噪时候，保留有效细节的多寡，是衡量一个ripper降噪水准的重要指标；</p>
+<p>4、<strong>降噪应该引入视觉的心理学优化</strong>，比如说Chroma noise对画风的影响基本是恼人的，应该尽可能去掉；亮处的噪点去掉了对画风影响教低，而暗处较高；降噪应该在人眼不注意的地方强力，在人眼容易注意的地方较轻，等等。</p>
+<h2 id="烂边-蚊噪-DCT-ringing-DCT-noise"><a href="#烂边-蚊噪-DCT-ringing-DCT-noise" class="headerlink" title="烂边&#x2F;蚊噪(DCT ringing&#x2F;DCT noise)"></a>烂边&#x2F;蚊噪(DCT ringing&#x2F;DCT noise)</h2><p>突出一个烂字。是指画面欠码的时候，线条和平面都出现了很脏的观感，似乎线条被一圈絮絮叨叨的脏东西裹着，而平面有噪点的地方，噪点烂的很不规律，伴随着色块很难看：</p>
+<p><img src="/./Image/%E8%A7%86%E9%A2%91%E6%A0%BC%E5%BC%8F%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86.assets/1691587833691.jpg" alt="1691587833691"></p>
+<p>这种瑕疵是因为现在的视频都是基于DCT(Discrete Cosine Transform，离散余弦变换)的编码。在编码码率严重不足的时候，将一些频率一刀切，就会造成这样的后果。越是早期的视频编码格式越常见。处理一般要求搭配deband&#x2F;deblock&#x2F;denoise进行综合性的处理。</p>
+<h2 id="色度色带-Chroma-banding"><a href="#色度色带-Chroma-banding" class="headerlink" title="色度色带(Chroma banding)"></a>色度色带(Chroma banding)</h2><p>色度色带，特别指色度平面的精度不足。专门把它拉出来说的原因是，随着SBMV技术普及，蓝光加噪带来的效果，就是亮度平面精度不足问题削弱，相比较而言，色度平面问题则凸显。色度色带在目视表现上，跟一般的色带略有区别（下图自制）：</p>
+<p><img src="/./Image/%E8%A7%86%E9%A2%91%E6%A0%BC%E5%BC%8F%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86.assets/1691587853960.jpg" alt="1691587853960"></p>
+<p>通常来说，表面看不出画面有波浪状的断层，但是颜色过渡很不自然。只有单独拉出UV平面看才发现精度不足：</p>
+<p><img src="/./Image/%E8%A7%86%E9%A2%91%E6%A0%BC%E5%BC%8F%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86.assets/1691587871148.jpg" alt="1691587871148"></p>
+<p>Chroma banding的处理一般随着正常deband的处理，无非是强化UV平面的力度。</p>
+<h2 id="色度锯齿-chroma-aliasing"><a href="#色度锯齿-chroma-aliasing" class="headerlink" title="色度锯齿(chroma aliasing)"></a>色度锯齿(chroma aliasing)</h2><p>色度锯齿特指色度平面的锯齿，之所以单独说，是因为色度半采样的存在，导致色度平面经常需要被放大缩小（比如转为RGB处理，再转回去做视频），如果缩放不规范，就容易造成色度锯齿：</p>
+<p><img src="/./Image/%E8%A7%86%E9%A2%91%E6%A0%BC%E5%BC%8F%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86.assets/1691587898309.jpg" alt="1691587898309"></p>
+<p>图放大到两倍：</p>
+<p><img src="/./Image/%E8%A7%86%E9%A2%91%E6%A0%BC%E5%BC%8F%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86.assets/1691587908321.jpg" alt="1691587908321"></p>
+<p>chroma aliasing的处理方式一般是拆分UV平面的抗锯齿(chroma aa)</p>
+<h2 id="色度偏移（chroma-shift）"><a href="#色度偏移（chroma-shift）" class="headerlink" title="色度偏移（chroma shift）"></a>色度偏移（chroma shift）</h2><p>色度偏移，指的是色度平面相对亮度平面的错位，通常在极红&#x2F;蓝&#x2F;绿&#x2F;紫处（这四个地方分别是U&#x2F;V极大值或者极小值），线条多了一些重影（下图自制）：</p>
+<p><img src="/./Image/%E8%A7%86%E9%A2%91%E6%A0%BC%E5%BC%8F%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86.assets/1691588013638.jpg" alt="1691588013638"></p>
+<p>上图是故意将UV左移两个像素。实际蓝光中鲜有这么大尺度的偏移，最多偏移一个像素，效果非常不明显；一般人很难观察到。</p>
+<p>Chroma shift一般发生在数字图像处理中，不正确处理Chroma placement(Chroma相对Luma的位移)，造成的后果。修复手段通常叫做fix chroma shift。</p>
+<h2 id="色度溢出（chroma-bleeding）"><a href="#色度溢出（chroma-bleeding）" class="headerlink" title="色度溢出（chroma bleeding）"></a>色度溢出（chroma bleeding）</h2><p>色度溢出跟色度偏移很像，区别在于色度偏移是有方向的偏移，色度溢出是无方向的扩张（找不到更明显的图了；看不出来就算了吧）：</p>
+<p><img src="/./Image/%E8%A7%86%E9%A2%91%E6%A0%BC%E5%BC%8F%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86.assets/1691588058042.jpg" alt="1691588058042"></p>
+<p>注意上图线条两侧，可以观察到颜色似乎跟周围饱和度不一致。这是轻度的溢出；失控的如下图（自制）：</p>
+<p><img src="/./Image/%E8%A7%86%E9%A2%91%E6%A0%BC%E5%BC%8F%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86.assets/1691588079501.jpg" alt="1691588079501"></p>
+<p>整个图线条部分，颜色饱和度都不正常了。</p>
+<p>修复手段叫做fix chroma bleeding</p>
+<h2 id="重复场（duplicate-field）"><a href="#重复场（duplicate-field）" class="headerlink" title="重复场（duplicate field）"></a>重复场（duplicate field）</h2><p>重复场表现为一张图，奇数行和偶数行相同。视觉效果如下（轻音少女横滨演唱会；部分动漫中也有，如K的剧场版）：</p>
+<p><img src="/./Image/%E8%A7%86%E9%A2%91%E6%A0%BC%E5%BC%8F%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86.assets/S2.png" alt="img"></p>
+<p>通常和锯齿难以区分；但是如果把奇数行和偶数行拆开各自组成一幅图，把图像一分为二，两份图是一样的。</p>
+<p>解决方法就是丢掉奇数行或者偶数行，用剩下的缩放到原来高度。记为fix duplicate field。</p>
+<h2 id="revertible-upscale（可还原拉升）"><a href="#revertible-upscale（可还原拉升）" class="headerlink" title="revertible upscale（可还原拉升）"></a>revertible upscale（可还原拉升）</h2><p>指的是图像明显是放大而来，而放大的算法，可以被精确或者近似的判断出，然后设计逆向，把图像缩回去：</p>
+<p><img src="/./Image/%E8%A7%86%E9%A2%91%E6%A0%BC%E5%BC%8F%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86.assets/bicubic.png" alt="img"></p>
+<p>比如这图（局部），线条有大量锯齿，且出现ringing&#x2F;haloing，经验丰富的rippers大致可以判断图像是通过类似Bicubic(sharp&#x3D;-1.0)的算法拉升到1080p的。那么压制之前就可以根据拉升算法本身数学性质，逆向回720p再处理压制。这样的处理比一般性降低到720p来的科学。</p>
+<p>一般你见到inverse-upscale&#x2F;de-bilinear&#x2F;de-bicubic之类的，就说明用了这样的手段。</p>
+<h2 id="Over-Blurring-过度柔化"><a href="#Over-Blurring-过度柔化" class="headerlink" title="Over Blurring(过度柔化)"></a>Over Blurring(过度柔化)</h2><p>说简单点就是图像太模糊了。本身分辨率低，然后用柔和的算法给拉上来：</p>
+<p><img src="/./Image/%E8%A7%86%E9%A2%91%E6%A0%BC%E5%BC%8F%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86.assets/bilinear829cc.png" alt="img"></p>
+<p>注意这种模糊是全局性的，不是个别镜头&#x2F;个别位置。一般来说图像还没有锯齿&#x2F;ringing之类的问题。</p>
+<p>处理手段可以是inverse-upscale，拉回低分辨率，也可以采用主动性锐化(active sharpening)。注意这样的操作属于主观调整。锐化本身是很考验设计的，如何调整强度，设计自适应(adaptive)和保护手段(protective)，来保证不出现过度锐化的瑕疵（比如锯齿，haloing等），都是学问。</p>
+<p>锐化一般分为四种：</p>
+<p>补偿性锐化（contra-sharp），<strong>不属于主观调整</strong>，目的是补偿一些修复操作中，损失的细节和锐利度，补偿性锐化后的图像看起来不会比源锐利。补偿性锐化更多作为一些修复操作的保护手段，保护细节纹理不受太多损失。</p>
+<p>可控性锐化（controlled sharp），属于主观调整，目的是补偿一些在非极高码率编码下，可能会损失的细节（我知道编码会损失细节，那么在编码之前，我先把容易损失的细节强化一点点，补偿编码的削减），以及在<strong>不破坏原盘画风的前提下</strong>，改善细节和纹理观感。往往看源和成品，第一眼看上去没啥区别，特别是线条部分；仔细看才发现，一些细微纹理，成品似乎比源还要清晰点。可控性锐化被中文区raw组不约而同地使用，强度不一。</p>
+<p>主动性锐化（active sharp），属于主观调整，目的是让成品清晰度明显的高于源，<strong>同时几乎不引入过度锐化导致的瑕疵</strong>。主动性锐化会破坏原盘本身画风，以此换来主观观感的极大提升。典型的比如date a live第二季度，vcb-s和TUC的合作版BDRip。</p>
+<p>过度锐化（over sharp），属于主观调整，相比主动性锐化，结果就是出现大量锯齿&#x2F;ringing等瑕疵。常见于韩国raw组。</p>
+<p>这几种锐化我个人的态度：</p>
+<p>1、补偿性锐化是画面修复手段，不是主观调整，没有什么争议。</p>
+<p>2、过度锐化非常不可取，与其这样不如让观众自己在播放器里调整。</p>
+<p>3、可控性锐化和主动性锐化，是锐化强度，从量变到质变（是否引起画风明显改变）的过程。因人而异，也很难说到底什么强度算可控，什么强度算主动。</p>
+<p>4、实践证明，在中文区raw组和观众习惯的体积范围(~1GB&#x2F;集)，可控性锐化利大于弊。强度太低，往往编码造成的损失肉眼可见，画面相比片源明显模糊；强度过高则画风改变明显，让多数观众厌恶。所以各组一般都选择一个适中的强度，最大程度的平衡观众满意度，也让BDRip的细节保留和画面观感，能与2GB&#x2F;集的BDRip相媲美。这也是BDRip制作中的一种心理学优化。</p>
+<h2 id="晃动-Global-Motion-pan"><a href="#晃动-Global-Motion-pan" class="headerlink" title="晃动(Global Motion&#x2F;pan)"></a>晃动(Global Motion&#x2F;pan)</h2><p>通常是在老片翻新过程中，因为镜头&#x2F;胶带位置不固定，导致录制的视频，似乎镜头在不断晃动一样，哪怕是应该静止的场景，都有不规律的、小幅晃动</p>
+<p>动态图就不找了。大家自己脑补自己拿着手机，边走边录像的效果。</p>
+<p>解决方法一般记为depan。</p>
+<h2 id="彩虹（rainbow）"><a href="#彩虹（rainbow）" class="headerlink" title="彩虹（rainbow）"></a>彩虹（rainbow）</h2><p>Rainbow多出现在早期真人视频中。表现为亮度快速变化的地方，UV似乎像彩虹一般红蓝交织（网上找的图）：</p>
+<p><img src="/./Image/%E8%A7%86%E9%A2%91%E6%A0%BC%E5%BC%8F%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86.assets/rainbow.jpg" alt="img"></p>
+<p>看球拍部位。rainbow的产生是YUV数据作为电磁信号传输过程中，高频的Y信号，因为传输介质不理想，影响到了UV，而产生的后果。如果这时候进行进一步转录，就会把这个问题保留。</p>
+<p>B站放的《亮剑》，也有这个问题：战士们背着枪在雪地里走，黑色的枪和白色的雪构成了高频的亮度变化，结果枪身周围出现了红蓝光晕。弹幕一些人吐槽说这枪怎么还带魔法效果……<br>然而我早已看穿了一切┑(￣Д ￣)┍</p>
+<p>修复手段一般称为de-rainbow</p>
+<h2 id="点状斑纹-dot-crawl"><a href="#点状斑纹-dot-crawl" class="headerlink" title="点状斑纹(dot-crawl):"></a>点状斑纹(dot-crawl):</h2><p>点装斑纹也是传输YUV中，不正确处理导致的问题（wiki上的图）：</p>
+<p><img src="/./Image/%E8%A7%86%E9%A2%91%E6%A0%BC%E5%BC%8F%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86.assets/300px-Crawl.jpg" alt="img"></p>
+<p>Rainbow和Dot-Crawl在一些上古蓝光，甚至是上古TV源中还能发现它们的存在。高清数字时代之后，特别是动漫，几乎找不到了。</p>
+<p>解决方法一般记为 Dot-Crawl removal</p>
+<h4 id="最后，用两对问答来结束本章科普："><a href="#最后，用两对问答来结束本章科普：" class="headerlink" title="最后，用两对问答来结束本章科普："></a>最后，用两对问答来结束本章科普：</h4><p>问：作为一名ripper，你都干过哪些本末倒置的事情？<br>答：为了看高清高画质，学习视频修复。</p>
+<p>问：作为一名收藏党，你都干过哪些本末倒置的事情？<br>答：为了省硬盘，逛vcb-s.com。</p>
+<h1 id="WEBP"><a href="#WEBP" class="headerlink" title="WEBP"></a>WEBP</h1><p>WEBP 是一种衍生自 Google VP8 的图像格式，同时支持有损和无损编码。当使用有损模式，它在相同体积提供比 JPG 图像更好的质量；当使用无损模式，它提供比最佳压缩的 PNG 图像更小的体积。</p>
+<p>你可以通过如下方式浏览 WEBP 图像：</p>
+<ol>
+<li>如果你使用 Windows XP SP3 或更高版本的 Windows 系统，可以通过安装 Google 官方的小插件实现系统自带图片浏览器与略缩图的原生支持：<br><a target="_blank" rel="noopener" href="http://pan.baidu.com/s/1mi9zGMk">百度网盘</a> <a target="_blank" rel="noopener" href="https://vcb-s.github.io/attach/WebpCodecSetup.7z">备用链接</a> (请安装其中的 WebpCodecSetup.exe)</li>
+<li>安装第三方图片浏览器，包括且不限于：<ul>
+<li><a target="_blank" rel="noopener" href="https://www.xnview.com/en/xnview/">Xnview (Windows only)</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.xnview.com/en/xnviewmp/">Xnview MP (Win&#x2F;Linux&#x2F;Mac)</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.bandisoft.com/honeyview/">Honeyview (Windows only)</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.acdsee.com/">ACDSee (Windows only)</a></li>
+</ul>
+</li>
+<li>通过 Google Chrome 浏览器直接打开 WEBP 图像。</li>
+</ol>
+<h1 id="番剧相关"><a href="#番剧相关" class="headerlink" title="番剧相关"></a>番剧相关</h1><h2 id="什么是番剧？"><a href="#什么是番剧？" class="headerlink" title="什么是番剧？"></a><strong>什么是番剧？</strong></h2><ul>
+<li>“<strong>番剧</strong>“是一个外来语词汇，意思为日本连载动画电视剧，属于二次元用户常用语。通常日本每年有四季动画剧，集中在1月、4月、7月、10月的某一个月份播出。因而类似美剧，番剧也是以季为单位，通常每周播出一集，一季12~13集(季番)或23-25集(半年番)居多。</li>
+<li>**来源：**番剧一词来源于日语的”番组”，可以算是外来语演变而成。”番组”可以理解为电视节目，在日语中”番组”可以指电视剧，也可以指综艺节目，新闻节目，当然也包括动画。中文里的”番剧”可以理解为是番组电视剧，简称”番剧”，广义上来讲，应该可以理解成电视连续剧，包括了真人和动画的电视连续剧。</li>
+</ul>
+<p><img src="/./Image/%E8%A7%86%E9%A2%91%E6%A0%BC%E5%BC%8F%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86.assets/4adb9255ada5b97061e610b682b8636764fe50ed.png@progressive.webp" alt="img"></p>
+<h2 id="番剧分类"><a href="#番剧分类" class="headerlink" title="番剧分类"></a><strong>番剧分类</strong></h2><ul>
+<li><p>**番组:**电视节目，动画片电视连续剧。</p>
+</li>
+<li><p>**新番:**意指新番剧，每个季度在播中，或者将要播出的番组，都被称为新番。通常，1月新番，4月新番，7月新番，10月新番，分别指在1月、4月、7月、10月开播的新番。</p>
+</li>
+<li><p>**半年番:**播出持续半年(24话左右)的作品。</p>
+</li>
+<li><p>**季番:**播出持续一季度(12话左右)的作品。</p>
+</li>
+<li><p>**里番:**在日本评级为面向较为成年观众的R18+作品，一般不在电视台或深夜档播出。</p>
+</li>
+<li><p>**表番:**与”里番”相对，指代在日本评级为面向一般年龄观众的作品，内容及题材一般较为纯洁、健康向上。一般治愈番、致郁番和催泪番也属于这一范畴。除此之外，表番一般也指代评价较高，拥有较高人气的作品。</p>
+<p>所谓”表”和”里”番都是相对概念。一般，用于定义”表””里”的标准很大程度上取决于节目的人气，但并不绝对。</p>
+</li>
+<li><p>**泡面番:**一集时间很短的动画，通常在三分钟到六分钟左右不等，相当于泡一杯方便面的时间，等你把泡面泡好了， 动画也完了。</p>
+</li>
+<li><p>**番外、外番:**有别于主线连续剧的番外篇，有外传的意思，动画的OVA、OAD被归类到外番。</p>
+</li>
+<li><p>**追番:**在电视上首播一个番剧时，坚持看每一集的首播。</p>
+</li>
+<li><p>**补番:**看已经播出过的番剧。</p>
+</li>
+<li><p>**连番：**接连几次，连续多次看。</p>
+</li>
+</ul>
+<p><img src="/./Image/%E8%A7%86%E9%A2%91%E6%A0%BC%E5%BC%8F%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86.assets/4adb9255ada5b97061e610b682b8636764fe50ed.png@progressive.webp" alt="img"></p>
+<h2 id="什么是OV、OVA、OAD等？"><a href="#什么是OV、OVA、OAD等？" class="headerlink" title="什么是OV、OVA、OAD等？"></a><strong>什么是OV、OVA、OAD等？</strong></h2><ul>
+<li><p><strong>OVA</strong>（原创光盘动画，Original Video Animation简称），一般指通过DVD，蓝光光盘等以影碟发行的方式为主的剧集，也指一些相较原著篇幅较小且内容不一的动画剧集。</p>
+</li>
+<li><p><strong>OAD</strong>全称Original Animation Disc或者Original Animation，DVD本质上与OVA（Original Video Anime）同义，在DVD等光碟储存媒体普及后的用语。一般在漫画中捆绑发售，媒介包括DVD及Blu-ray Disc。OAD的内容一般为原创，也有将TV版本再编辑后制作而成，看似和在大荧幕上映的剧场版动画一样，其实不一样。</p>
+</li>
+<li><p><strong>OVD</strong>英文意思：光录像盘；视频光盘(Optical Video Disk)。OV、OVA、OAD总称。</p>
+</li>
+<li><p><strong>OV</strong>非动画领域的光盘作品</p>
+</li>
+<li><p><strong>TV版</strong>电视动画（Television animation）一般也叫动画剧，是指在电视频道上播映的动画作品。</p>
+</li>
+<li><p><strong>剧场版</strong>是在影院公映的特摄与动漫作品，是日本特摄与动漫按传播方式分类的一种，在中国又被称为特摄与动画电影。通常片长为90分钟，制作成本一般高于OVA及TV动画。</p>
+<p>不论在人物动作的流畅感，还是使用的分色数，甚至每秒的作画张数上，都比电视版动画和原创动画录影带有明显的提升。因此画面精度是三者（剧场版、TV版、OVA版）中最高的。</p>
+</li>
+<li><p><strong>网络(WEB)版</strong>全称“Original Net Anime”，直译为“原创网络动画”又简称为ONA。指的是以通过互联网作为最初或主要发行渠道的动画作品。</p>
+</li>
+<li><p><strong>PV</strong>英文名为Preview Video，即正式专辑或者影像发售之前，预先放松的预告。是MV(music video)在日专本的常见称呼属Promotion Video的略称。有时也被称为music clip或者video clip。其主要指流行音乐的乐曲发表的时候制作的，包含乐曲的影像作品。因为是以促销CD为目的，所以在日本一般被叫做プロモーション・ビデオ (promotion video) ，略称为promo 或者PV的情况也很多见。</p>
+<p>「简单的说PV就是一种音乐发行时所制作的同步宣传影像，是一类多媒体作品，现多用于ACG领域。」目前Vocaloid音乐等网络音乐大多都是以PV的形式做专辑宣传。</p>
+<p>它与其它音乐视频相比，PV作品使用素材多为原创，而其它视频创作素材使用广泛。一般原创或同人音乐社团包括作曲师、画师、歌姬&#x2F;基、后期制作人员（即pv师），其中还能细分为比如，编曲&amp;演奏&amp;美工等。一部好的PV作品需要长时间精心制作和社团成员共同协助完成；主要目的还是突显音乐气氛和促销CD宣传。</p>
+</li>
+<li><p><strong>CM</strong>一是Commercial Message的缩写</p>
+<p>英文解释：a commercially sponsored ad on radio or television 中文解释：商业广播广告，日本的广告领域力，CM被当做广告简称，在其国内广泛应用。</p>
+<p>二是Comic Market的缩写</p>
+<p>Comiket是日本最大的同人志展会，全称Comic Market（コミックマーケット），是由Comic Market准备会举办的日本以至全球最大型的同人志即卖会。</p>
+</li>
+<li><p><strong>SP</strong>(スッペシャルSpecial的简写)在日本动画中一般正传出完之后因为市场反应很热烈会为了赚钱而推出特别篇，也就是SP，意思就是两个小时左右的特别篇。通常是90分钟到两个小时不等。SP一般只讲一个完整的故事，类似于电影，但是没有电影的手法复杂．日剧是同期拍摄的，边拍边播．每一季接档的空闲时间就播放SP。大多数SP是以前热播剧的一个番外篇，也有的只是独立的小故事，也有的是系列篇。</p>
+</li>
+<li><p><strong>特典</strong>是日文：とくてん的汉字写法，意思是优惠。引申义是特别版，游戏追加的相关周边产品都能算特典，不过一般是指数码内容的例如游戏的图片，声音，视频，也可能追加一些新剧情。再补充一些：就是一些无字幕的OP，ED，TV放映前的CV。一般是OVA里全剧结束后特别附赠的东西，主要有访谈、卡拉OK、原画设定、特别版动画之类。</p>
+</li>
+<li><p><strong>OP</strong>（オープニングテーマ&#x2F;ソング，Opening Theme&#x2F;Song，简称OP）片头曲是电视剧或电视动画剧初播放的乐曲、歌曲（但日本动画和电视剧常在前情提要前或在播放部分正片后）。片头曲动画一般带有职员的文字。片头曲是一部番给人的第一印象，好的片头曲歌词内容紧扣主题，与OP动画节奏吻合，相辅相成，这样的片头曲也会为动画本身带来人气。</p>
+</li>
+</ul>
+<p><img src="/./Image/%E8%A7%86%E9%A2%91%E6%A0%BC%E5%BC%8F%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86.assets/ab97e85ea89cf325b1a86459e8fdc80db490608b.png@1256w_708h_!web-article-pic.avif" alt="img">sola OP视频截图</p>
+<ul>
+<li><strong>ED</strong>也被称为（Ending Theme或者Ending Song；日文：エンディングテーマ&#x2F;ソング），是影视业术语，泛指在影视作品（如电视剧，动画片等）正片之后播出的带有人声甚至无人声的歌曲，某些情况下同时也是该部作品的主题曲。片尾曲常被人认为是正片故事的延续，是其风格的彰显，它已经成为影视作品的一个不可或缺的元素。很多动画都会在第一话把OP作为片尾曲播放。</li>
+</ul>
+<p><img src="/./Image/%E8%A7%86%E9%A2%91%E6%A0%BC%E5%BC%8F%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86.assets/4fe5bec6e29e09aedd8e0fc316b9589e98a25967.png@1256w_708h_!web-article-pic.avif" alt="img">sola ED视频截图</p>
+<ul>
+<li><strong>NCOP</strong>（Non-Credit Opening，无制作人员字幕开头）发售BD等时则会去除。</li>
+</ul>
+<p><img src="/./Image/%E8%A7%86%E9%A2%91%E6%A0%BC%E5%BC%8F%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86.assets/168d59f32625b8ce43e22debd1f89918076883af.png@1256w_708h_!web-article-pic.avif" alt="img">sola NCOP视频截图</p>
+<ul>
+<li><strong>NCED</strong>（Non-Credit Ending，无制作人员字幕结尾）</li>
+</ul>
+<p><img src="/./Image/%E8%A7%86%E9%A2%91%E6%A0%BC%E5%BC%8F%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86.assets/55aa5646885cfed7b97679b8e3c2f11465f48322.png@1256w_708h_!web-article-pic.avif" alt="img">sola NCED视频截图</p>
+<ul>
+<li><strong>IN</strong> 指视频里的插曲</li>
+<li><strong>OST</strong>（Original Sound Track，简称Soundtrack或Sound Track，缩写OST）原声带是将一部电影或一部电视剧的主题曲（或片头片尾曲）和主要的插曲或配乐录一起，制作成一张完整的唱片，然后由唱片公司制成Caart,Dnb,CD或DAT&#x2F;DCC发行。</li>
+</ul>
+<p><img src="/./Image/%E8%A7%86%E9%A2%91%E6%A0%BC%E5%BC%8F%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86.assets/7c076453ea0255301da02e5382fe495552b31b5b.jpg@1256w_1114h_!web-article-pic.webp" alt="img">CLANNAD Original Sound Track CD封面</p>
+<p><img src="/./Image/%E8%A7%86%E9%A2%91%E6%A0%BC%E5%BC%8F%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86.assets/4adb9255ada5b97061e610b682b8636764fe50ed.png@progressive.webp" alt="img"></p>
+<h2 id="扩展：Hi10p、BD、X264-flac等"><a href="#扩展：Hi10p、BD、X264-flac等" class="headerlink" title="扩展：Hi10p、BD、X264_flac等"></a><strong>扩展：Hi10p、BD、X264_flac等</strong></h2><ul>
+<li><p><strong>Hi10p</strong>指的是H.264编码使用10位深的色彩讯息。Hi10P 和10bit 是意思一样的。而10bit又特指一种回视频编码技术，能够提答供非常高的视频画质，能够在色彩的渐进和变化方面表现出非凡的细腻度，但是能播放10bit的配置要求非常高。</p>
+<p>Hi10P编码的优点：</p>
+<p>1．低码率（Low Bit Rate）：和MPEG2和MPEG4 ASP等压缩技术相比，在同等图像质量下，采用H.264技术压缩后的数据量只有MPEG2的1&#x2F;8，MPEG4的1&#x2F;3。 </p>
+<p>2．高质量的图像：H.264能提供连续、流畅的高质量图像（DVD质量）。</p>
+<p>3．容错能力强：H.264提供了解决在不稳定网络环境下容易发生的丢包等错误的必要工具。 </p>
+<p>4．网络适应性强：H.264提供了网络抽象层（Network Abstraction Layer），使得H.264的文件能容易地在不同网络上传输（例如互联网，CDMA，GPRS，WCDMA，CDMA2000等）。</p>
+</li>
+<li><p><strong>BD</strong>是指蓝光（Blu－ray）或称蓝光盘（Blu－ray Disc，缩写为BD），目前为止，蓝光是最先进应用最广泛的大容量光碟格式，网上下载的标有BD或者Blu－ray的高清影片，是指直接通过蓝光片源录制的，画面品质比HD和WEB-DL要好。</p>
+<p>BDRIP（Blu-ray Disc Rip）即蓝光影碟转录，就是从蓝光光盘上把视频内容重新编码形成的视频文件。画质可能比原盘差一点点。</p>
+</li>
+<li><p><strong>X264_flac</strong></p>
+<p>x264&#x3D;压缩的视频编码方式。flac&#x3D;音频的重编码方式。</p>
+<p>附加：FLAC AC3x2&#x3D;三条音频</p>
+<p> 1、FLAC音频</p>
+<p> 2、AC3音频</p>
+<p> 3、AC3音频</p>
+</li>
+</ul>
+<p><img src="/./Image/%E8%A7%86%E9%A2%91%E6%A0%BC%E5%BC%8F%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86.assets/4adb9255ada5b97061e610b682b8636764fe50ed.png@progressive.webp" alt="img"></p>
+<h2 id="扩展：-cue文件-tak文件-opus文件-ehviewer文件等"><a href="#扩展：-cue文件-tak文件-opus文件-ehviewer文件等" class="headerlink" title="扩展：.cue文件.tak文件.opus文件.ehviewer文件等"></a>扩展：.cue文件.tak文件.opus文件.ehviewer文件等</h2><ul>
+<li><strong>.cue文件</strong></li>
+</ul>
+<p><img src="/./Image/%E8%A7%86%E9%A2%91%E6%A0%BC%E5%BC%8F%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86.assets/d5f8aab26d05646a35a3e05fe3a866b5c88be5b8.jpg@1256w_676h_!web-article-pic.webp" alt="img">以CLANNAD Original Sound Track为例，用Notepad++打开其中的.cue文件</p>
+<ul>
+<li><p>实质：纯文本文件</p>
+<p>百科：CUE(cuesheet)是指光盘映像(镜像)辅助文件或称标记文件，按照文本文件格式编制。它在刻录光盘映像文件时，起很重要的作用。它可以指挥刻录软件刻什么格式，刻录那些内容，从哪里开始，到哪里结束，附加什么信息等等、等等。有了cue文件，既可以减少刻录的准备工作以提高刻录效率，又可以保证刻录的准确性。更详细一点的可以看这篇文章<a target="_blank" rel="noopener" href="https://b23.tv/nRRMYZs">https://b23.tv/nRRMYZs</a></p>
+</li>
+<li><p><strong>.tak文件</strong></p>
+</li>
+</ul>
+<p><img src="/./Image/%E8%A7%86%E9%A2%91%E6%A0%BC%E5%BC%8F%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86.assets/74f457181db02000e0eb4928d052d6a42084a62e.jpg@1256w_680h_!web-article-pic.avif" alt="img">.tak文件及用VLC打开（专辑封面是用图片编辑软件加上去）</p>
+<ul>
+<li><p>实质：无损音频文件（编码格式）</p>
+<p>百科：TAK是一种无损音频压缩格式，全称是Tom’s Audio Kompressor，产于德国。类似于FLAC和APE，总体来说，压缩率类似APE而且解压缩速度类似FLAC，算是综合了两者的优点。但目前软件支持有限（有限？用VLC就可以打开）。</p>
+</li>
+<li><p><strong>.opus文件</strong></p>
+</li>
+</ul>
+<p><img src="/./Image/%E8%A7%86%E9%A2%91%E6%A0%BC%E5%BC%8F%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86.assets/cb7b1b1f024b4ccd4243a33b408b608e80cb88c5.jpg@1256w_678h_!web-article-pic.webp" alt="img">.opus文件及用MusicPlayer2打开</p>
+<ul>
+<li><p>实质：有损声音编码音频文件（编码格式）</p>
+<p>百科：Opus编码器 是一个有损声音编码的格式，由互联网工程任务组(IETF)近来开发Opus 格式是一个开放格式，使用上没有任何专利或限制。</p>
+</li>
+<li><p><strong>.ehviewer文件</strong></p>
+</li>
+</ul>
+<p><img src="/./Image/%E8%A7%86%E9%A2%91%E6%A0%BC%E5%BC%8F%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86.assets/5b3eccfe59b5849e72736ba12cfeb9590cba726e.png@1256w_706h_!web-article-pic.avif" alt="img">用Notepad++打开.ehviewer文件</p>
+<ul>
+<li><p>实质：纯文本文件</p>
+<p>百科：（自己找吧）</p>
+</li>
+</ul>
+<p><img src="/./Image/%E8%A7%86%E9%A2%91%E6%A0%BC%E5%BC%8F%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86.assets/4adb9255ada5b97061e610b682b8636764fe50ed.png@progressive.webp" alt="img"></p>
+<h2 id="来源链接（感谢以下优秀文章或视频）"><a href="#来源链接（感谢以下优秀文章或视频）" class="headerlink" title="来源链接（感谢以下优秀文章或视频）"></a><strong>来源链接（感谢以下优秀文章或视频）</strong></h2><p><strong>什么是番剧？、番剧分类</strong></p>
+<ul>
+<li><ul>
+<li><a target="_blank" rel="noopener" href="https://baike.so.com/doc/23736557-24292454.html">https://baike.so.com/doc/23736557-24292454.html</a></li>
+<li>连番一词：<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E7%95%AA%E5%89%A7/17528517">https://baike.baidu.com/item/%E7%95%AA%E5%89%A7/17528517</a></li>
+</ul>
+</li>
+<li><p><strong>什么是OV、OVA、OAD等？</strong></p>
+</li>
+<li><ul>
+<li>OVA：<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/ova/9989">https://baike.baidu.com/item/ova/9989</a></li>
+<li>OAD一词：<a target="_blank" rel="noopener" href="https://zhidao.baidu.com/question/754018613605198244.html">https://zhidao.baidu.com/question/754018613605198244.html</a></li>
+<li>OVD、OV和其它部分内容：<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV177411m7ni?from=articleDetail">BV177411m7ni</a></li>
+<li>TV版、剧场版：<a target="_blank" rel="noopener" href="https://zhidao.baidu.com/question/602632582.html">https://zhidao.baidu.com/question/602632582.html</a></li>
+<li>网络(WEB)版一词：<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E7%BD%91%E7%BB%9C%E5%8A%A8%E7%94%BB/6542913">https://baike.baidu.com/item/%E7%BD%91%E7%BB%9C%E5%8A%A8%E7%94%BB/6542913</a></li>
+<li>PV一词：<a target="_blank" rel="noopener" href="https://zhidao.baidu.com/question/360234748.html">https://zhidao.baidu.com/question/360234748.html</a></li>
+<li>CM一词：<a target="_blank" rel="noopener" href="https://zhidao.baidu.com/question/421364713.html">https://zhidao.baidu.com/question/421364713.html</a></li>
+<li>SP一词：<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E5%8A%A8%E6%BC%ABSP/15551866">https://baike.baidu.com/item/%E5%8A%A8%E6%BC%ABSP/15551866</a></li>
+<li>特典一词：<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E7%89%B9%E5%85%B8">https://baike.baidu.com/item/%E7%89%B9%E5%85%B8</a></li>
+<li>OP、ED、NCOP：<a target="_blank" rel="noopener" href="https://zhidao.baidu.com/question/360353977151434812.html">https://zhidao.baidu.com/question/360353977151434812.html</a></li>
+<li>NCED一词：<a target="_blank" rel="noopener" href="https://zhidao.baidu.com/question/545257011.html">https://zhidao.baidu.com/question/545257011.html</a></li>
+<li>OP、ED、NCOP、NCED图片：<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1Gs411m7Dj?from=articleDetail">BV1Gs411m7Dj</a></li>
+<li>OST一词：<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E5%8E%9F%E5%A3%B0%E5%B8%A6/1120682">https://baike.baidu.com/item/%E5%8E%9F%E5%A3%B0%E5%B8%A6/1120682</a></li>
+</ul>
+</li>
+<li><p><strong>扩展：Hi10p、BD、X264_flac等</strong></p>
+</li>
+<li><ul>
+<li>Hi10p一词：<a target="_blank" rel="noopener" href="https://zhidao.baidu.com/question/2009347754951855908.html">https://zhidao.baidu.com/question/2009347754951855908.html</a></li>
+<li>BD一词：<a target="_blank" rel="noopener" href="https://zhidao.baidu.com/question/212528826.html">https://zhidao.baidu.com/question/212528826.html</a></li>
+<li>BDRIP一词：<a target="_blank" rel="noopener" href="https://baike.so.com/doc/5443852-5682205.html">https://baike.so.com/doc/5443852-5682205.html</a></li>
+<li>X264_flac和附加：<a target="_blank" rel="noopener" href="https://tieba.baidu.com/p/7124754437">https://tieba.baidu.com/p/7124754437</a></li>
+</ul>
+</li>
+</ul>
+<p><strong>扩展：.cue文件.tak文件.opus文件.ehviewer文件等</strong></p>
+<ul>
+<li>**.**cue文件一词：<a target="_blank" rel="noopener" href="https://baike.so.com/doc/7161053-7385063.html">https://baike.so.com/doc/7161053-7385063.html</a></li>
+<li>.tak文件一词：<a target="_blank" rel="noopener" href="https://baike.so.com/doc/5504067-5739811.html">https://baike.so.com/doc/5504067-5739811.html</a></li>
+<li>.opus文件一词：<a target="_blank" rel="noopener" href="https://baike.so.com/doc/10912034-11438562.html">https://baike.so.com/doc/10912034-11438562.html</a></li>
+<li>ehviewer：<a target="_blank" rel="noopener" href="https://github.com/seven332/EhViewer/releases">https://github.com/seven332/EhViewer/releases</a></li>
+<li>MusicPlayer2：<a target="_blank" rel="noopener" href="https://github.com/zhongyang219/MusicPlayer2/">https://github.com/zhongyang219/MusicPlayer2/</a></li>
+</ul>
+<p>（文中图片除已标出出处外，均是来源于网络收集或本地运行截图储存于本地硬盘）</p>
+<p>（如有不完善的地方欢迎在评论区指出）</p>
+<p>（最后编辑时间:2022.6.04晚上0时）</p>
+<p>第一版：2021.2.26下午3时</p>
+<p>第二版：2022.6.04晚上0时</p>
+<p><a target="_blank" rel="noopener" href="https://vcb-s.com/archives/4738">https://vcb-s.com/archives/4738</a></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://chaoqijiang.github.io">棨</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://chaoqijiang.github.io/2023/08/10/%E8%A7%86%E9%A2%91%E6%A0%BC%E5%BC%8F%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/">https://chaoqijiang.github.io/2023/08/10/视频格式基础知识/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://chaoqijiang.github.io" target="_blank">柊</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/protected/">protected</a><a class="post-meta__tags" href="/tags/%E7%9F%A5%E8%AF%86%E6%9D%82%E8%B0%88/">知识杂谈</a><a class="post-meta__tags" href="/tags/%E8%A7%86%E9%A2%91%E6%A0%BC%E5%BC%8F/">视频格式</a></div><div class="post-share"><div class="social-share" data-image="/Image/avatar.png" data-sites="facebook,x,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2023/06/25/%E8%BA%AB%E4%BB%BD%E8%AF%81%E5%8F%B7%E7%A0%81%E7%9A%84%E7%BC%96%E7%A0%81%E8%A7%84%E5%88%99%E5%8F%8A%E6%A0%A1%E9%AA%8C/" title="第二代身份证号码的编码规则及校验"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">第二代身份证号码的编码规则及校验</div></div><div class="info-2"><div class="info-item-1">第二代身份证号码的编码规则及校验码的实现方法，供参考使用。</div></div></div></a><a class="pagination-related" href="/2023/11/17/%E4%BA%8C%E6%89%8B%E7%A1%AC%E7%9B%98%E9%80%89%E8%B4%AD%E6%89%BE%E5%9D%A1%E6%8C%87%E5%8D%97/" title="二手硬盘选购找坡指南"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">二手硬盘选购找坡指南</div></div><div class="info-2"><div class="info-item-1">二手硬盘选购找坡指南</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2024/01/31/linux%E4%B8%8B%E9%80%9A%E8%BF%87CURL%E5%AE%9E%E7%8E%B0%E8%87%AA%E5%8A%A8%E7%AD%BE%E5%88%B0%E5%8A%9F%E8%83%BD/" title="linux下通过CURL实现自动签到功能"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-01-31</div><div class="info-item-2">linux下通过CURL实现自动签到功能</div></div><div class="info-2"><div class="info-item-1">linux下通过CURL实现自动签到功能</div></div></div></a><a class="pagination-related" href="/2023/11/17/%E4%BA%8C%E6%89%8B%E7%A1%AC%E7%9B%98%E9%80%89%E8%B4%AD%E6%89%BE%E5%9D%A1%E6%8C%87%E5%8D%97/" title="二手硬盘选购找坡指南"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2023-11-17</div><div class="info-item-2">二手硬盘选购找坡指南</div></div><div class="info-2"><div class="info-item-1">二手硬盘选购找坡指南</div></div></div></a><a class="pagination-related" href="/2024/01/26/%E5%9F%9F%E5%90%8D%E8%A7%A3%E6%9E%90%E7%9A%84%E7%B1%BB%E5%9E%8B/" title="域名解析的类型"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-01-26</div><div class="info-item-2">域名解析的类型</div></div><div class="info-2"><div class="info-item-1">域名解析的类型及作用，A记录、MX记录等。</div></div></div></a><a class="pagination-related" href="/2024/06/24/%E5%AF%B9%E8%AE%B2%E6%9C%BA%E7%9A%84%E5%B8%B8%E7%94%A8%E5%8A%9F%E8%83%BD%E6%9C%AF%E8%AF%AD/" title="对讲机的常用功能术语"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-06-24</div><div class="info-item-2">对讲机的常用功能术语</div></div><div class="info-2"><div class="info-item-1">对讲机的常用功能术语</div></div></div></a><a class="pagination-related" href="/2024/06/24/%E6%B3%89%E7%9B%9BUVk5%E5%AF%B9%E8%AE%B2%E6%9C%BA%E7%AE%80%E6%98%93%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/" title="泉盛UVk5对讲机简易使用指南"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-06-24</div><div class="info-item-2">泉盛UVk5对讲机简易使用指南</div></div><div class="info-2"><div class="info-item-1">泉盛UVk5对讲机简易使用指南</div></div></div></a><a class="pagination-related" href="/2025/10/08/AI%E6%8F%90%E7%A4%BA%E8%AF%8D_%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E7%94%9F%E6%88%90/" title="AI提示词_学习笔记生成"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-10-08</div><div class="info-item-2">AI提示词_学习笔记生成</div></div><div class="info-2"><div class="info-item-1">AI提示词，用于引导AI生成学习笔记，根据提示的设定，对没有基础背景背景的小白生成学习笔记。</div></div></div></a></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/Image/avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">棨</div><div class="author-info-description"></div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">37</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">50</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">33</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="mailto:chaoqijiang@outlook.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%A7%86%E9%A2%91%E6%A0%BC%E5%BC%8F%E7%9A%84%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86"><span class="toc-number">1.</span> <span class="toc-text">视频格式的基础知识</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B0%81%E8%A3%85%E6%A0%BC%E5%BC%8F-MP4-MKV%E2%80%A6-vs-%E5%AA%92%E4%BD%93%E6%A0%BC%E5%BC%8F-H-264-FLAC-AAC%E2%80%A6"><span class="toc-number">1.1.</span> <span class="toc-text">封装格式(MP4&#x2F;MKV…)  vs 媒体格式(H.264&#x2F;FLAC&#x2F;AAC…)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A6%82%E8%BF%B0"><span class="toc-number">1.1.1.</span> <span class="toc-text">概述</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MKV-vs-MP4%E7%9A%84%E4%B8%BB%E8%A6%81%E5%8C%BA%E5%88%AB"><span class="toc-number">1.2.</span> <span class="toc-text">MKV vs MP4的主要区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A7%86%E9%A2%91%E7%9A%84%E5%9F%BA%E7%A1%80%E5%8F%82%E6%95%B0%EF%BC%9A%E5%88%86%E8%BE%A8%E7%8E%87%EF%BC%8C%E5%B8%A7%E7%8E%87%E5%92%8C%E7%A0%81%E7%8E%87%E3%80%82"><span class="toc-number">1.3.</span> <span class="toc-text">视频的基础参数：分辨率，帧率和码率。</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%BE%E5%83%8F%E7%9A%84%E8%A1%A8%E7%A4%BA%E6%96%B9%E6%B3%95%EF%BC%9ARGB%E6%A8%A1%E5%9E%8B-vs-YUV%E6%A8%A1%E5%9E%8B"><span class="toc-number">1.4.</span> <span class="toc-text">图像的表示方法：RGB模型 vs YUV模型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%89%B2%E6%B7%B1"><span class="toc-number">1.5.</span> <span class="toc-text">色深</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%89%B2%E5%BA%A6%E5%8D%8A%E9%87%87%E6%A0%B7"><span class="toc-number">1.6.</span> <span class="toc-text">色度半采样</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A9%BA%E9%97%B4%E4%B8%8A%E7%9A%84%E4%BD%8E%E9%A2%91%E4%B8%8E%E9%AB%98%E9%A2%91%EF%BC%9A%E5%B9%B3%E9%9D%A2%EF%BC%8C%E7%BA%B9%E7%90%86%E5%92%8C%E7%BA%BF%E6%9D%A1"><span class="toc-number">1.7.</span> <span class="toc-text">空间上的低频与高频：平面，纹理和线条</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%97%B6%E9%97%B4%E4%B8%8A%E7%9A%84%E4%BD%8E%E9%A2%91%E4%B8%8E%E9%AB%98%E9%A2%91%EF%BC%9A%E5%8A%A8%E6%80%81"><span class="toc-number">1.8.</span> <span class="toc-text">时间上的低频与高频：动态</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B8%85%E6%99%B0%E5%BA%A6%E4%B8%8E%E7%94%BB%E8%B4%A8%E7%AE%80%E8%BF%B0"><span class="toc-number">1.9.</span> <span class="toc-text">清晰度与画质简述</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%92%AD%E6%94%BE%E5%99%A8%E8%83%8C%E5%90%8E%E7%9A%84%E7%9F%A5%E8%AF%86"><span class="toc-number">2.</span> <span class="toc-text">播放器背后的知识</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%92%AD%E6%94%BE%E5%99%A8%E7%9A%84%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B%EF%BC%9A%E5%88%86%E7%A6%BB%EF%BC%8C%E8%A7%A3%E7%A0%81%EF%BC%8C%E6%B8%B2%E6%9F%93"><span class="toc-number">2.1.</span> <span class="toc-text">播放器的工作流程：分离，解码，渲染</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A1%AC%E8%A7%A3%E7%9A%84%E5%AE%9A%E4%B9%89%E4%B8%8E%E5%88%86%E7%B1%BB"><span class="toc-number">2.2.</span> <span class="toc-text">硬解的定义与分类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#YUV-RGB%E8%BD%AC%E6%8D%A2%E8%BF%87%E7%A8%8B%E4%B8%AD%E7%9A%84%E7%BB%86%E8%8A%82"><span class="toc-number">2.3.</span> <span class="toc-text">YUV-&gt;RGB转换过程中的细节</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A1%AC%E8%A7%A3%E7%9A%84%E4%BC%98%E5%8A%A3%E4%B8%8E%E9%80%89%E6%8B%A9"><span class="toc-number">2.4.</span> <span class="toc-text">硬解的优劣与选择</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%BE%E5%83%8F%E6%A0%BC%E5%BC%8F%E7%9A%84%E6%A0%87%E8%AF%86%E4%B8%8E%E6%9F%A5%E7%9C%8B%E6%96%B9%E6%B3%95"><span class="toc-number">2.5.</span> <span class="toc-text">图像格式的标识与查看方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8A%A8%E6%BC%AB%E7%94%BB%E9%9D%A2%E5%8C%BA%E5%88%AB%E4%BA%8E%E5%B8%B8%E8%A7%84%E5%BD%95%E5%88%B6%E8%A7%86%E9%A2%91%E7%9A%84%E7%89%B9%E6%AE%8A%E6%80%A7"><span class="toc-number">2.6.</span> <span class="toc-text">动漫画面区别于常规录制视频的特殊性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%92%AD%E6%94%BE%E5%99%A8%E8%BD%AF%E4%BB%B6%E7%9A%84%E7%8E%B0%E7%8A%B6%E4%B8%8E%E5%88%86%E6%9E%90"><span class="toc-number">2.7.</span> <span class="toc-text">播放器软件的现状与分析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B6%E4%BB%96%E5%B8%B8%E8%A7%81%E6%92%AD%E6%94%BE%E5%99%A8%E9%85%8D%E4%BB%B6%E7%AE%80%E4%BB%8B"><span class="toc-number">2.8.</span> <span class="toc-text">其他常见播放器配件简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%92%AD%E6%94%BE%E5%99%A8%E9%85%8D%E7%BD%AE%E5%AD%A6%E4%B9%A0%E7%9A%84%E5%BB%BA%E8%AE%AE"><span class="toc-number">2.9.</span> <span class="toc-text">播放器配置学习的建议</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8A%A8%E6%BC%AB%E8%A7%86%E9%A2%91%E5%B8%B8%E8%A7%81%E7%9A%84%E7%91%95%E7%96%B5-%E7%BC%BA%E9%99%B7%E4%BB%8B%E7%BB%8D"><span class="toc-number">3.</span> <span class="toc-text">动漫视频常见的瑕疵&#x2F;缺陷介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E6%83%85%E6%8F%90%E8%A6%81"><span class="toc-number">3.1.</span> <span class="toc-text">前情提要</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%89%B2%E5%B8%A6-banding-color-banding"><span class="toc-number">3.2.</span> <span class="toc-text">色带(banding&#x2F;color banding)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%94%AF%E9%BD%BF-aliasing"><span class="toc-number">3.3.</span> <span class="toc-text">锯齿(aliasing)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%99%95%E8%BD%AE-%E6%8C%AF%E9%93%83-ringing-haloing"><span class="toc-number">3.4.</span> <span class="toc-text">晕轮&#x2F;振铃(ringing&#x2F;haloing)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MacroBlock-blocking-%E8%89%B2%E5%9D%97"><span class="toc-number">3.5.</span> <span class="toc-text">MacroBlock&#x2F;blocking(色块)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8B%89%E4%B8%9D-%E6%A8%AA%E7%BA%B9-combing"><span class="toc-number">3.6.</span> <span class="toc-text">拉丝&#x2F;横纹(combing)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BC%9F%E7%BC%9F-%E6%AD%A4%E5%90%8D%E7%A7%B0%E6%9C%89%E4%B8%80%E5%AE%9A%E4%BA%89%E8%AE%AE%EF%BC%8C%E4%BD%86%E6%98%AFvcb-s%E7%9A%84%E5%8F%91%E5%B8%83%E9%A1%B5%E7%9C%8B%E5%88%B0%E8%BF%99%E4%B8%AA%E5%8D%95%E8%AF%8D%EF%BC%8C%E4%BD%A0%E9%BB%98%E8%AE%A4%E5%B0%B1%E6%98%AF%E4%B8%8B%E5%9B%BE%E7%9A%84%E6%95%88%E6%9E%9C"><span class="toc-number">3.6.1.</span> <span class="toc-text">缟缟(此名称有一定争议，但是vcb-s的发布页看到这个单词，你默认就是下图的效果)</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%AC%BC%E5%BD%B1%EF%BC%88blending-ghosting%EF%BC%89"><span class="toc-number">3.7.</span> <span class="toc-text">鬼影（blending&#x2F;ghosting）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">3.7.1.</span> <span class="toc-text"></span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A2%9C%E8%89%B2%E8%B6%8A%E7%95%8C%EF%BC%88overflow-underflow%EF%BC%89"><span class="toc-number">3.8.</span> <span class="toc-text">颜色越界（overflow&#x2F;underflow）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%99%AA%E7%82%B9%EF%BC%9B%E5%BD%A9%E8%89%B2%E5%99%AA%E7%82%B9-%E8%89%B2%E5%BA%A6%E5%99%AA%E7%82%B9%EF%BC%88Noise-Grain-chroma-noise-grain%EF%BC%89"><span class="toc-number">3.9.</span> <span class="toc-text">噪点；彩色噪点&#x2F;色度噪点（Noise&#x2F;Grain; chroma noise&#x2F;grain）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%83%82%E8%BE%B9-%E8%9A%8A%E5%99%AA-DCT-ringing-DCT-noise"><span class="toc-number">3.10.</span> <span class="toc-text">烂边&#x2F;蚊噪(DCT ringing&#x2F;DCT noise)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%89%B2%E5%BA%A6%E8%89%B2%E5%B8%A6-Chroma-banding"><span class="toc-number">3.11.</span> <span class="toc-text">色度色带(Chroma banding)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%89%B2%E5%BA%A6%E9%94%AF%E9%BD%BF-chroma-aliasing"><span class="toc-number">3.12.</span> <span class="toc-text">色度锯齿(chroma aliasing)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%89%B2%E5%BA%A6%E5%81%8F%E7%A7%BB%EF%BC%88chroma-shift%EF%BC%89"><span class="toc-number">3.13.</span> <span class="toc-text">色度偏移（chroma shift）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%89%B2%E5%BA%A6%E6%BA%A2%E5%87%BA%EF%BC%88chroma-bleeding%EF%BC%89"><span class="toc-number">3.14.</span> <span class="toc-text">色度溢出（chroma bleeding）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%87%8D%E5%A4%8D%E5%9C%BA%EF%BC%88duplicate-field%EF%BC%89"><span class="toc-number">3.15.</span> <span class="toc-text">重复场（duplicate field）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#revertible-upscale%EF%BC%88%E5%8F%AF%E8%BF%98%E5%8E%9F%E6%8B%89%E5%8D%87%EF%BC%89"><span class="toc-number">3.16.</span> <span class="toc-text">revertible upscale（可还原拉升）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Over-Blurring-%E8%BF%87%E5%BA%A6%E6%9F%94%E5%8C%96"><span class="toc-number">3.17.</span> <span class="toc-text">Over Blurring(过度柔化)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%99%83%E5%8A%A8-Global-Motion-pan"><span class="toc-number">3.18.</span> <span class="toc-text">晃动(Global Motion&#x2F;pan)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BD%A9%E8%99%B9%EF%BC%88rainbow%EF%BC%89"><span class="toc-number">3.19.</span> <span class="toc-text">彩虹（rainbow）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%82%B9%E7%8A%B6%E6%96%91%E7%BA%B9-dot-crawl"><span class="toc-number">3.20.</span> <span class="toc-text">点状斑纹(dot-crawl):</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9C%80%E5%90%8E%EF%BC%8C%E7%94%A8%E4%B8%A4%E5%AF%B9%E9%97%AE%E7%AD%94%E6%9D%A5%E7%BB%93%E6%9D%9F%E6%9C%AC%E7%AB%A0%E7%A7%91%E6%99%AE%EF%BC%9A"><span class="toc-number">3.20.0.1.</span> <span class="toc-text">最后，用两对问答来结束本章科普：</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#WEBP"><span class="toc-number">4.</span> <span class="toc-text">WEBP</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%95%AA%E5%89%A7%E7%9B%B8%E5%85%B3"><span class="toc-number">5.</span> <span class="toc-text">番剧相关</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E7%95%AA%E5%89%A7%EF%BC%9F"><span class="toc-number">5.1.</span> <span class="toc-text">什么是番剧？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%95%AA%E5%89%A7%E5%88%86%E7%B1%BB"><span class="toc-number">5.2.</span> <span class="toc-text">番剧分类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFOV%E3%80%81OVA%E3%80%81OAD%E7%AD%89%EF%BC%9F"><span class="toc-number">5.3.</span> <span class="toc-text">什么是OV、OVA、OAD等？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%89%A9%E5%B1%95%EF%BC%9AHi10p%E3%80%81BD%E3%80%81X264-flac%E7%AD%89"><span class="toc-number">5.4.</span> <span class="toc-text">扩展：Hi10p、BD、X264_flac等</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%89%A9%E5%B1%95%EF%BC%9A-cue%E6%96%87%E4%BB%B6-tak%E6%96%87%E4%BB%B6-opus%E6%96%87%E4%BB%B6-ehviewer%E6%96%87%E4%BB%B6%E7%AD%89"><span class="toc-number">5.5.</span> <span class="toc-text">扩展：.cue文件.tak文件.opus文件.ehviewer文件等</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9D%A5%E6%BA%90%E9%93%BE%E6%8E%A5%EF%BC%88%E6%84%9F%E8%B0%A2%E4%BB%A5%E4%B8%8B%E4%BC%98%E7%A7%80%E6%96%87%E7%AB%A0%E6%88%96%E8%A7%86%E9%A2%91%EF%BC%89"><span class="toc-number">5.6.</span> <span class="toc-text">来源链接（感谢以下优秀文章或视频）</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/12/14/%E6%A8%A1%E6%9D%BF/" title=" "> </a><time datetime="2025-12-14T06:44:30.000Z" title="发表于 2025-12-14 14:44:30">2025-12-14</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/10/08/%E9%AB%98%E5%8F%AF%E7%94%A8%E9%AB%98%E5%B9%B6%E5%8F%91%E5%90%8E%E7%AB%AF%E6%9E%B6%E6%9E%84%E9%80%9A%E7%94%A8%E8%93%9D%E5%9B%BE/" title="高可用高并发后端架构通用蓝图">高可用高并发后端架构通用蓝图</a><time datetime="2025-10-08T15:42:00.000Z" title="发表于 2025-10-08 23:42:00">2025-10-08</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/10/08/AI%E6%8F%90%E7%A4%BA%E8%AF%8D_%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E7%94%9F%E6%88%90/" title="AI提示词_学习笔记生成">AI提示词_学习笔记生成</a><time datetime="2025-10-08T15:15:00.000Z" title="发表于 2025-10-08 23:15:00">2025-10-08</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/10/08/AI%E6%8F%90%E7%A4%BA%E8%AF%8D_%E8%AF%95%E9%A2%98%E7%94%9F%E6%88%90/" title="AI提示词_试题生成">AI提示词_试题生成</a><time datetime="2025-10-08T15:15:00.000Z" title="发表于 2025-10-08 23:15:00">2025-10-08</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/10/08/Golang_swag/" title="Golang swag 库">Golang swag 库</a><time datetime="2025-10-08T15:07:00.000Z" title="发表于 2025-10-08 23:07:00">2025-10-08</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url(/Image/topImage.jpg);"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2023 - 2025 By 棨</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 8.0.0</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.5.1</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.5.1"></script><script src="/js/main.js?v=5.5.1"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar@0.1.16/dist/snackbar.min.js"></script><div class="js-pjax"><script>(() => {
+  const runMermaid = ele => {
+    window.loadMermaid = true
+    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+    ele.forEach((item, index) => {
+      const mermaidSrc = item.firstElementChild
+      const mermaidThemeConfig = `%%{init:{ 'theme':'${theme}'}}%%\n`
+      const mermaidID = `mermaid-${index}`
+      const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+
+      const renderFn = mermaid.render(mermaidID, mermaidDefinition)
+      const renderMermaid = svg => {
+        mermaidSrc.insertAdjacentHTML('afterend', svg)
+      }
+
+      // mermaid v9 and v10 compatibility
+      typeof renderFn === 'string' ? renderMermaid(renderFn) : renderFn.then(({ svg }) => renderMermaid(svg))
+    })
+  }
+
+  const codeToMermaid = () => {
+    const codeMermaidEle = document.querySelectorAll('pre > code.mermaid')
+    if (codeMermaidEle.length === 0) return
+
+    codeMermaidEle.forEach(ele => {
+      const preEle = document.createElement('pre')
+      preEle.className = 'mermaid-src'
+      preEle.hidden = true
+      preEle.textContent = ele.textContent
+      const newEle = document.createElement('div')
+      newEle.className = 'mermaid-wrap'
+      newEle.appendChild(preEle)
+      ele.parentNode.replaceWith(newEle)
+    })
+  }
+
+  const loadMermaid = () => {
+    if (true) codeToMermaid()
+    const $mermaid = document.querySelectorAll('#article-container .mermaid-wrap')
+    if ($mermaid.length === 0) return
+
+    const runMermaidFn = () => runMermaid($mermaid)
+    btf.addGlobalFn('themeChange', runMermaidFn, 'mermaid')
+    window.loadMermaid ? runMermaidFn() : btf.getScript('https://cdn.jsdelivr.net/npm/mermaid@11.12.0/dist/mermaid.min.js').then(runMermaidFn)
+  }
+
+  btf.addGlobalFn('encrypt', loadMermaid, 'mermaid')
+  window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+})()</script></div><canvas class="fireworks" mobile="false"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/dist/fireworks.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><i class="fas fa-spinner fa-pulse" id="loading-status" hidden="hidden"></i><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="local-search-input"><input placeholder="搜索文章" type="text"/></div><hr/><div id="local-search-results"></div><div class="ais-Pagination" id="local-search-pagination" style="display:none;"><ul class="ais-Pagination-list"></ul></div><div id="local-search-stats"></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=5.5.1"></script></div></div></body></html>

@@ -1,0 +1,282 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>域名解析的类型 | 柊</title><meta name="author" content="棨"><meta name="copyright" content="棨"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#59b9c6"><meta name="description" content="域名解析的类型及作用，A记录、MX记录等。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="域名解析的类型">
+<meta property="og:url" content="https://chaoqijiang.github.io/2024/01/26/%E5%9F%9F%E5%90%8D%E8%A7%A3%E6%9E%90%E7%9A%84%E7%B1%BB%E5%9E%8B/index.html">
+<meta property="og:site_name" content="柊">
+<meta property="og:description" content="域名解析的类型及作用，A记录、MX记录等。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://chaoqijiang.github.io/Image/avatar.png">
+<meta property="article:published_time" content="2024-01-26T06:43:00.000Z">
+<meta property="article:modified_time" content="2025-10-11T16:25:10.431Z">
+<meta property="article:author" content="棨">
+<meta property="article:tag" content="protected">
+<meta property="article:tag" content="域名解析">
+<meta property="article:tag" content="知识杂谈">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://chaoqijiang.github.io/Image/avatar.png"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "域名解析的类型",
+  "url": "https://chaoqijiang.github.io/2024/01/26/%E5%9F%9F%E5%90%8D%E8%A7%A3%E6%9E%90%E7%9A%84%E7%B1%BB%E5%9E%8B/",
+  "image": "https://chaoqijiang.github.io/Image/avatar.png",
+  "datePublished": "2024-01-26T06:43:00.000Z",
+  "dateModified": "2025-10-11T16:25:10.431Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "棨",
+      "url": "https://chaoqijiang.github.io"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://chaoqijiang.github.io/2024/01/26/%E5%9F%9F%E5%90%8D%E8%A7%A3%E6%9E%90%E7%9A%84%E7%B1%BB%E5%9E%8B/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=5.5.1"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar@0.1.16/dist/snackbar.min.css" media="print" onload="this.media='all'"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#59b9c6')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          const hour = new Date().getHours()
+          const isNight = hour <= 6 || hour >= 24
+          if (theme === undefined) isNight ? activateDarkMode() : activateLightMode()
+          else theme === 'light' ? activateLightMode() : activateDarkMode()
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"pagination":{"enable":false,"hitsPerPage":8},"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":30,"highlightFullpage":true,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: {"chs_to_cht":"已切换为繁体中文","cht_to_chs":"已切换为简体中文","day_to_night":"已切换为深色模式","night_to_day":"已切换为浅色模式","bgLight":"#165e83","bgDark":"#507ea4","position":"bottom-left"},
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.12.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '域名解析的类型',
+  isHighlightShrink: false,
+  isToc: false,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 8.0.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/Image/avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">37</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">50</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">33</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴/归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-list"></i><span> 清单</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> Music</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> Movie</span></a></li><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> 链接</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/Image/topImage.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><img class="site-icon" src="/Image/Logo.ico" alt="Logo"><span class="site-name">柊</span></a><a class="nav-page-title" href="/"><span class="site-name">域名解析的类型</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴/归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-list"></i><span> 清单</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> Music</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> Movie</span></a></li><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> 链接</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">域名解析的类型</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-01-26T06:43:00.000Z" title="发表于 2024-01-26 14:43:00">2024-01-26</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-10-11T16:25:10.431Z" title="更新于 2025-10-12 00:25:10">2025-10-12</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E7%9F%A5%E8%AF%86%E6%9D%82%E8%B0%88/">知识杂谈</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E7%9F%A5%E8%AF%86%E6%9D%82%E8%B0%88/%E5%9F%9F%E5%90%8D/">域名</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E7%9F%A5%E8%AF%86%E6%9D%82%E8%B0%88/%E5%9F%9F%E5%90%8D/%E6%8A%80%E6%9C%AF%E6%96%87%E6%A1%A3/">技术文档</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">2.2k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>7分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><pre><code>在DNS（域名系统）中，当你添加DNS记录时，“类型”字段是指你想要创建的具体类型的资源记录（RR, Resource Record）。每种类型的记录都有其特定的目的和格式：
+</code></pre>
+<ol>
+<li><p><strong>A记录</strong> (Address)：将一个完全合格的域名（FQDN）映射到一个IPv4地址。例如，将<code>www.example.com</code>指向<code>192.0.2.1</code>。</p>
+</li>
+<li><p><strong>AAAA记录</strong>：类似于A记录，但用于映射域名到一个IPv6地址。</p>
+</li>
+<li><p><strong>CAA记录</strong> (Certificate Authority Authorization)： CAA记录允许域名所有者指定哪些证书颁发机构（CA）可以为其域名签发SSL&#x2F;TLS证书。这有助于防止未经授权的CA错误或恶意地为您的域名发放证书。</p>
+</li>
+<li><p><strong>CERT记录</strong>： CERT记录用于存储X.509证书或者PKIX证书信息在DNS系统中。这种类型的记录较少使用，主要用于安全相关的应用，比如IPsec和TLS认证等。</p>
+</li>
+<li><p><strong>CNAME记录</strong> (Canonical Name)：别名记录，用于将一个域名指向另一个域名，实际解析会指向目标域名的A或AAAA记录。</p>
+</li>
+<li><p><strong>DNSKEY记录</strong>： DNSKEY记录是DNSSEC（DNS Security Extensions）的一部分，它包含了公钥数据，用于对区域传输和查询响应进行签名验证，以确保DNS数据的完整性和来源的真实性。</p>
+</li>
+<li><p><strong>DS记录</strong> (Delegation Signer)： DS记录也是DNSSEC的一部分，它存在于父域中，引用子域的DNSKEY记录，并提供一个散列值来验证子域的DNSSEC签名链。</p>
+</li>
+<li><p><strong>LOC</strong> (Location)： LOC记录 用于存储地理位置信息。它允许域名所有者将特定的地理坐标与一个域名关联起来。LOC记录包含了经纬度、海拔高度以及精度等信息，主要用于标识网络资源（如服务器或设备）在地球上的具体位置。这种类型的记录在一些特定的应用场景下有用，比如通过DNS查找设备的物理位置，但在日常网站访问和邮件服务等方面并不常见。LOC记录的内容遵循RFC1876的标准格式进行编码。</p>
+</li>
+<li><p><strong>MX记录</strong> (Mail Exchange)：指定处理该域电子邮件的邮件服务器及其优先级。例如，定义<code>example.com</code>的邮件服务器为<code>mail.example.com</code>。</p>
+</li>
+<li><p><strong>NAPTR记录</strong> (Naming Authority Pointer)： NAPTR记录用于支持更复杂的名称转换服务，常用于ENUM（电话号码映射到URI）和其他高级命名方案。</p>
+</li>
+<li><p><strong>NS记录</strong> (Name Server)：指定托管域名区域的DNS名称服务器。</p>
+</li>
+<li><p><strong>PTR记录</strong> (Pointer Record)： PTR记录主要应用于反向DNS解析，将IP地址转换回域名。通常在IPv4的IN-ADDR.ARPA域或IPv6的IP6.ARPA域内使用。</p>
+</li>
+<li><p><strong>SMIMEA</strong>：SMIMEA是DNS记录类型的一种，全称为S&#x2F;MIME证书颁发者授权记录（S&#x2F;MIME Authority Resource Record）。这种记录类型是在RFC8398中定义的，用于支持S&#x2F;MIME（Secure&#x2F;Multipurpose Internet Mail Extensions）邮件加密和签名服务。</p>
+<p>在电子邮件安全领域，S&#x2F;MIME是一种标准，用于加密、签名以及验证电子邮件的内容。SMIMEA记录允许域名所有者指定哪些证书颁发机构（CA）可以为其域内的电子邮件地址签发S&#x2F;MIME证书，类似于CAA记录对TLS&#x2F;SSL证书颁发机构的限制作用。</p>
+<p>当邮件客户端或其他S&#x2F;MIME处理软件需要验证来自某个域名的S&#x2F;MIME证书时，它们可以通过查询该域名的SMIMEA记录来确定是否信任由特定CA颁发的证书。这有助于提高电子邮件通信的安全性并防止未经授权的CA为域名发放证书。</p>
+</li>
+<li><p><strong>SRV记录</strong> (Service Location Record)： SRV记录用来定义特定服务的位置（即哪个主机提供了该服务以及通过哪个端口），如XMPP聊天服务、SIP电话服务等。</p>
+</li>
+<li><p><strong>SSHFP</strong>：SSHFP（Secure Shell Fingerprint）是DNS记录类型的一种，它在RFC 4255中被定义。SSHFP记录用于存储SSH主机密钥的指纹信息，从而允许客户端验证远程SSH服务器的身份。</p>
+<p>当SSH客户端连接到一个SSH服务器时，通常会通过SSHFP记录来验证服务器提供的公钥指纹是否与域名关联的DNS SSHFP记录相匹配。这样可以防止中间人攻击，并确保客户端连接的是预期且合法的SSH服务器。</p>
+<p>SSHFP记录包含三个字段：资源记录类型（固定为SSHFP）、算法类型和指纹类型以及指纹值。其中，算法类型和指纹类型分别表示生成公钥所使用的加密算法和散列函数，而指纹值则是该公钥经过指定散列函数计算后得到的唯一标识符。</p>
+</li>
+<li><p><strong>SVCB</strong>：SVCB（Service Binding and Parameter Specification for DNS）是DNS记录类型的一种，它在RFC 8624中被定义。SVCB记录允许通过DNS提供服务相关的参数和协议绑定信息，以便客户端能够更高效、安全地连接到服务端点。</p>
+<p>SVCB记录主要用于服务发现，它允许发布者指定服务使用的协议版本、端口号、ALPN标识符（Application-Layer Protocol Negotiation）和其他特定于服务的参数。例如，在HTTP&#x2F;3或QUIC协议场景下，SVCB记录可以指示一个域名支持这些新协议，并提供相应的服务端点地址和配置信息。</p>
+<p>这种记录类型对于实现网络服务的快速切换和优化具有重要意义，特别是在互联网基础设施演进的过程中，有助于推动新的传输层协议和技术的部署和使用。</p>
+</li>
+<li><p><strong>TLSA</strong>：TLSA (Transport Layer Security Authentication) 是DNS记录类型的一种，它在RFC 6698和RFC 7671中被定义。TLSA记录主要用于DNS-Based Authentication of Named Entities (DANE) 技术框架，以增强基于SSL&#x2F;TLS协议的网络服务的安全性。</p>
+<p>TLSA记录允许域名所有者通过DNS发布其服务（如HTTPS、SMTP等）所使用的TLS&#x2F;SSL证书或公钥信息。当客户端连接到支持DANE验证的服务时，可以查询相应的TLSA记录来验证服务器提供的证书是否与DNS记录中的数据相匹配，从而减少对传统证书颁发机构（CA）的信任依赖，并防止中间人攻击。</p>
+<p>一个典型的TLSA记录包含了以下四部分：</p>
+<ul>
+<li>资源记录类型：固定为TLSA。</li>
+<li>使用证书的位置：证书用途字段（Cert Usage），如端点身份验证（PKIX-TA）、信任锚证明（PKIX-EE）等。</li>
+<li>匹配类型：指定如何从证书中提取要匹配的数据（完整证书、公共密钥、指纹等）。</li>
+<li>匹配数据：证书的部分内容或指纹，用于与服务器提供的证书进行比对验证。</li>
+</ul>
+</li>
+<li><p><strong>TXT记录</strong>：文本记录，通常用于存储可读的文本信息，也可以用于验证域名所有权（如DKIM、SPF、DMARC记录）或其他服务的验证过程。</p>
+</li>
+<li><p><strong>URI</strong>：URI（Uniform Resource Identifier）统一资源标识符，并不是DNS记录类型，而是一种用于唯一标识互联网上资源的字符串格式标准。URI包括URL（Uniform Resource Locator）和URN（Uniform Resource Name）两种形式。</p>
+<p>在DNS系统中，虽然没有直接称为“URI”的DNS记录类型，但通过结合其他DNS记录类型如CNAME或HTTPREDIRECT（某些DNS服务商提供的非标准扩展记录类型），可以间接实现将域名映射到特定URI的目的。</p>
+<p>例如，当用户访问一个设置为CNAME或其他重定向类型的DNS记录指向的域名时，最终会被重定向到一个具体的URI地址。然而，在DNS层面上，它并不直接处理或存储URI信息，而是处理域名与IP地址或其他域名之间的映射关系。</p>
+</li>
+<li><p><strong>SOA记录</strong> (Start of Authority)： SOA记录标志着一个DNS区域的开始，包含了区域的基本管理信息，例如主名字服务器、电子邮件联系人、序列号、刷新时间等参数。</p>
+</li>
+<li><p><strong>LOC记录</strong> (Location Record)： LOC记录用于存储地理位置坐标信息，比如经纬度、海拔高度等，这样可以通过DNS查找设备或资源的实际位置。</p>
+</li>
+<li><p><strong>SPF记录</strong> (Sender Policy Framework)： SPF记录虽然现在推荐使用TXT记录进行配置，但本质上是用于指定发送邮件的合法IP地址范围，防止伪造邮件源地址。</p>
+</li>
+<li><p><strong>HINFO记录</strong> (Host Information): HINFO记录包含主机的CPU类型和操作系统信息，这个记录类型已不再广泛使用，因为它可能暴露了不必要的安全性信息。</p>
+</li>
+</ol>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://chaoqijiang.github.io">棨</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://chaoqijiang.github.io/2024/01/26/%E5%9F%9F%E5%90%8D%E8%A7%A3%E6%9E%90%E7%9A%84%E7%B1%BB%E5%9E%8B/">https://chaoqijiang.github.io/2024/01/26/域名解析的类型/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://chaoqijiang.github.io" target="_blank">柊</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/protected/">protected</a><a class="post-meta__tags" href="/tags/%E7%9F%A5%E8%AF%86%E6%9D%82%E8%B0%88/">知识杂谈</a><a class="post-meta__tags" href="/tags/%E5%9F%9F%E5%90%8D%E8%A7%A3%E6%9E%90/">域名解析</a></div><div class="post-share"><div class="social-share" data-image="/Image/avatar.png" data-sites="facebook,x,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2024/01/14/%E9%A1%B9%E7%9B%AE%E8%AF%B4%E6%98%8E_One-KVM%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/" title="One-KVM使用指南"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">One-KVM使用指南</div></div><div class="info-2"><div class="info-item-1">基于玩客云硬件和OneKVM软件打造的远控设备，帮助用户通过得到控制设备的HDMI 画面和鼠标键盘，去远程管理服务器、工作站或个人PC等。 和基于软件的远程管理方式不同，你无需在被控电脑安装任何软件，做到无侵入式控制。</div></div></div></a><a class="pagination-related" href="/2024/01/26/%E7%8E%A9%E5%AE%A2%E4%BA%91%E9%83%A8%E7%BD%B2java%E7%8E%AF%E5%A2%83/" title="玩客云部署java环境"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">玩客云部署java环境</div></div><div class="info-2"><div class="info-item-1">玩客云部署java环境</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2024/01/31/linux%E4%B8%8B%E9%80%9A%E8%BF%87CURL%E5%AE%9E%E7%8E%B0%E8%87%AA%E5%8A%A8%E7%AD%BE%E5%88%B0%E5%8A%9F%E8%83%BD/" title="linux下通过CURL实现自动签到功能"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-01-31</div><div class="info-item-2">linux下通过CURL实现自动签到功能</div></div><div class="info-2"><div class="info-item-1">linux下通过CURL实现自动签到功能</div></div></div></a><a class="pagination-related" href="/2023/11/17/%E4%BA%8C%E6%89%8B%E7%A1%AC%E7%9B%98%E9%80%89%E8%B4%AD%E6%89%BE%E5%9D%A1%E6%8C%87%E5%8D%97/" title="二手硬盘选购找坡指南"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2023-11-17</div><div class="info-item-2">二手硬盘选购找坡指南</div></div><div class="info-2"><div class="info-item-1">二手硬盘选购找坡指南</div></div></div></a><a class="pagination-related" href="/2024/06/24/%E5%AF%B9%E8%AE%B2%E6%9C%BA%E7%9A%84%E5%B8%B8%E7%94%A8%E5%8A%9F%E8%83%BD%E6%9C%AF%E8%AF%AD/" title="对讲机的常用功能术语"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-06-24</div><div class="info-item-2">对讲机的常用功能术语</div></div><div class="info-2"><div class="info-item-1">对讲机的常用功能术语</div></div></div></a><a class="pagination-related" href="/2024/06/24/%E6%B3%89%E7%9B%9BUVk5%E5%AF%B9%E8%AE%B2%E6%9C%BA%E7%AE%80%E6%98%93%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/" title="泉盛UVk5对讲机简易使用指南"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-06-24</div><div class="info-item-2">泉盛UVk5对讲机简易使用指南</div></div><div class="info-2"><div class="info-item-1">泉盛UVk5对讲机简易使用指南</div></div></div></a><a class="pagination-related" href="/2023/08/10/%E8%A7%86%E9%A2%91%E6%A0%BC%E5%BC%8F%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/" title="视频格式基础知识"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2023-08-10</div><div class="info-item-2">视频格式基础知识</div></div><div class="info-2"><div class="info-item-1">视频格式基础知识</div></div></div></a><a class="pagination-related" href="/2025/10/08/AI%E6%8F%90%E7%A4%BA%E8%AF%8D_%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E7%94%9F%E6%88%90/" title="AI提示词_学习笔记生成"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-10-08</div><div class="info-item-2">AI提示词_学习笔记生成</div></div><div class="info-2"><div class="info-item-1">AI提示词，用于引导AI生成学习笔记，根据提示的设定，对没有基础背景背景的小白生成学习笔记。</div></div></div></a></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/Image/avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">棨</div><div class="author-info-description"></div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">37</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">50</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">33</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="mailto:chaoqijiang@outlook.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/12/14/%E6%A8%A1%E6%9D%BF/" title=" "> </a><time datetime="2025-12-14T06:44:30.000Z" title="发表于 2025-12-14 14:44:30">2025-12-14</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/10/08/%E9%AB%98%E5%8F%AF%E7%94%A8%E9%AB%98%E5%B9%B6%E5%8F%91%E5%90%8E%E7%AB%AF%E6%9E%B6%E6%9E%84%E9%80%9A%E7%94%A8%E8%93%9D%E5%9B%BE/" title="高可用高并发后端架构通用蓝图">高可用高并发后端架构通用蓝图</a><time datetime="2025-10-08T15:42:00.000Z" title="发表于 2025-10-08 23:42:00">2025-10-08</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/10/08/AI%E6%8F%90%E7%A4%BA%E8%AF%8D_%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E7%94%9F%E6%88%90/" title="AI提示词_学习笔记生成">AI提示词_学习笔记生成</a><time datetime="2025-10-08T15:15:00.000Z" title="发表于 2025-10-08 23:15:00">2025-10-08</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/10/08/AI%E6%8F%90%E7%A4%BA%E8%AF%8D_%E8%AF%95%E9%A2%98%E7%94%9F%E6%88%90/" title="AI提示词_试题生成">AI提示词_试题生成</a><time datetime="2025-10-08T15:15:00.000Z" title="发表于 2025-10-08 23:15:00">2025-10-08</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/10/08/Golang_swag/" title="Golang swag 库">Golang swag 库</a><time datetime="2025-10-08T15:07:00.000Z" title="发表于 2025-10-08 23:07:00">2025-10-08</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url(/Image/topImage.jpg);"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2023 - 2025 By 棨</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 8.0.0</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.5.1</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.5.1"></script><script src="/js/main.js?v=5.5.1"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar@0.1.16/dist/snackbar.min.js"></script><div class="js-pjax"><script>(() => {
+  const runMermaid = ele => {
+    window.loadMermaid = true
+    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+    ele.forEach((item, index) => {
+      const mermaidSrc = item.firstElementChild
+      const mermaidThemeConfig = `%%{init:{ 'theme':'${theme}'}}%%\n`
+      const mermaidID = `mermaid-${index}`
+      const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+
+      const renderFn = mermaid.render(mermaidID, mermaidDefinition)
+      const renderMermaid = svg => {
+        mermaidSrc.insertAdjacentHTML('afterend', svg)
+      }
+
+      // mermaid v9 and v10 compatibility
+      typeof renderFn === 'string' ? renderMermaid(renderFn) : renderFn.then(({ svg }) => renderMermaid(svg))
+    })
+  }
+
+  const codeToMermaid = () => {
+    const codeMermaidEle = document.querySelectorAll('pre > code.mermaid')
+    if (codeMermaidEle.length === 0) return
+
+    codeMermaidEle.forEach(ele => {
+      const preEle = document.createElement('pre')
+      preEle.className = 'mermaid-src'
+      preEle.hidden = true
+      preEle.textContent = ele.textContent
+      const newEle = document.createElement('div')
+      newEle.className = 'mermaid-wrap'
+      newEle.appendChild(preEle)
+      ele.parentNode.replaceWith(newEle)
+    })
+  }
+
+  const loadMermaid = () => {
+    if (true) codeToMermaid()
+    const $mermaid = document.querySelectorAll('#article-container .mermaid-wrap')
+    if ($mermaid.length === 0) return
+
+    const runMermaidFn = () => runMermaid($mermaid)
+    btf.addGlobalFn('themeChange', runMermaidFn, 'mermaid')
+    window.loadMermaid ? runMermaidFn() : btf.getScript('https://cdn.jsdelivr.net/npm/mermaid@11.12.0/dist/mermaid.min.js').then(runMermaidFn)
+  }
+
+  btf.addGlobalFn('encrypt', loadMermaid, 'mermaid')
+  window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+})()</script></div><canvas class="fireworks" mobile="false"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/dist/fireworks.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><i class="fas fa-spinner fa-pulse" id="loading-status" hidden="hidden"></i><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="local-search-input"><input placeholder="搜索文章" type="text"/></div><hr/><div id="local-search-results"></div><div class="ais-Pagination" id="local-search-pagination" style="display:none;"><ul class="ais-Pagination-list"></ul></div><div id="local-search-stats"></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=5.5.1"></script></div></div></body></html>
