@@ -1,0 +1,285 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>linux中的标准错误、标准输出以及标准输入 | 柊</title><meta name="author" content="棨"><meta name="copyright" content="棨"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#59b9c6"><meta name="description" content="linux中的标准错误、标准输出以及标准输入">
+<meta property="og:type" content="article">
+<meta property="og:title" content="linux中的标准错误、标准输出以及标准输入">
+<meta property="og:url" content="https://chaoqijiang.github.io/2024/04/11/linux%E4%B8%AD%E7%9A%84%E6%A0%87%E5%87%86%E9%94%99%E8%AF%AF%E3%80%81%E6%A0%87%E5%87%86%E8%BE%93%E5%87%BA%E4%BB%A5%E5%8F%8A%E6%A0%87%E5%87%86%E8%BE%93%E5%85%A5/index.html">
+<meta property="og:site_name" content="柊">
+<meta property="og:description" content="linux中的标准错误、标准输出以及标准输入">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://chaoqijiang.github.io/Image/avatar.png">
+<meta property="article:published_time" content="2024-04-11T02:04:00.000Z">
+<meta property="article:modified_time" content="2025-10-19T14:36:22.070Z">
+<meta property="article:author" content="棨">
+<meta property="article:tag" content="AI">
+<meta property="article:tag" content="Linux">
+<meta property="article:tag" content="protected">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://chaoqijiang.github.io/Image/avatar.png"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "linux中的标准错误、标准输出以及标准输入",
+  "url": "https://chaoqijiang.github.io/2024/04/11/linux%E4%B8%AD%E7%9A%84%E6%A0%87%E5%87%86%E9%94%99%E8%AF%AF%E3%80%81%E6%A0%87%E5%87%86%E8%BE%93%E5%87%BA%E4%BB%A5%E5%8F%8A%E6%A0%87%E5%87%86%E8%BE%93%E5%85%A5/",
+  "image": "https://chaoqijiang.github.io/Image/avatar.png",
+  "datePublished": "2024-04-11T02:04:00.000Z",
+  "dateModified": "2025-10-19T14:36:22.070Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "棨",
+      "url": "https://chaoqijiang.github.io"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://chaoqijiang.github.io/2024/04/11/linux%E4%B8%AD%E7%9A%84%E6%A0%87%E5%87%86%E9%94%99%E8%AF%AF%E3%80%81%E6%A0%87%E5%87%86%E8%BE%93%E5%87%BA%E4%BB%A5%E5%8F%8A%E6%A0%87%E5%87%86%E8%BE%93%E5%85%A5/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=5.5.1"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar@0.1.16/dist/snackbar.min.css" media="print" onload="this.media='all'"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#59b9c6')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          const hour = new Date().getHours()
+          const isNight = hour <= 24 || hour >= 24
+          if (theme === undefined) isNight ? activateDarkMode() : activateLightMode()
+          else theme === 'light' ? activateLightMode() : activateDarkMode()
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.json","preload":false,"top_n_per_article":1,"unescape":false,"pagination":{"enable":false,"hitsPerPage":8},"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":30,"highlightFullpage":true,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: {"chs_to_cht":"已切换为繁体中文","cht_to_chs":"已切换为简体中文","day_to_night":"已切换为深色模式","night_to_day":"已切换为浅色模式","bgLight":"#165e83","bgDark":"#507ea4","position":"bottom-left"},
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.12.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'linux中的标准错误、标准输出以及标准输入',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 8.0.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/Image/avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">56</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">62</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">44</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴/归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-list"></i><span> 清单</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> Music</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> Movie</span></a></li><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> 链接</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/Image/topImage.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><img class="site-icon" src="/Image/Logo.ico" alt="Logo"><span class="site-name">柊</span></a><a class="nav-page-title" href="/"><span class="site-name">linux中的标准错误、标准输出以及标准输入</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴/归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-list"></i><span> 清单</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> Music</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> Movie</span></a></li><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> 链接</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">linux中的标准错误、标准输出以及标准输入</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-04-11T02:04:00.000Z" title="发表于 2024-04-11 10:04:00">2024-04-11</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-10-19T14:36:22.070Z" title="更新于 2025-10-19 22:36:22">2025-10-19</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Linux/">Linux</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">2k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>6分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>在Linux和其他类Unix系统中，有三个预定义的标准文件描述符（File Descriptors, FDs），它们分别对应于程序的三种基本输入&#x2F;输出流：</p>
+<ol>
+<li><p>标准输入（Standard Input, stdin）：</p>
+<ul>
+<li>文件描述符：0</li>
+<li>作用：提供程序所需的数据输入。默认情况下，它连接到键盘，允许用户或脚本通过键盘向程序输入文本或其他数据。</li>
+</ul>
+</li>
+<li><p>标准输出（Standard Output, stdout）：</p>
+<ul>
+<li>文件描述符：1</li>
+<li>作用：用于程序的常规输出，如打印信息、结果显示等。默认情况下，标准输出的内容会被显示在终端屏幕上。程序可以通过标准输出流来传达其执行过程中的信息、计算结果等。</li>
+</ul>
+</li>
+<li><p>标准错误（Standard Error, stderr）：</p>
+<ul>
+<li>文件描述符：2</li>
+<li>作用：专门用于输出错误信息、警告和诊断消息。与标准输出分离，其目的是即使标准输出被重定向到文件或其他位置，错误信息仍然能独立显示在终端上，确保用户能够及时注意到程序运行过程中可能出现的问题，而不会因为重定向操作而丢失这些重要信息。</li>
+</ul>
+</li>
+</ol>
+<p><strong>区别与作用</strong>：</p>
+<ul>
+<li>标准输入使得程序可以从外部接收数据，例如从键盘、管道、文件或其他进程。</li>
+<li>标准输出用于程序的正常输出，通常包含程序的主要结果或执行状态信息。</li>
+<li>标准错误则专用于报告问题和异常情况，与标准输出分开处理，确保无论标准输出如何重定向，错误信息都能直达用户，有助于调试和问题定位。</li>
+</ul>
+<h2 id="应用解决方案"><a href="#应用解决方案" class="headerlink" title="应用解决方案"></a>应用解决方案</h2><h3 id="重定向标准错误到标准输出中"><a href="#重定向标准错误到标准输出中" class="headerlink" title="重定向标准错误到标准输出中"></a>重定向标准错误到标准输出中</h3><p>有时候我只需要匹配其中部分的字符，由于标准错误与标准输出是分开的，<strong>无论如何重定向错误信息都能直达用户</strong>,为了只输出所需要的值，可以将标准错误强制输出到标准输出中。<code>2&gt;&amp;1</code></p>
+<p><strong><code>2&gt;&amp;1</code> 命令的作用</strong>： <code>2&gt;&amp;1</code> 是一种重定向操作，用来将标准错误（FD 2）输出重定向到与标准输出（FD 1）相同的位置。具体来说：</p>
+<ul>
+<li><code>&gt;</code> 是重定向运算符，用于将一个流（如标准输出或标准错误）的内容发送到另一个位置，如文件或另一个文件描述符。</li>
+<li><strong><code>2&gt;</code></strong>：如果单独使用 <code>2&gt;</code>，后面通常会跟一个文件路径，表示将标准错误输出重定向到指定的文件。例如，<code>command 2&gt; error.log</code> 会将 <code>command</code> 执行过程中的错误信息写入 <code>error.log</code> 文件。</li>
+<li><strong><code>&amp;1</code></strong>：这里的 <code>&amp;1</code> 并不是指代一个具体的文件路径，而是表示标准输出（FD 1）的当前指向。实际上，<code>&amp;</code> 后面跟一个数字（如 <code>1</code> 或 <code>2</code>）代表对相应文件描述符的引用。在 <code>2&gt;&amp;1</code> 中，<code>&amp;1</code> 意味着“当前标准输出的位置”。</li>
+<li><strong><code>2&gt;&amp;1</code></strong>：结合起来，<code>2&gt;&amp;1</code> 就表示“将标准错误输出重定向到标准输出的位置”。由于标准输出通常默认指向终端，所以 <code>2&gt;&amp;1</code> 的效果通常是将标准错误输出合并到标准输出中，两者都会显示在终端上。如果标准输出已经被重定向到文件，那么标准错误输出也会被写入同一文件。</li>
+</ul>
+<p>组合起来，<code>2&gt;&amp;1</code> 的含义是：将标准错误输出“连接”到标准输出所在的位置。当这个重定向操作应用于命令行时，会产生以下效果：</p>
+<ul>
+<li>如果标准输出已经被重定向到一个文件（如 <code>command &gt; output.txt</code>），那么 <code>2&gt;&amp;1</code> 会使标准错误也同样被写入到 <code>output.txt</code> 文件，使得错误信息和正常输出混在一起记录在同一文件中。</li>
+<li>如果标准输出直接显示在终端（默认情况），那么 <code>2&gt;&amp;1</code> 会让标准错误信息也显示在终端上，与标准输出混排，看起来就像所有的输出都是从同一个源头产生的。</li>
+</ul>
+<p>使用 <code>2&gt;&amp;1</code> 的常见场景包括：</p>
+<ul>
+<li><strong>合并输出</strong>：当您希望将命令的所有输出（正常输出和错误输出）合并在一起显示或保存时，可以使用 <code>2&gt;&amp;1</code>。例如，<code>command 2&gt;&amp;1 &gt; output.log</code> 会将 <code>command</code> 的所有输出（包括错误信息）保存到 <code>output.log</code> 文件。</li>
+<li><strong>过滤错误信息</strong>：当您想通过管道 (<code>|</code>) 将命令的错误信息与其他命令（如 <code>grep</code>、<code>sed</code> 等）一起处理时，可以使用 <code>2&gt;&amp;1</code>。如您之前的问题中，<code>upsc tgbox850@localhost 2&gt;&amp;1 | sed &#39;/^Init SSL/d&#39;</code> 就是将标准错误与标准输出合并，以便 <code>sed</code> 命令能够处理所有输出。</li>
+</ul>
+<p>总之，<code>2&gt;&amp;1</code> 的主要作用是合并标准错误和标准输出，使得它们可以被一起处理（如重定向到同一文件、管道传递给其他命令等）。这在需要集中查看或分析一个命令或脚本的所有输出（包括错误信息）时非常有用，或者在自动化脚本中确保所有输出都被一致地处理。</p>
+<h3 id="将调试信息输出到标准错误中"><a href="#将调试信息输出到标准错误中" class="headerlink" title="将调试信息输出到标准错误中"></a>将调试信息输出到标准错误中</h3><p>在编写Shell脚本时，要将调试（debug）信息输出到标准错误（stderr）中，您可以使用特殊的文件描述符 <code>2</code> 或者相关的重定向符号，以确保这些信息与正常的程序输出（stdout）分离，并且即使在标准输出被重定向的情况下也能在终端上显示。以下是一些方法：</p>
+<p><strong>方法一：使用 <code>&gt;&amp;2</code> 重定向</strong></p>
+<p>在Shell脚本中，您可以在echo、printf等命令前加上 <code>&gt;&amp;2</code>，将输出定向到标准错误：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Debug message example</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;Debug: This is a debug message.&quot;</span> &gt;&amp;2</span><br></pre></td></tr></table></figure>
+
+<p>在这个例子中，<code>echo</code> 命令原本会将字符串输出到标准输出（FD 1），但加上 <code>&gt;&amp;2</code> 后，其输出被重定向到了标准错误（FD 2）。</p>
+<p><strong>方法二：使用 <code>echo</code> 或 <code>printf</code> 的 <code>-e</code> 和 <code>stderr</code> 参数（如果支持）</strong></p>
+<p>某些版本的 <code>echo</code> 或 <code>printf</code> 可能支持直接指定输出到标准错误。例如，使用 <code>printf</code> 的 <code>-v</code> 参数（如果您的Shell版本支持）：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Debug message example using printf and -v stderr</span></span><br><span class="line"><span class="built_in">printf</span> <span class="string">&quot;%s\n&quot;</span> <span class="string">&quot;Debug: This is a debug message.&quot;</span> -v stderr &gt;&amp;2</span><br></pre></td></tr></table></figure>
+
+<p><strong>方法三：使用 <code>exec</code> 命令</strong></p>
+<p>如果您希望脚本中所有的调试信息都自动发送到标准错误，可以使用 <code>exec</code> 命令在脚本开头重新定义 <code>echo</code> 或 <code>printf</code> 函数，使其默认输出到标准错误：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Redefine echo to always output to stderr</span></span><br><span class="line"><span class="built_in">exec</span> <span class="function"><span class="title">echo</span></span> () &#123; <span class="built_in">builtin</span> <span class="built_in">echo</span> <span class="string">&quot;<span class="variable">$@</span>&quot;</span> &gt;&amp;2; &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># Now use echo as usual; debug messages will go to stderr</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;Debug: This is a debug message.&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>请注意，这种方法可能会影响脚本中所有后续的 <code>echo</code> 命令，除非您特意恢复其原始行为。</p>
+<p><strong>方法四：使用自定义函数或变量</strong></p>
+<p>为了更清晰地管理调试信息，可以创建一个专用函数或使用一个特殊的变量来封装调试输出逻辑：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Define a debug function</span></span><br><span class="line"><span class="function"><span class="title">debug</span></span>() &#123;</span><br><span class="line">  <span class="built_in">echo</span> <span class="string">&quot;Debug: $*&quot;</span> &gt;&amp;2</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># Use the debug function throughout your script</span></span><br><span class="line">debug <span class="string">&quot;This is a debug message.&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>或者使用变量：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Set debug mode</span></span><br><span class="line">DEBUG=<span class="literal">true</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Use the DEBUG variable to conditionally output debug messages</span></span><br><span class="line"><span class="keyword">if</span> [ <span class="string">&quot;<span class="variable">$DEBUG</span>&quot;</span> = <span class="literal">true</span> ]; <span class="keyword">then</span></span><br><span class="line">  <span class="built_in">echo</span> <span class="string">&quot;Debug: This is a debug message.&quot;</span> &gt;&amp;2</span><br><span class="line"><span class="keyword">fi</span></span><br></pre></td></tr></table></figure>
+
+<p>以上就是在Shell脚本中将调试信息输出到标准错误的几种常见方法。选择适合您需求的方式，确保调试信息能够清晰地与标准输出区分，并在需要时方便地查看或过滤。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://chaoqijiang.github.io">棨</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://chaoqijiang.github.io/2024/04/11/linux%E4%B8%AD%E7%9A%84%E6%A0%87%E5%87%86%E9%94%99%E8%AF%AF%E3%80%81%E6%A0%87%E5%87%86%E8%BE%93%E5%87%BA%E4%BB%A5%E5%8F%8A%E6%A0%87%E5%87%86%E8%BE%93%E5%85%A5/">https://chaoqijiang.github.io/2024/04/11/linux中的标准错误、标准输出以及标准输入/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://chaoqijiang.github.io" target="_blank">柊</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/AI/">AI</a><a class="post-meta__tags" href="/tags/protected/">protected</a><a class="post-meta__tags" href="/tags/Linux/">Linux</a></div><div class="post-share"><div class="social-share" data-image="/Image/avatar.png" data-sites="facebook,x,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2024/03/29/WiFiDuck_%E4%BF%AE%E6%94%B9%E6%88%90%E4%B8%BA%E8%BF%9E%E6%8E%A5%E5%88%B0%E6%8C%87%E5%AE%9A%E7%9A%84WiFi/" title="WiFiDuck_修改成为连接到指定的WiFi"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">WiFiDuck_修改成为连接到指定的WiFi</div></div><div class="info-2"><div class="info-item-1">WiFiDuck_修改成为连接到指定的WiFi</div></div></div></a><a class="pagination-related" href="/2024/04/22/Office%E6%93%8D%E4%BD%9C%E6%8C%87%E5%8D%97/" title="Office操作指南"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">Office操作指南</div></div><div class="info-2"><div class="info-item-1">Office操作指南</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2025/05/04/Armbian%E7%B3%BB%E7%BB%9F%E4%BD%BF%E7%94%A8RNDIS%E5%8D%8F%E8%AE%AE%E8%BF%9B%E8%A1%8C%E4%B8%8A%E7%BD%91/" title="Armbian系统使用RNDIS协议进行上网"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-05-04</div><div class="info-item-2">Armbian系统使用RNDIS协议进行上网</div></div><div class="info-2"><div class="info-item-1">Armbian系统使用RNDIS协议进行上网</div></div></div></a><a class="pagination-related" href="/2024/01/14/Linux%E7%B3%BB%E7%BB%9F%E6%9F%A5%E8%AF%A2%E8%AE%BE%E5%A4%87%E7%9A%84%E8%AF%A6%E7%BB%86%E4%BF%A1%E6%81%AF/" title="Linux系统查询设备的详细信息"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-01-14</div><div class="info-item-2">Linux系统查询设备的详细信息</div></div><div class="info-2"><div class="info-item-1">Linux系统下查询设备的详细信息</div></div></div></a><a class="pagination-related" href="/2025/10/08/AI%E6%8F%90%E7%A4%BA%E8%AF%8D_%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E7%94%9F%E6%88%90/" title="AI提示词_学习笔记生成"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-10-08</div><div class="info-item-2">AI提示词_学习笔记生成</div></div><div class="info-2"><div class="info-item-1">AI提示词，用于引导AI生成学习笔记，根据提示的设定，对没有基础背景背景的小白生成学习笔记。</div></div></div></a><a class="pagination-related" href="/2025/10/08/AI%E6%8F%90%E7%A4%BA%E8%AF%8D_%E8%AF%95%E9%A2%98%E7%94%9F%E6%88%90/" title="AI提示词_试题生成"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-10-08</div><div class="info-item-2">AI提示词_试题生成</div></div><div class="info-2"><div class="info-item-1">AI提示词，用于根据提示信息生成对应的试题，帮助学习者检验理解深度。</div></div></div></a><a class="pagination-related" href="/2025/10/06/Golang_validator/" title="Golang validator 库"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-10-06</div><div class="info-item-2">Golang validator 库</div></div><div class="info-2"><div class="info-item-1">主要讲解如何在Go中使用validator库进行数据验证。通过一系列章节，你将学会如何使用validator库来确保你的数据符合预期。从基本的验证规则到自定义的验证函数，再到处理错误信息的高级技巧，本教程将带你一步步深入学习。validator 是一个非常强大的库，它可以帮助你确保你的数据在进入程序之前就已经是干净、合规的。让我们一起开始这段学习之旅吧！</div></div></div></a><a class="pagination-related" href="/2025/10/08/Golang_swag/" title="Golang swag 库"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-10-08</div><div class="info-item-2">Golang swag 库</div></div><div class="info-2"><div class="info-item-1">Go swag 从入门到实践，带你一步步掌握如何自动生成 API 文档。从安装、使用注解到理解其工作原理，再到常见问题的解决，让你轻松应对团队协作中的文档需求。</div></div></div></a></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/Image/avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">棨</div><div class="author-info-description"></div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">56</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">62</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">44</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="mailto:chaoqijiang@outlook.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A6%82%E8%BF%B0"><span class="toc-number">1.</span> <span class="toc-text">概述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BA%94%E7%94%A8%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="toc-number">2.</span> <span class="toc-text">应用解决方案</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%87%8D%E5%AE%9A%E5%90%91%E6%A0%87%E5%87%86%E9%94%99%E8%AF%AF%E5%88%B0%E6%A0%87%E5%87%86%E8%BE%93%E5%87%BA%E4%B8%AD"><span class="toc-number">2.1.</span> <span class="toc-text">重定向标准错误到标准输出中</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B0%86%E8%B0%83%E8%AF%95%E4%BF%A1%E6%81%AF%E8%BE%93%E5%87%BA%E5%88%B0%E6%A0%87%E5%87%86%E9%94%99%E8%AF%AF%E4%B8%AD"><span class="toc-number">2.2.</span> <span class="toc-text">将调试信息输出到标准错误中</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/10/12/Hexo%E6%96%B0%E5%A2%9E%E5%88%86%E7%B1%BB%E6%A0%87%E7%AD%BE%E4%B8%8E%E8%87%AA%E5%AE%9A%E4%B9%89%E9%A1%B5%E9%9D%A2%E8%AF%A6%E8%A7%A3/" title="Hexo 新增分类、标签与自定义页面详解">Hexo 新增分类、标签与自定义页面详解</a><time datetime="2025-10-12T05:46:03.000Z" title="发表于 2025-10-12 13:46:03">2025-10-12</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/10/08/%E9%AB%98%E5%8F%AF%E7%94%A8%E9%AB%98%E5%B9%B6%E5%8F%91%E5%90%8E%E7%AB%AF%E6%9E%B6%E6%9E%84%E9%80%9A%E7%94%A8%E8%93%9D%E5%9B%BE/" title="高可用高并发后端架构通用蓝图">高可用高并发后端架构通用蓝图</a><time datetime="2025-10-08T15:42:00.000Z" title="发表于 2025-10-08 23:42:00">2025-10-08</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/10/08/AI%E6%8F%90%E7%A4%BA%E8%AF%8D_%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E7%94%9F%E6%88%90/" title="AI提示词_学习笔记生成">AI提示词_学习笔记生成</a><time datetime="2025-10-08T15:15:00.000Z" title="发表于 2025-10-08 23:15:00">2025-10-08</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/10/08/AI%E6%8F%90%E7%A4%BA%E8%AF%8D_%E8%AF%95%E9%A2%98%E7%94%9F%E6%88%90/" title="AI提示词_试题生成">AI提示词_试题生成</a><time datetime="2025-10-08T15:15:00.000Z" title="发表于 2025-10-08 23:15:00">2025-10-08</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/10/08/Golang_swag/" title="Golang swag 库">Golang swag 库</a><time datetime="2025-10-08T15:07:00.000Z" title="发表于 2025-10-08 23:07:00">2025-10-08</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url(/Image/topImage.jpg);"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2023 - 2025 By 棨</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 8.0.0</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.5.1</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.5.1"></script><script src="/js/main.js?v=5.5.1"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar@0.1.16/dist/snackbar.min.js"></script><div class="js-pjax"><script>(() => {
+  const runMermaid = ele => {
+    window.loadMermaid = true
+    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+    ele.forEach((item, index) => {
+      const mermaidSrc = item.firstElementChild
+      const mermaidThemeConfig = `%%{init:{ 'theme':'${theme}'}}%%\n`
+      const mermaidID = `mermaid-${index}`
+      const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+
+      const renderFn = mermaid.render(mermaidID, mermaidDefinition)
+      const renderMermaid = svg => {
+        mermaidSrc.insertAdjacentHTML('afterend', svg)
+      }
+
+      // mermaid v9 and v10 compatibility
+      typeof renderFn === 'string' ? renderMermaid(renderFn) : renderFn.then(({ svg }) => renderMermaid(svg))
+    })
+  }
+
+  const codeToMermaid = () => {
+    const codeMermaidEle = document.querySelectorAll('pre > code.mermaid')
+    if (codeMermaidEle.length === 0) return
+
+    codeMermaidEle.forEach(ele => {
+      const preEle = document.createElement('pre')
+      preEle.className = 'mermaid-src'
+      preEle.hidden = true
+      preEle.textContent = ele.textContent
+      const newEle = document.createElement('div')
+      newEle.className = 'mermaid-wrap'
+      newEle.appendChild(preEle)
+      ele.parentNode.replaceWith(newEle)
+    })
+  }
+
+  const loadMermaid = () => {
+    if (true) codeToMermaid()
+    const $mermaid = document.querySelectorAll('#article-container .mermaid-wrap')
+    if ($mermaid.length === 0) return
+
+    const runMermaidFn = () => runMermaid($mermaid)
+    btf.addGlobalFn('themeChange', runMermaidFn, 'mermaid')
+    window.loadMermaid ? runMermaidFn() : btf.getScript('https://cdn.jsdelivr.net/npm/mermaid@11.12.0/dist/mermaid.min.js').then(runMermaidFn)
+  }
+
+  btf.addGlobalFn('encrypt', loadMermaid, 'mermaid')
+  window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+})()</script></div><canvas class="fireworks" mobile="false"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/dist/fireworks.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><i class="fas fa-spinner fa-pulse" id="loading-status" hidden="hidden"></i><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="local-search-input"><input placeholder="搜索文章" type="text"/></div><hr/><div id="local-search-results"></div><div class="ais-Pagination" id="local-search-pagination" style="display:none;"><ul class="ais-Pagination-list"></ul></div><div id="local-search-stats"></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=5.5.1"></script></div></div></body></html>

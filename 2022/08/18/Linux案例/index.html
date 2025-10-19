@@ -1,0 +1,666 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Linux基础案例 | 柊</title><meta name="author" content="棨"><meta name="copyright" content="棨"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#59b9c6"><meta name="description" content="Linux案例学习笔记。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux基础案例">
+<meta property="og:url" content="https://chaoqijiang.github.io/2022/08/18/Linux%E6%A1%88%E4%BE%8B/index.html">
+<meta property="og:site_name" content="柊">
+<meta property="og:description" content="Linux案例学习笔记。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://chaoqijiang.github.io/Image/avatar.png">
+<meta property="article:published_time" content="2022-08-18T06:34:08.000Z">
+<meta property="article:modified_time" content="2025-10-19T14:35:46.570Z">
+<meta property="article:author" content="棨">
+<meta property="article:tag" content="Linux">
+<meta property="article:tag" content="protected">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://chaoqijiang.github.io/Image/avatar.png"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Linux基础案例",
+  "url": "https://chaoqijiang.github.io/2022/08/18/Linux%E6%A1%88%E4%BE%8B/",
+  "image": "https://chaoqijiang.github.io/Image/avatar.png",
+  "datePublished": "2022-08-18T06:34:08.000Z",
+  "dateModified": "2025-10-19T14:35:46.570Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "棨",
+      "url": "https://chaoqijiang.github.io"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://chaoqijiang.github.io/2022/08/18/Linux%E6%A1%88%E4%BE%8B/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=5.5.1"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar@0.1.16/dist/snackbar.min.css" media="print" onload="this.media='all'"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#59b9c6')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          const hour = new Date().getHours()
+          const isNight = hour <= 24 || hour >= 24
+          if (theme === undefined) isNight ? activateDarkMode() : activateLightMode()
+          else theme === 'light' ? activateLightMode() : activateDarkMode()
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.json","preload":false,"top_n_per_article":1,"unescape":false,"pagination":{"enable":false,"hitsPerPage":8},"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":30,"highlightFullpage":true,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: {"chs_to_cht":"已切换为繁体中文","cht_to_chs":"已切换为简体中文","day_to_night":"已切换为深色模式","night_to_day":"已切换为浅色模式","bgLight":"#165e83","bgDark":"#507ea4","position":"bottom-left"},
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.12.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Linux基础案例',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 8.0.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/Image/avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">56</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">62</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">44</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴/归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-list"></i><span> 清单</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> Music</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> Movie</span></a></li><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> 链接</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/Image/topImage.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><img class="site-icon" src="/Image/Logo.ico" alt="Logo"><span class="site-name">柊</span></a><a class="nav-page-title" href="/"><span class="site-name">Linux基础案例</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴/归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-list"></i><span> 清单</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> Music</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> Movie</span></a></li><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> 链接</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">Linux基础案例</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-08-18T06:34:08.000Z" title="发表于 2022-08-18 14:34:08">2022-08-18</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-10-19T14:35:46.570Z" title="更新于 2025-10-19 22:35:46">2025-10-19</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Linux/">Linux</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">4.7k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>17分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h1 id="案例"><a href="#案例" class="headerlink" title="案例"></a>案例</h1><h2 id="设置全局代理"><a href="#设置全局代理" class="headerlink" title="设置全局代理"></a>设置全局代理</h2><p>Linux系统设置全局代理（http代理，socks代理）</p>
+<h3 id="临时"><a href="#临时" class="headerlink" title="临时"></a>临时</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">export</span> http_proxy=http://ip:port</span><br><span class="line"><span class="built_in">export</span> https_proxy=http://ip:port</span><br><span class="line"></span><br><span class="line"><span class="built_in">export</span> http_proxy=http://192.168.68.204:7890</span><br><span class="line"><span class="built_in">export</span> https_proxy=http://192.168.68.204:7890</span><br><span class="line"></span><br><span class="line"><span class="built_in">export</span> http_proxy=http://192.168.228.235:7890</span><br><span class="line"><span class="built_in">export</span> https_proxy=http://192.168.228.235:7890</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="永久"><a href="#永久" class="headerlink" title="永久"></a>永久</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">vim /etc/profile</span><br><span class="line">http_proxy=http://127.0.0.1:9666 <span class="comment">#代理程序地址</span></span><br><span class="line">https_proxy=http://127.0.0.1:9666</span><br><span class="line">ftp_proxy=http://127.0.0.1:9666</span><br><span class="line"><span class="built_in">export</span> http_proxy</span><br><span class="line"><span class="built_in">export</span> ftp_proxy</span><br><span class="line"><span class="built_in">export</span> https_proxy</span><br></pre></td></tr></table></figure>
+
+<p><img src="/./Image/Linux%E5%9F%BA%E7%A1%80.assets/image-20230612224231907.png" alt="image-20230612224231907"></p>
+<p>针对上面变量的设置方法：</p>
+<p>1、在&#x2F;etc&#x2F;profile文件</p>
+<p>2、在~&#x2F;.bashrc</p>
+<p>3、在~&#x2F;.zshrc</p>
+<p>4、在&#x2F;etc&#x2F;profile.d&#x2F;文件夹下新建一个文件xxx.sh</p>
+<p>写入如下配置：</p>
+<ol>
+<li><code>export proxy=&quot;http://192.168.5.14:8118&quot;</code></li>
+<li><code>export http_proxy=$proxy</code></li>
+<li><code>export https_proxy=$proxy</code></li>
+<li><code>export ftp_proxy=$proxy</code></li>
+<li><code>export no_proxy=&quot;localhost, 127.0.0.1, ::1&quot;</code></li>
+</ol>
+<p>而对于要取消设置可以使用如下命令，其实也就是取消环境变量的设置：</p>
+<ol>
+<li><code>unset http_proxy</code></li>
+<li><code>unset https_proxy</code></li>
+<li><code>unset ftp_proxy</code></li>
+<li><code>unset no_proxy</code></li>
+</ol>
+<h2 id="设置IP-v6-DDNS"><a href="#设置IP-v6-DDNS" class="headerlink" title="设置IP v6 DDNS"></a>设置IP v6 DDNS</h2><p>在 Linux 主机上设置 IPv6 的 DDNS，可以参考以下步骤：</p>
+<ol>
+<li>选择一家支持 IPv6 DDNS 的服务提供商，例如 dynv6.com。</li>
+<li>在服务提供商网站上注册账户，并创建一个域名。例如，你可以创建一个名为 “example.dynv6.net” 的域名。</li>
+<li>在 Linux 主机上安装 ddclient 工具。ddclient 是一个动态 DNS 客户端程序，可以将本地的 IP 地址信息上传到 DDNS 服务器，从而实现 DDNS 功能。在 Ubuntu 主机上，可以使用 apt 命令来安装 ddclient：</li>
+</ol>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line">sudo apt-<span class="keyword">get</span> install ddclient</span><br></pre></td></tr></table></figure>
+
+<p>安装完成后可能会提示：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">Configuring ddclient</span><br><span class="line">--------------------</span><br><span class="line"></span><br><span class="line">Dynamic DNS service you are using. If the service you use is not listed, choose <span class="string">&quot;other&quot;</span>.</span><br><span class="line"></span><br><span class="line">  1. no-ip.com           4. domains.google   7. www.dslreports.com</span><br><span class="line">  2. freedns.afraid.org  5. www.dyndns.com   8. www.zoneedit.com</span><br><span class="line">  3. duckdns.org         6. www.easydns.com  9. other</span><br><span class="line">Dynamic DNS service provider:</span><br></pre></td></tr></table></figure>
+
+<p>选择ddns运营商即可。</p>
+<ol>
+<li>配置 ddclient 工具。编辑 &#x2F;etc&#x2F;ddclient.conf 文件，将以下内容添加到该文件末尾（注意将域名和认证令牌替换为你自己的信息）：</li>
+</ol>
+<figure class="highlight perl"><table><tr><td class="code"><pre><span class="line">protocol=dyndns2</span><br><span class="line"><span class="keyword">use</span>=<span class="keyword">if</span>, <span class="keyword">if</span>=eth0 <span class="comment"># 根据实际情况修改网络接口名</span></span><br><span class="line">server=ipv6.dynv6.com</span><br><span class="line">login=your_token <span class="comment"># 替换为你自己的认证令牌</span></span><br><span class="line">password=</span><br><span class="line">your_ipv6_address</span><br><span class="line">your_hostname.example.dynv6.net</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>protocol：指定协议类型，这里使用 dyndns2。</li>
+<li>use：指定使用哪个网络接口的 IPv6 地址。</li>
+<li>server：指定 DDNS 服务器地址。</li>
+<li>login：指定认证令牌。</li>
+<li>password：留空即可。</li>
+<li>youripv6address：你的 IPv6 地址，可以使用 ifconfig 命令来获取。</li>
+<li>your_hostname.example.dynv6.net：你在 DDNS 服务器上创建的完整域名。</li>
+</ul>
+<ol>
+<li>启动 ddclient 服务。运行以下命令启动 ddclient 服务：</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">sudo systemctl <span class="keyword">start</span> ddclient</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>验证 DDNS 是否生效。运行以下命令查看 ddclient 日志输出：</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> <span class="built_in">tail</span> /var/log/syslog | grep ddclient</span><br></pre></td></tr></table></figure>
+
+<p>如果能够看到 “SUCCESS” 的提示信息，则说明 DDNS 设置成功。此时你可以在浏览器中输入你的域名进行访问，应该能够看到你的 Linux 主机的网页内容。</p>
+<h2 id="解决按上下箭头会乱码"><a href="#解决按上下箭头会乱码" class="headerlink" title="解决按上下箭头会乱码"></a>解决按上下箭头会乱码</h2><p>在Linux中，按上下左右键为什么变成^[[A^[[B^[[C^[[D？</p>
+<p>在一些linux终端里，按上下左右键，会回显^[[A^[[B^[[C^[[D。这是什么编码？还有其他那些键位会出现这样的乱码</p>
+<p>原因可能是Linux 下的命令环境问题，我尝试用 bash 即可解决；</p>
+<p>出现上述问题的时候，命令行只显示一个提示符：</p>
+<blockquote>
+<p>$</p>
+</blockquote>
+<p>1、可以直接输入：</p>
+<blockquote>
+<p>bash</p>
+</blockquote>
+<p>使用 bash 模式输入命令；</p>
+<p>2、输入：</p>
+<blockquote>
+<p>chsh</p>
+</blockquote>
+<p>在Login Shell [*]后输入</p>
+<blockquote>
+<p>&#x2F;bin&#x2F;bash</p>
+</blockquote>
+<p>即可，以后每次连接都会使用 bash ；</p>
+<h2 id="无法使用IP命令"><a href="#无法使用IP命令" class="headerlink" title="无法使用IP命令"></a>无法使用<code>IP</code>命令</h2><p>在大多数Linux发行版中，<code>ip</code>命令已经预装。如果您的系统没有预装<code>ip</code>命令，您可以按照以下步骤安装：</p>
+<ol>
+<li>打开终端并使用管理员权限登录系统。</li>
+<li>在终端中运行以下命令之一，根据您的Linux发行版选择一个：</li>
+</ol>
+<ul>
+<li>Debian&#x2F;Ubuntu系统：<code>sudo apt-get install iproute2</code></li>
+<li>CentOS&#x2F;Fedora系统：<code>sudo yum install iproute</code></li>
+</ul>
+<ol>
+<li>等待安装完成后，您可以在终端中使用<code>ip</code>命令了。</li>
+</ol>
+<h2 id="查看以-开头的隐藏文件"><a href="#查看以-开头的隐藏文件" class="headerlink" title="查看以 .开头的隐藏文件"></a>查看以 <code>.</code>开头的隐藏文件</h2><p>在Linux系统中，可以使用ls命令来查看文件列表，包括隐藏文件。如果想要显示所有文件，包括隐藏文件，可以在ls命令中添加-a选项。例如，要查看当前目录下的所有文件，包括隐藏文件，可以使用以下命令：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">ls</span> -a</span><br></pre></td></tr></table></figure>
+
+<p>通过执行该命令，会列出当前目录中的所有文件和子目录，包括以”.”开头的隐藏文件和目录。</p>
+<h2 id="启用私钥形式登录"><a href="#启用私钥形式登录" class="headerlink" title="启用私钥形式登录"></a>启用私钥形式登录</h2><p>SSH 是目前较可靠，专为远程登录会话和其他网络服务提供安全性的协议。利用 SSH 协议可以有效防止远程管理过程中的信息泄露问题。</p>
+<h3 id="创建公钥和私钥"><a href="#创建公钥和私钥" class="headerlink" title="创建公钥和私钥"></a>创建公钥和私钥</h3><p>使用ssh-keygen生成公钥和私钥</p>
+<ul>
+<li>ssh-keygen -t “加密方式” -C“描述”</li>
+</ul>
+<p>-C参数可不加，直接用ssh-keygen -t rsa 即可。当然也可以选择其他的加密方式</p>
+<p>这里直接 <code>ssh-keygen -t rsa</code>。</p>
+<p>默认创建位置都在个人目录下的.ssh&#x2F;</p>
+<p>Passphrases是私钥的密码，可以选择输入密码也可以留空，每次私钥登录都会要求输入密码。</p>
+<p>当生成指纹之后就说明生成成功了。此时~&#x2F;.ssh&#x2F;目录下会生成两个文件，id_rsa和id_rsa.pub</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hurr@onecloud:~$ ssh-keygen -t rsa</span><br><span class="line">Generating public/private rsa key pair.</span><br><span class="line">Enter file <span class="keyword">in</span> <span class="built_in">which</span> to save the key (/home/hurr/.ssh/id_rsa): </span><br><span class="line">Created directory <span class="string">&#x27;/home/hurr/.ssh&#x27;</span>.</span><br><span class="line">Enter passphrase (empty <span class="keyword">for</span> no passphrase): </span><br><span class="line">Enter same passphrase again: </span><br><span class="line">Your identification has been saved <span class="keyword">in</span> /home/hurr/.ssh/id_rsa</span><br><span class="line">Your public key has been saved <span class="keyword">in</span> /home/hurr/.ssh/id_rsa.pub</span><br><span class="line">The key fingerprint is:</span><br><span class="line">SHA256:+Q96WcNwBqreApk6bjznOgU+J6deNXgxlKW+bqP9UKQ hurr@onecloud</span><br><span class="line">The key<span class="string">&#x27;s randomart image is:</span></span><br><span class="line"><span class="string">+---[RSA 3072]----+</span></span><br><span class="line"><span class="string">|      .o.        |</span></span><br><span class="line"><span class="string">|     ...  .      |</span></span><br><span class="line"><span class="string">|      + .. .     |</span></span><br><span class="line"><span class="string">|  .  o =... o    |</span></span><br><span class="line"><span class="string">| . ..oE.S  =     |</span></span><br><span class="line"><span class="string">|  + Bo.+ .  +    |</span></span><br><span class="line"><span class="string">| . O.oo.  oo .   |</span></span><br><span class="line"><span class="string">|  O..o=...oo     |</span></span><br><span class="line"><span class="string">| ++Booo+o.  .    |</span></span><br><span class="line"><span class="string">+----[SHA256]-----+</span></span><br><span class="line"><span class="string">hurr@onecloud:~$ </span></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h3 id="安装公钥"><a href="#安装公钥" class="headerlink" title="安装公钥"></a>安装公钥</h3><p>ssh登录时会先检查公钥，公钥位置在~&#x2F;.ssh&#x2F;authorized_keys</p>
+<p>此时我们发现.ssh下并没有authorized_keys</p>
+<p>需要将公钥放入authorized_keys</p>
+<p>使用cat或者mv都可以，这里我使用cat命令</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cat</span> id_rsa.pub &gt; authorized_keys</span><br></pre></td></tr></table></figure>
+
+<h3 id="更改权限"><a href="#更改权限" class="headerlink" title="更改权限"></a>更改权限</h3><p>authorized_keys需要600</p>
+<p>.ssh需要700</p>
+<p>使用chmod命令</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">chmod</span> 600 ~/.ssh/authorized_keys</span><br><span class="line"><span class="built_in">chmod</span> 700 ~/.ssh</span><br></pre></td></tr></table></figure>
+
+<h3 id="下载私钥到本地"><a href="#下载私钥到本地" class="headerlink" title="下载私钥到本地"></a>下载私钥到本地</h3><p>将~&#x2F;.ssh&#x2F;id_rsa下载到本地</p>
+<p>使用scp下载</p>
+<p>在本地电脑上使用scp user@hostname:~&#x2F;.ssh&#x2F;id_rsa 本地目录</p>
+<p>列如</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">scp user@hostname:~/.ssh/id_rsa ./Desktop/id_rsa</span><br></pre></td></tr></table></figure>
+
+<p>将私钥放在桌面</p>
+<h3 id="打开公钥登录"><a href="#打开公钥登录" class="headerlink" title="打开公钥登录"></a>打开公钥登录</h3><p>编辑&#x2F;etc&#x2F;ssh&#x2F;sshd_config</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">vim /etc/ssh/sshd_config</span><br></pre></td></tr></table></figure>
+
+<p><img src="/./Image/Linux%E5%9F%BA%E7%A1%80.assets/image-20230614214920714.png" alt="image-20230614214920714"></p>
+<p>PubkeyAuthentication no改为yes</p>
+<p>然后:wq!推出</p>
+<h3 id="重启ssh服务"><a href="#重启ssh服务" class="headerlink" title="重启ssh服务"></a>重启ssh服务</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">systemctl restart sshd.service</span><br></pre></td></tr></table></figure>
+
+<h3 id="测试公钥登录"><a href="#测试公钥登录" class="headerlink" title="测试公钥登录"></a>测试公钥登录</h3><h3 id="openssh登录"><a href="#openssh登录" class="headerlink" title="openssh登录"></a>openssh登录</h3><p>ssh -i 私钥位置 user@hostname</p>
+<p>如果有私钥密码的话会提示输入私钥密码，没有密码则直接登录成功</p>
+<h3 id="关闭密码登录"><a href="#关闭密码登录" class="headerlink" title="关闭密码登录"></a>关闭密码登录</h3><p>更改&#x2F;etc&#x2F;ssh&#x2F;sshd_config</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> vim /etc/ssh/sshd_config</span><br></pre></td></tr></table></figure>
+
+<p>找到PasswordAuthentication 将yes改为no</p>
+<p><img src="/./Image/Linux%E5%9F%BA%E7%A1%80.assets/image-20230614215051429.png" alt="image-20230614215051429"></p>
+<p>:wq!保存配置</p>
+<p>再次使用密码登录的时候服务器已经拒绝了。这样安全性就会大大提升。</p>
+<h2 id="Ubuntu修改默认SSH端口"><a href="#Ubuntu修改默认SSH端口" class="headerlink" title="Ubuntu修改默认SSH端口"></a>Ubuntu修改默认SSH端口</h2><h3 id="防火墙设置"><a href="#防火墙设置" class="headerlink" title="防火墙设置"></a>防火墙设置</h3><ul>
+<li>如果服务器没有防火墙 ，则先安装防火墙 ： <code>sudo apt install ufw</code></li>
+<li>防火墙安装好后，查看服务器防火墙状态：<code>sudo ufw status</code><ul>
+<li><img src="/./Image/Linux%E5%9F%BA%E7%A1%80.assets/image-20230616214724197.png" alt="image-20230616214724197"></li>
+</ul>
+</li>
+<li>我这里防火墙状态： <code>status: active</code>表示为已启动。如果是<code>inactive</code>表示未启动状态 ，我们可以通过<code>sudo ufw enable</code>来启动防火墙 。<br>启动防火墙时 ，服务器会提示：<code>Command may disrupt existing ssh connections. Proceed with operation (y|n)?</code><br>意思就是,命令有可能会中断本次ssh的连接，是否继续。<br>我们选择继续： <code>y</code>，会提示防火墙已打开。</li>
+</ul>
+<p>注意，如果防火墙是这回安装的，重启防火墙之前一定要记得执行一下<code>sudo ufw allow 22</code>开放默认的ssh端口否则无法再次连接到系统</p>
+<p>如果之前安装过防火墙，这里使用<code>sudo ufw allow 自定义的端口</code>先放行准备修改的端口。</p>
+<h3 id="服务器防火墙端口开放-关闭与ssh默认22端口修改"><a href="#服务器防火墙端口开放-关闭与ssh默认22端口修改" class="headerlink" title="服务器防火墙端口开放&amp;关闭与ssh默认22端口修改"></a>服务器防火墙端口开放&amp;关闭与ssh默认22端口修改</h3><ul>
+<li>在防火墙状态开启的状态下 ，我们可以设置开放的端口 。比如ssh连接默认用到的22端口 。在终端继续执行 <code>sudo ufw allow 22</code>这样 ，22端口就可以访问了 。</li>
+<li>考虑到服务器安全因素。我想把ssh默认的22端口禁止访问，并修改成自定义端口替代。<ul>
+<li>第一步：先在防火墙内设置允许开发你需要自定义的端口：<code>sudo ufw allow 指定的端口号</code></li>
+<li>第二步：编辑ssh配置文件： <code>sudo vim /etc/ssh/sshd_config</code>， 加入<code>Port 指定的端口号</code>保存<code>:wq</code>退出。（注意如果不想关闭22端口的话 ，可以不注释掉，linux允许多个端口进行SSH登录）</li>
+<li>第三步： 在改好配置文件后 ，重新启动ssh服务：<code>service ssh restart</code>就生效了。</li>
+</ul>
+</li>
+</ul>
+<h2 id="安装transmission的WebUI版本"><a href="#安装transmission的WebUI版本" class="headerlink" title="安装transmission的WebUI版本"></a>安装transmission的WebUI版本</h2><h3 id="Transmission介绍"><a href="#Transmission介绍" class="headerlink" title="Transmission介绍"></a>Transmission介绍</h3><p>Transmission是一个强大的BitTorrent开源客户端，实现了BT协议中描述的大多数功能。目前，在它的官方网站上提供了多个版本可以下载，包括：Mac、GTK+、QT版本，还有Daemon版本。</p>
+<p>Ubuntu下有多个版本，区分：</p>
+<ul>
+<li>transmission-gtk: GTK+界面的Transmission BT客户端</li>
+<li>transmission-qt: QT界面的Transmission BT客户端</li>
+<li>transmission-cli: 命令行界面的Transmission BT客户端，与QT、GTK+版本功能一样，是命令行下一个完备的BT客户端</li>
+<li>transmission-daemon: 是一个Transmission的后台守护程序，本身不具备操作指令，只能通过Web客户端或者transmission-remote-cli来进行控制。这个程序特别适合安装在服务器上或者嵌入式系统中，以及一些没有显示器的设备上</li>
+<li>transmission-remote-cli: 用来控制transmission-daemon的命令套件，本身不具备下载BT的功能，只能够配合daemon使用</li>
+</ul>
+<h3 id="安装transmission-注意版本不能高于4-0"><a href="#安装transmission-注意版本不能高于4-0" class="headerlink" title="安装transmission(注意版本不能高于4.0)"></a>安装transmission(注意版本不能高于4.0)</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> apt-get install transmission-daemon=3.00-2ubuntu2</span><br></pre></td></tr></table></figure>
+
+<p>确认后一路到底，很快，结束后再看看，使用以下命令显示包的信息及其依赖</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">dpkg -s transmission-daemon</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="配置transmission"><a href="#配置transmission" class="headerlink" title="配置transmission"></a>配置transmission</h3><ol>
+<li><p>停止Transmission守护进程</p>
+<ul>
+<li><pre><code class="language-bash">sudo service transmission-daemon stop
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">     </span><br><span class="line"></span><br><span class="line">2. 编辑Transmission配置文件以启用Web界面。在终端中输入以下命令打开配置文件：(下方命令中的文件位置是默认位置，如果改动了需要替换掉)</span><br><span class="line"></span><br><span class="line">   - ```</span><br><span class="line">     sudo vim /etc/transmission-daemon/settings.json</span><br></pre></td></tr></table></figure>
+
+</code></pre>
+</li>
+<li><p>主要修改如下部分：</p>
+<ul>
+<li>“download-dir”: “改成下载目录”</li>
+<li>“rpc-host-whitelist-enabled”: true,</li>
+<li>“rpc-password”: “改成你要的密码”,</li>
+<li>“rpc-port”: 9091,</li>
+<li>“rpc-url”: “&#x2F;transmission&#x2F;”,</li>
+<li>“rpc-username”: “改成你要的用户名”,</li>
+<li>“rpc-whitelist”: “*”, &#x2F;&#x2F; 白名单，直接设置 * 就行</li>
+<li>“rpc-whitelist-enabled”: false,</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>修改完后重新启动daemon后，如果密码被修改过，程序会计算密码的hash值，并将其填充到”rpc-password”这一项里，图里的也是一串字符</p>
+<ul>
+<li><img src="/./Image/Linux%E5%9F%BA%E7%A1%80.assets/image-20230617103045078.png" alt="image-20230617103045078"></li>
+</ul>
+</li>
+</ol>
+<h3 id="重新启动transmission"><a href="#重新启动transmission" class="headerlink" title="重新启动transmission"></a>重新启动transmission</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> service transmission-daemon start</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h3 id="存在的一些问题"><a href="#存在的一些问题" class="headerlink" title="存在的一些问题"></a>存在的一些问题</h3><h4 id="装好后开始下载种子，会提示权限不够，即无法写入文件夹"><a href="#装好后开始下载种子，会提示权限不够，即无法写入文件夹" class="headerlink" title="装好后开始下载种子，会提示权限不够，即无法写入文件夹"></a>装好后开始下载种子，会提示权限不够，即无法写入文件夹</h4><p>使用 <code>ps -ef</code> 查看，发现transmission运行在Debian用户下，而文件夹都是root才能rwx</p>
+<p>方法一：修改文件夹权限，0777，参考网上一些经验，可能不解决问题</p>
+<p>方法二：使transmission运行在root或特定的用户下</p>
+<p>先停止服务，方法很多，这里与前面不同（一般服务都有几种方法停止）</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl stop transmission-daemon.service</span><br></pre></td></tr></table></figure>
+
+<p><strong>修改用户</strong></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> vim /etc/init.d/transmission-daemon</span><br></pre></td></tr></table></figure>
+
+<p>在里面加入这一行，root可替换为需要的用户名</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">USER=root</span><br></pre></td></tr></table></figure>
+
+<p><strong>再修改一项</strong></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl edit transmission-daemon.service</span><br></pre></td></tr></table></figure>
+
+<p>里面加上如下部分，注意大小写</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[Service]</span><br><span class="line">User=root</span><br></pre></td></tr></table></figure>
+
+<p>重启服务后即可使用，这里要重启两个部分</p>
+<p>缺少前一个会提示</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">Warning: The unit file, <span class="built_in">source</span> configuration file or drop-ins of transmission-da</span><br><span class="line">emon.service changed on disk. Run <span class="string">&#x27;systemctl daemon-reload&#x27;</span> to reload units.</span><br></pre></td></tr></table></figure>
+
+<p>重启的命令，两条先后执行</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl daemon-reload</span><br><span class="line"><span class="built_in">sudo</span> systemctl start transmission-daemon.service</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h4 id="安装完成后，使用ip-端口号的形式打不开管理页面"><a href="#安装完成后，使用ip-端口号的形式打不开管理页面" class="headerlink" title="安装完成后，使用ip:端口号的形式打不开管理页面"></a>安装完成后，使用<code>ip:端口号</code>的形式打不开管理页面</h4><ul>
+<li>检查防火墙有没有放行对应的端口<ul>
+<li>如果没放行就添加端口放行</li>
+</ul>
+</li>
+<li>检查配置文件的白名单 <code>whitelist</code>，查看访问时的ip是否在白名单中。</li>
+</ul>
+<h3 id="安装美化的WebUI"><a href="#安装美化的WebUI" class="headerlink" title="安装美化的WebUI"></a>安装美化的WebUI</h3><p><a target="_blank" rel="noopener" href="https://github.com/ronggang/transmission-web-control">https://github.com/ronggang/transmission-web-control</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/ronggang/transmission-web-control/raw/master/release/install-tr-control-cn.sh">https://github.com/ronggang/transmission-web-control/raw/master/release/install-tr-control-cn.sh</a></p>
+<h2 id="安装qBittorrent-webUI"><a href="#安装qBittorrent-webUI" class="headerlink" title="安装qBittorrent webUI"></a>安装qBittorrent webUI</h2><h3 id="安装本体"><a href="#安装本体" class="headerlink" title="安装本体"></a>安装本体</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> apt install qbittorrent</span><br></pre></td></tr></table></figure>
+
+<h3 id="安装WebUI"><a href="#安装WebUI" class="headerlink" title="安装WebUI"></a>安装WebUI</h3><p>下载可能会很卡顿 可以尝试挂梯子</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> add-apt-repository ppa:qbittorrent-team/qbittorrent-stable</span><br><span class="line"></span><br><span class="line"><span class="built_in">sudo</span> apt update</span><br><span class="line"></span><br><span class="line"><span class="built_in">sudo</span> apt install qbittorrent-nox</span><br></pre></td></tr></table></figure>
+
+<h3 id="打开qb"><a href="#打开qb" class="headerlink" title="打开qb"></a>打开qb</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">qbittorrent-nox</span><br></pre></td></tr></table></figure>
+
+<p><img src="/./Image/Linux%E5%9F%BA%E7%A1%80.assets/image-20230617222108951.png" alt="image-20230617222108951"></p>
+<h3 id="设置自动启动"><a href="#设置自动启动" class="headerlink" title="设置自动启动"></a>设置自动启动</h3><p>创建用户和组，以便它可以作为非特权用户运行，这将提高服务器的安全性：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> adduser your-username qbittorrent-nox</span><br></pre></td></tr></table></figure>
+
+<p>然后创建一个系统化服务文件：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> vim /etc/systemd/qbittorrent-nox.service</span><br></pre></td></tr></table></figure>
+
+<p>将以下行复制并粘贴到文件中。如果有其他服务使用端口 8080，则需要将 qBitorrent 的端口号更改为其他服务，如 8081。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">[Unit]</span><br><span class="line">Description=qBittorrent Command Line Client</span><br><span class="line">After=network.target</span><br><span class="line"> </span><br><span class="line">[Service]</span><br><span class="line"><span class="comment">#Do not change to &quot;simple&quot;</span></span><br><span class="line">Type=forking</span><br><span class="line">User=qbittorrent-nox</span><br><span class="line">Group=qbittorrent-nox</span><br><span class="line">UMask=007</span><br><span class="line">ExecStart=/usr/bin/qbittorrent-nox</span><br><span class="line">Restart=on-failure</span><br><span class="line"> </span><br><span class="line">[Install]</span><br><span class="line">WantedBy=multi-user.target</span><br></pre></td></tr></table></figure>
+
+<p>保存文件之后，启动qb系统服务：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sudo systemctl start qbittorrent-nox</span><br></pre></td></tr></table></figure>
+
+<p>重新加载系统守护程序：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sudo systemctl daemon-reload</span><br></pre></td></tr></table></figure>
+
+<p>设置跟随系统自动启动：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sudo systemctl enable qbittorrent-nox</span><br></pre></td></tr></table></figure>
+
+<p>查看启动状态：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">systemctl status qbittorrent-nox</span><br></pre></td></tr></table></figure>
+
+<p>访问<code>Web UI</code>：</p>
+<p>同样采用<code>IP:8080</code>的方式。用户名为<code>admin</code>，密码为<code>adminadmin</code></p>
+<h2 id="armv7l-安装docker-compose"><a href="#armv7l-安装docker-compose" class="headerlink" title="armv7l 安装docker-compose"></a>armv7l 安装docker-compose</h2><h3 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h3><p><a target="_blank" rel="noopener" href="https://docs.docker.com/compose/install/">docker官网安装docker-compose</a>出现下载失败，手动下载安装<a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=docker&spm=1001.2101.3001.7020">docker</a>-compose</p>
+<h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><h4 id="1、下载"><a href="#1、下载" class="headerlink" title="1、下载"></a>1、下载</h4><p><a target="_blank" rel="noopener" href="https://github.com/docker/compose/releases">github地址</a></p>
+<p>如果不知道自己系统版本的可以在服务器输入：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="string">&quot;docker-compose-<span class="subst">$(uname -s)</span>-<span class="subst">$(uname -m)</span>&quot;</span></span><br><span class="line"></span><br><span class="line">docker-compose-linux-aarch64</span><br></pre></td></tr></table></figure>
+
+<p>直接下载相应系统的包(如docker-compose-linux-aarch64)到服务器上</p>
+<h4 id="2、拷贝到-usr-local-bin-目录，修改权限"><a href="#2、拷贝到-usr-local-bin-目录，修改权限" class="headerlink" title="2、拷贝到&#x2F;usr&#x2F;local&#x2F;bin&#x2F;目录，修改权限"></a>2、拷贝到&#x2F;usr&#x2F;local&#x2F;bin&#x2F;目录，修改权限</h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cp</span> docker-compose-linux-aarch64 /usr/local/bin/docker-compose</span><br><span class="line"><span class="built_in">sudo</span> <span class="built_in">chmod</span> +x /usr/local/bin/docker-compose</span><br><span class="line"><span class="built_in">sudo</span> <span class="built_in">ln</span> -s /usr/local/bin/docker-compose /usr/bin/docker-compose</span><br><span class="line">123</span><br></pre></td></tr></table></figure>
+
+<h3 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker-compose --version</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="玩客云armbian5-67手动安装qb-tr-samba-FTP实现文件下载与共享"><a href="#玩客云armbian5-67手动安装qb-tr-samba-FTP实现文件下载与共享" class="headerlink" title="玩客云armbian5.67手动安装qb,tr,samba,FTP实现文件下载与共享"></a>玩客云armbian5.67手动安装qb,tr,samba,FTP实现文件下载与共享</h2><h3 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h3><p><img src="/./Image/Linux%E5%9F%BA%E7%A1%80.assets/144313kpdbpk8v2ibb1pv2.png" alt="img"></p>
+<p>刷了amrbian5.67的玩客云</p>
+<p>之前也刷过高内核的版本，不过很不稳定，不定时死机。</p>
+<p>5.67刷起来最简单，千兆口，跑起来最稳定不用担心死机问题。通过QB下载PT资源也能跑到25mb&#x2F;s 200M宽带 不过CPU负载接近满了。<br>通过Zerotier内网穿透，在外也能随便访问家里的玩客云资源，当个小NAS也够用了。Zerotier教程网上挺多的可以去搜下</p>
+<p>最终在这台盒子上装了Zerotier实现内网穿透Xray实现XX上网<br>File Browser文件管理器：文件下载<br>samba PURE-FTP文件共享与下载<br>qbittorrent与transmission BT PT下载</p>
+<p>只要是个LINUX系统的都可以用此方法安装这些软件</p>
+<p>贴个清华软件源 vim &#x2F;etc&#x2F;apt&#x2F;sources.list</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">deb https://mirrors.tuna.tsinghua.edu.cn/debian/ stretch main contrib non-free</span><br><span class="line"></span><br><span class="line">deb-src https://mirrors.tuna.tsinghua.edu.cn/debian/ stretch main contrib non-free</span><br><span class="line"></span><br><span class="line">deb https://mirrors.tuna.tsinghua.edu.cn/debian/ stretch-updates main contrib non-free</span><br><span class="line"></span><br><span class="line">deb-src https://mirrors.tuna.tsinghua.edu.cn/debian/ stretch-updates main contrib non-free</span><br><span class="line"></span><br><span class="line">deb https://mirrors.tuna.tsinghua.edu.cn/debian-security/ stretch/updates main contrib non-free</span><br><span class="line"></span><br><span class="line">deb-src https://mirrors.tuna.tsinghua.edu.cn/debian-security/ stretch/updates main contrib non-free</span><br></pre></td></tr></table></figure>
+
+
+
+<p>改个时区</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">timedatectl set-timezone Asia/Shanghai</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="qbittorrent安装"><a href="#qbittorrent安装" class="headerlink" title="qbittorrent安装"></a>qbittorrent安装</h3><p><strong>1.添加软件源</strong>5.67是基于 debian9的</p>
+<p>因为denbian9软件源自带的qbittorrent市3.几的很老的版本，我们要装的是4.25版本。</p>
+<p>进入debian官方packages：<a target="_blank" rel="noopener" href="https://packages.debian.org/">https://packages.debian.org/</a></p>
+<p>划到最下面 搜索软件包的内容 搜索 qbittorrent-nox</p>
+<p>发行版选择testing</p>
+<p>硬件架构选择：根据自己设备CPU选择： 玩客云选armhf</p>
+<p><img src="/./Image/Linux%E5%9F%BA%E7%A1%80.assets/151831m8uo8c2iiu998zx8.png" alt="img"><br>搜索完点击软件包<br><img src="/./Image/Linux%E5%9F%BA%E7%A1%80.assets/152157b9l82niwi8anvwln.png" alt="img"><br>划到最下面选择对应的CPU架构<br><img src="/./Image/Linux%E5%9F%BA%E7%A1%80.assets/151938ouwcwncrm0a41uun.png" alt="img"><br>进入如下页面根据提示<br><img src="/./Image/Linux%E5%9F%BA%E7%A1%80.assets/152719ku32uy9r2wrajsrd.png" alt="img"><br>我们选择一个亚洲的站点<br><img src="/./Image/Linux%E5%9F%BA%E7%A1%80.assets/152747mfn6z6mrbwf1ymff.png" alt="img"><br>最终打开 vi&#x2F;etc&#x2F;apt&#x2F;sources.list 文件</p>
+<h4 id="添加以下软件源，保存退出"><a href="#添加以下软件源，保存退出" class="headerlink" title="添加以下软件源，保存退出"></a>添加以下软件源，保存退出</h4><p>上面那些图片流程其实都可以略过 直接添加以下软件源就可以了</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">deb http://ftp.cn.debian.org/debian bullseye main</span><br></pre></td></tr></table></figure>
+
+<h4 id="安装执行命令更新软件源"><a href="#安装执行命令更新软件源" class="headerlink" title="安装执行命令更新软件源"></a>安装执行命令更新软件源</h4><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">apt update</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="执行apt-show-qbittorrent-nox确定出现的为4-2-5版本就可以安装了"><a href="#执行apt-show-qbittorrent-nox确定出现的为4-2-5版本就可以安装了" class="headerlink" title="执行apt show qbittorrent-nox确定出现的为4.2.5版本就可以安装了"></a>执行<code>apt show qbittorrent-nox</code>确定出现的为4.2.5版本就可以安装了</h4><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">root@debian:~# apt show qbittorrent-nox</span><br><span class="line"></span><br><span class="line">Package: qbittorrent-nox</span><br><span class="line"></span><br><span class="line">Version: 4.2.5-0.1</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="安装-1"><a href="#安装-1" class="headerlink" title="安装"></a>安装</h4><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">apt install qbittorrent-nox</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="启动命令"><a href="#启动命令" class="headerlink" title="启动命令"></a>启动命令</h4><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">qbittorrent-nox</span><br></pre></td></tr></table></figure>
+
+
+
+<p>******** 信息 ********<br>欲通过 Web UI 控制 qBittorrent，请访问<a target="_blank" rel="noopener" href="http://localhost:8080/">http://localhost:8080</a><br>Web UI 管理员的用户名是：admin<br>Web UI 管理员的密码仍为默认密码：adminadmin<br>存在安全风险，请考虑在程序设置中更改密码。</p>
+<p><img src="/./Image/Linux%E5%9F%BA%E7%A1%80.assets/153816w4ip4zc5lucjbupa.png" alt="img"></p>
+<h4 id="配置开机自启动服务"><a href="#配置开机自启动服务" class="headerlink" title="配置开机自启动服务"></a><strong>配置开机自启动服务</strong></h4><p>使用命令启动，终端一关服务就停止了，很不方便。所以要配置一个开机自启动服务</p>
+<p>新建一个文件</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">vim /etc/systemd/system/qbittorrent.service</span><br></pre></td></tr></table></figure>
+
+
+
+<p>写入以下内容</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[Unit]</span><br><span class="line">Description=qbittorrent torrent server</span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line">User=root</span><br><span class="line">ExecStart=/usr/bin/qbittorrent-nox</span><br><span class="line">Restart=on-abort</span><br><span class="line"></span><br><span class="line">[Install]</span><br><span class="line">WantedBy=multi-user.target</span><br></pre></td></tr></table></figure>
+
+
+
+<p>重新加载单元</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">systemctl daemon-reload</span><br></pre></td></tr></table></figure>
+
+
+
+<p>设置成开机自启动</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">systemctl enable qbittorrent     #开启自启</span><br><span class="line">systemctl start qbittorrent #开启qb</span><br><span class="line">systemctl stop qbittorrent #关闭qb</span><br><span class="line">systemctl restart qbittorrent #重启qb</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h3 id="transmission安装"><a href="#transmission安装" class="headerlink" title="transmission安装"></a>transmission安装</h3><h4 id="1-安装"><a href="#1-安装" class="headerlink" title="1.安装"></a><strong>1.安装</strong></h4><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">apt install transmission-daemon</span><br></pre></td></tr></table></figure>
+
+
+
+<p>访问地址：IP：9091<br>打开浏览器访问错误的话****修改以下选项<br>打开配置文件</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">vim /etc/transmission-daemon/settings.json</span><br></pre></td></tr></table></figure>
+
+
+
+<p>找到以下两项其中一项进行修改</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&quot;rpc-whitelist&quot;: &quot;*&quot;, #输入* 所有IP都可以访问，或者自定义。</span><br><span class="line">或者</span><br><span class="line">&quot;rpc-whitelist-enabled&quot;: false, #关闭白名单功能</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-中文面板"><a href="#2-中文面板" class="headerlink" title="2.中文面板"></a><strong>2.中文面板</strong></h4><p>项目地址：[color&#x3D;var(–link-color)]<a target="_blank" rel="noopener" href="https://github.com/ronggang/transmission-web-control">https://github.com/ronggang/transmission-web-control</a></p>
+<p>下载安装脚本</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">wget https://github.com/ronggang/transmission-web-control/raw/master/release/install-tr-control-cn.sh</span><br></pre></td></tr></table></figure>
+
+
+
+<p>执行安装 输入 1 安装</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">bash install-tr-control-cn.sh</span><br></pre></td></tr></table></figure>
+
+
+
+<p>完成后重启</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">systemctl restart transmission-daemon</span><br></pre></td></tr></table></figure>
+
+
+
+<p><img src="/./Image/Linux%E5%9F%BA%E7%A1%80.assets/155105snfva69mwssaplsc.png" alt="img"></p>
+<h3 id="Samba安装"><a href="#Samba安装" class="headerlink" title="Samba安装"></a><strong>Samba安装</strong></h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">apt install samba</span><br></pre></td></tr></table></figure>
+
+<p>创建测试用户</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">useradd sambashare</span><br></pre></td></tr></table></figure>
+
+<p>设置用户密码</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">passwd sambashare  sambahurr9999!</span><br></pre></td></tr></table></figure>
+
+<p>将sambashare用户加入Samba用户数据库</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">smbpasswd -a sambashare</span><br></pre></td></tr></table></figure>
+
+<p>打开配置文件</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">vim /etc/samba/smb.conf</span><br></pre></td></tr></table></figure>
+
+<p>在下面添加需要账号密码登陆的配置</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[sambashare]</span><br><span class="line">   comment = test share dir</span><br><span class="line">   browsable = yes</span><br><span class="line">   path = /hdisk    #共享目录</span><br><span class="line">   public = yes  #公开</span><br><span class="line">   valid users = sambashare #用户名</span><br><span class="line">   read only =no  #只读---只读和可写二选一</span><br><span class="line">   writable = yes  #可写---只读和可写二选一       </span><br><span class="line">   create mask = 0700</span><br><span class="line">   directory mask = 0700</span><br></pre></td></tr></table></figure>
+
+<p>匿名访问</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[anonymous]</span><br><span class="line">   path = /dir</span><br><span class="line">   force group = test</span><br><span class="line">   create mask = 0700</span><br><span class="line">   directory mask = 0700</span><br><span class="line">   browsable =yes  </span><br><span class="line">   read only =yes  #只读</span><br><span class="line">   guest ok = yes  #来宾访问</span><br></pre></td></tr></table></figure>
+
+<p>保存重启</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">systemctl restart smbd</span><br></pre></td></tr></table></figure>
+
+<h3 id="5-Pure-ftp-安装安装"><a href="#5-Pure-ftp-安装安装" class="headerlink" title="5.Pure-ftp 安装安装"></a><strong>5.Pure-ftp 安装</strong>安装</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">apt install pure-ftpd</span><br></pre></td></tr></table></figure>
+
+
+
+<p>配置文件路径</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">vim /etc/pure-ftpd/pure-ftpd.conf</span><br></pre></td></tr></table></figure>
+
+<p>创建测试用户</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">useradd test</span><br></pre></td></tr></table></figure>
+
+<p>设置用户密码</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">passwd test</span><br></pre></td></tr></table></figure>
+
+<p>创建FPT用户</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">pure-pw useradd test2 -u test -d /xxx</span><br></pre></td></tr></table></figure>
+
+<p>-u：选项将虚拟用户test2与系统用户test关联在一起，即使用test2账号登录FTP后，会以test的身份来读取和下载文件。</p>
+<p>-d：选项后面的目录为test2账户的家目录，这样可以使test2只能访问其家目录&#x2F;xxx<br>test</p>
+<p>创建用户信息数据库文件</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">pure-pw mkdb</span><br></pre></td></tr></table></figure>
+
+<p>查看用户列表</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">pure-pw list</span><br><span class="line"></span><br><span class="line">test2          /xxx/./</span><br></pre></td></tr></table></figure>
+
+<p>查看用户信息</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">pure-pw show test2</span><br></pre></td></tr></table></figure>
+
+<p>重启服务</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">systemctl restart pure-ftpd</span><br></pre></td></tr></table></figure>
+
+<p>都装好好需要测试调试，还有接硬盘需要挂载，百度一下挂载教程。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://chaoqijiang.github.io">棨</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://chaoqijiang.github.io/2022/08/18/Linux%E6%A1%88%E4%BE%8B/">https://chaoqijiang.github.io/2022/08/18/Linux案例/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://chaoqijiang.github.io" target="_blank">柊</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/protected/">protected</a><a class="post-meta__tags" href="/tags/Linux/">Linux</a></div><div class="post-share"><div class="social-share" data-image="/Image/avatar.png" data-sites="facebook,x,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/0202/01/26/Linux%E9%83%A8%E7%BD%B2Tomcat/" title="Linux部署Tomcat"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">Linux部署Tomcat</div></div><div class="info-2"><div class="info-item-1">Linux部署Tomcat</div></div></div></a><a class="pagination-related" href="/2022/08/18/Linux%E5%9F%BA%E7%A1%80/" title="Linux基础"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">Linux基础</div></div><div class="info-2"><div class="info-item-1">Linux基础学习笔记。</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2025/05/04/Armbian%E7%B3%BB%E7%BB%9F%E4%BD%BF%E7%94%A8RNDIS%E5%8D%8F%E8%AE%AE%E8%BF%9B%E8%A1%8C%E4%B8%8A%E7%BD%91/" title="Armbian系统使用RNDIS协议进行上网"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-05-04</div><div class="info-item-2">Armbian系统使用RNDIS协议进行上网</div></div><div class="info-2"><div class="info-item-1">Armbian系统使用RNDIS协议进行上网</div></div></div></a><a class="pagination-related" href="/2022/08/18/Linux%E5%9F%BA%E7%A1%80/" title="Linux基础"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2022-08-18</div><div class="info-item-2">Linux基础</div></div><div class="info-2"><div class="info-item-1">Linux基础学习笔记。</div></div></div></a><a class="pagination-related" href="/2024/01/14/Linux%E7%B3%BB%E7%BB%9F%E6%9F%A5%E8%AF%A2%E8%AE%BE%E5%A4%87%E7%9A%84%E8%AF%A6%E7%BB%86%E4%BF%A1%E6%81%AF/" title="Linux系统查询设备的详细信息"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-01-14</div><div class="info-item-2">Linux系统查询设备的详细信息</div></div><div class="info-2"><div class="info-item-1">Linux系统下查询设备的详细信息</div></div></div></a><a class="pagination-related" href="/0202/01/26/Linux%E9%83%A8%E7%BD%B2Tomcat/" title="Linux部署Tomcat"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 0202-01-26</div><div class="info-item-2">Linux部署Tomcat</div></div><div class="info-2"><div class="info-item-1">Linux部署Tomcat</div></div></div></a><a class="pagination-related" href="/2024/01/31/linux%E4%B8%8B%E9%80%9A%E8%BF%87CURL%E5%AE%9E%E7%8E%B0%E8%87%AA%E5%8A%A8%E7%AD%BE%E5%88%B0%E5%8A%9F%E8%83%BD/" title="linux下通过CURL实现自动签到功能"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-01-31</div><div class="info-item-2">linux下通过CURL实现自动签到功能</div></div><div class="info-2"><div class="info-item-1">linux下通过CURL实现自动签到功能</div></div></div></a><a class="pagination-related" href="/2024/04/11/linux%E4%B8%AD%E7%9A%84%E6%A0%87%E5%87%86%E9%94%99%E8%AF%AF%E3%80%81%E6%A0%87%E5%87%86%E8%BE%93%E5%87%BA%E4%BB%A5%E5%8F%8A%E6%A0%87%E5%87%86%E8%BE%93%E5%85%A5/" title="linux中的标准错误、标准输出以及标准输入"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-04-11</div><div class="info-item-2">linux中的标准错误、标准输出以及标准输入</div></div><div class="info-2"><div class="info-item-1">linux中的标准错误、标准输出以及标准输入</div></div></div></a></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/Image/avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">棨</div><div class="author-info-description"></div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">56</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">62</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">44</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="mailto:chaoqijiang@outlook.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%A1%88%E4%BE%8B"><span class="toc-number">1.</span> <span class="toc-text">案例</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%BE%E7%BD%AE%E5%85%A8%E5%B1%80%E4%BB%A3%E7%90%86"><span class="toc-number">1.1.</span> <span class="toc-text">设置全局代理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%B4%E6%97%B6"><span class="toc-number">1.1.1.</span> <span class="toc-text">临时</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B0%B8%E4%B9%85"><span class="toc-number">1.1.2.</span> <span class="toc-text">永久</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%BE%E7%BD%AEIP-v6-DDNS"><span class="toc-number">1.2.</span> <span class="toc-text">设置IP v6 DDNS</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3%E6%8C%89%E4%B8%8A%E4%B8%8B%E7%AE%AD%E5%A4%B4%E4%BC%9A%E4%B9%B1%E7%A0%81"><span class="toc-number">1.3.</span> <span class="toc-text">解决按上下箭头会乱码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8IP%E5%91%BD%E4%BB%A4"><span class="toc-number">1.4.</span> <span class="toc-text">无法使用IP命令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E4%BB%A5-%E5%BC%80%E5%A4%B4%E7%9A%84%E9%9A%90%E8%97%8F%E6%96%87%E4%BB%B6"><span class="toc-number">1.5.</span> <span class="toc-text">查看以 .开头的隐藏文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%90%AF%E7%94%A8%E7%A7%81%E9%92%A5%E5%BD%A2%E5%BC%8F%E7%99%BB%E5%BD%95"><span class="toc-number">1.6.</span> <span class="toc-text">启用私钥形式登录</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E5%85%AC%E9%92%A5%E5%92%8C%E7%A7%81%E9%92%A5"><span class="toc-number">1.6.1.</span> <span class="toc-text">创建公钥和私钥</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E5%85%AC%E9%92%A5"><span class="toc-number">1.6.2.</span> <span class="toc-text">安装公钥</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9B%B4%E6%94%B9%E6%9D%83%E9%99%90"><span class="toc-number">1.6.3.</span> <span class="toc-text">更改权限</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%8B%E8%BD%BD%E7%A7%81%E9%92%A5%E5%88%B0%E6%9C%AC%E5%9C%B0"><span class="toc-number">1.6.4.</span> <span class="toc-text">下载私钥到本地</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%89%93%E5%BC%80%E5%85%AC%E9%92%A5%E7%99%BB%E5%BD%95"><span class="toc-number">1.6.5.</span> <span class="toc-text">打开公钥登录</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%87%8D%E5%90%AFssh%E6%9C%8D%E5%8A%A1"><span class="toc-number">1.6.6.</span> <span class="toc-text">重启ssh服务</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95%E5%85%AC%E9%92%A5%E7%99%BB%E5%BD%95"><span class="toc-number">1.6.7.</span> <span class="toc-text">测试公钥登录</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#openssh%E7%99%BB%E5%BD%95"><span class="toc-number">1.6.8.</span> <span class="toc-text">openssh登录</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B3%E9%97%AD%E5%AF%86%E7%A0%81%E7%99%BB%E5%BD%95"><span class="toc-number">1.6.9.</span> <span class="toc-text">关闭密码登录</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Ubuntu%E4%BF%AE%E6%94%B9%E9%BB%98%E8%AE%A4SSH%E7%AB%AF%E5%8F%A3"><span class="toc-number">1.7.</span> <span class="toc-text">Ubuntu修改默认SSH端口</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%98%B2%E7%81%AB%E5%A2%99%E8%AE%BE%E7%BD%AE"><span class="toc-number">1.7.1.</span> <span class="toc-text">防火墙设置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%8D%E5%8A%A1%E5%99%A8%E9%98%B2%E7%81%AB%E5%A2%99%E7%AB%AF%E5%8F%A3%E5%BC%80%E6%94%BE-%E5%85%B3%E9%97%AD%E4%B8%8Essh%E9%BB%98%E8%AE%A422%E7%AB%AF%E5%8F%A3%E4%BF%AE%E6%94%B9"><span class="toc-number">1.7.2.</span> <span class="toc-text">服务器防火墙端口开放&amp;关闭与ssh默认22端口修改</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E8%A3%85transmission%E7%9A%84WebUI%E7%89%88%E6%9C%AC"><span class="toc-number">1.8.</span> <span class="toc-text">安装transmission的WebUI版本</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Transmission%E4%BB%8B%E7%BB%8D"><span class="toc-number">1.8.1.</span> <span class="toc-text">Transmission介绍</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85transmission-%E6%B3%A8%E6%84%8F%E7%89%88%E6%9C%AC%E4%B8%8D%E8%83%BD%E9%AB%98%E4%BA%8E4-0"><span class="toc-number">1.8.2.</span> <span class="toc-text">安装transmission(注意版本不能高于4.0)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%85%8D%E7%BD%AEtransmission"><span class="toc-number">1.8.3.</span> <span class="toc-text">配置transmission</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%87%8D%E6%96%B0%E5%90%AF%E5%8A%A8transmission"><span class="toc-number">1.8.4.</span> <span class="toc-text">重新启动transmission</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%98%E5%9C%A8%E7%9A%84%E4%B8%80%E4%BA%9B%E9%97%AE%E9%A2%98"><span class="toc-number">1.8.5.</span> <span class="toc-text">存在的一些问题</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%A3%85%E5%A5%BD%E5%90%8E%E5%BC%80%E5%A7%8B%E4%B8%8B%E8%BD%BD%E7%A7%8D%E5%AD%90%EF%BC%8C%E4%BC%9A%E6%8F%90%E7%A4%BA%E6%9D%83%E9%99%90%E4%B8%8D%E5%A4%9F%EF%BC%8C%E5%8D%B3%E6%97%A0%E6%B3%95%E5%86%99%E5%85%A5%E6%96%87%E4%BB%B6%E5%A4%B9"><span class="toc-number">1.8.5.1.</span> <span class="toc-text">装好后开始下载种子，会提示权限不够，即无法写入文件夹</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E5%AE%8C%E6%88%90%E5%90%8E%EF%BC%8C%E4%BD%BF%E7%94%A8ip-%E7%AB%AF%E5%8F%A3%E5%8F%B7%E7%9A%84%E5%BD%A2%E5%BC%8F%E6%89%93%E4%B8%8D%E5%BC%80%E7%AE%A1%E7%90%86%E9%A1%B5%E9%9D%A2"><span class="toc-number">1.8.5.2.</span> <span class="toc-text">安装完成后，使用ip:端口号的形式打不开管理页面</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E7%BE%8E%E5%8C%96%E7%9A%84WebUI"><span class="toc-number">1.8.6.</span> <span class="toc-text">安装美化的WebUI</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E8%A3%85qBittorrent-webUI"><span class="toc-number">1.9.</span> <span class="toc-text">安装qBittorrent webUI</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E6%9C%AC%E4%BD%93"><span class="toc-number">1.9.1.</span> <span class="toc-text">安装本体</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85WebUI"><span class="toc-number">1.9.2.</span> <span class="toc-text">安装WebUI</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%89%93%E5%BC%80qb"><span class="toc-number">1.9.3.</span> <span class="toc-text">打开qb</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%BE%E7%BD%AE%E8%87%AA%E5%8A%A8%E5%90%AF%E5%8A%A8"><span class="toc-number">1.9.4.</span> <span class="toc-text">设置自动启动</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#armv7l-%E5%AE%89%E8%A3%85docker-compose"><span class="toc-number">1.10.</span> <span class="toc-text">armv7l 安装docker-compose</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%91%98%E8%A6%81"><span class="toc-number">1.10.1.</span> <span class="toc-text">摘要</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85"><span class="toc-number">1.10.2.</span> <span class="toc-text">安装</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1%E3%80%81%E4%B8%8B%E8%BD%BD"><span class="toc-number">1.10.2.1.</span> <span class="toc-text">1、下载</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2%E3%80%81%E6%8B%B7%E8%B4%9D%E5%88%B0-usr-local-bin-%E7%9B%AE%E5%BD%95%EF%BC%8C%E4%BF%AE%E6%94%B9%E6%9D%83%E9%99%90"><span class="toc-number">1.10.2.2.</span> <span class="toc-text">2、拷贝到&#x2F;usr&#x2F;local&#x2F;bin&#x2F;目录，修改权限</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8"><span class="toc-number">1.10.3.</span> <span class="toc-text">使用</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%8E%A9%E5%AE%A2%E4%BA%91armbian5-67%E6%89%8B%E5%8A%A8%E5%AE%89%E8%A3%85qb-tr-samba-FTP%E5%AE%9E%E7%8E%B0%E6%96%87%E4%BB%B6%E4%B8%8B%E8%BD%BD%E4%B8%8E%E5%85%B1%E4%BA%AB"><span class="toc-number">1.11.</span> <span class="toc-text">玩客云armbian5.67手动安装qb,tr,samba,FTP实现文件下载与共享</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%8E%AF%E5%A2%83"><span class="toc-number">1.11.1.</span> <span class="toc-text">环境</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#qbittorrent%E5%AE%89%E8%A3%85"><span class="toc-number">1.11.2.</span> <span class="toc-text">qbittorrent安装</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B7%BB%E5%8A%A0%E4%BB%A5%E4%B8%8B%E8%BD%AF%E4%BB%B6%E6%BA%90%EF%BC%8C%E4%BF%9D%E5%AD%98%E9%80%80%E5%87%BA"><span class="toc-number">1.11.2.1.</span> <span class="toc-text">添加以下软件源，保存退出</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E6%89%A7%E8%A1%8C%E5%91%BD%E4%BB%A4%E6%9B%B4%E6%96%B0%E8%BD%AF%E4%BB%B6%E6%BA%90"><span class="toc-number">1.11.2.2.</span> <span class="toc-text">安装执行命令更新软件源</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%89%A7%E8%A1%8Capt-show-qbittorrent-nox%E7%A1%AE%E5%AE%9A%E5%87%BA%E7%8E%B0%E7%9A%84%E4%B8%BA4-2-5%E7%89%88%E6%9C%AC%E5%B0%B1%E5%8F%AF%E4%BB%A5%E5%AE%89%E8%A3%85%E4%BA%86"><span class="toc-number">1.11.2.3.</span> <span class="toc-text">执行apt show qbittorrent-nox确定出现的为4.2.5版本就可以安装了</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%89%E8%A3%85-1"><span class="toc-number">1.11.2.4.</span> <span class="toc-text">安装</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%90%AF%E5%8A%A8%E5%91%BD%E4%BB%A4"><span class="toc-number">1.11.2.5.</span> <span class="toc-text">启动命令</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE%E5%BC%80%E6%9C%BA%E8%87%AA%E5%90%AF%E5%8A%A8%E6%9C%8D%E5%8A%A1"><span class="toc-number">1.11.2.6.</span> <span class="toc-text">配置开机自启动服务</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#transmission%E5%AE%89%E8%A3%85"><span class="toc-number">1.11.3.</span> <span class="toc-text">transmission安装</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E5%AE%89%E8%A3%85"><span class="toc-number">1.11.3.1.</span> <span class="toc-text">1.安装</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E4%B8%AD%E6%96%87%E9%9D%A2%E6%9D%BF"><span class="toc-number">1.11.3.2.</span> <span class="toc-text">2.中文面板</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Samba%E5%AE%89%E8%A3%85"><span class="toc-number">1.11.4.</span> <span class="toc-text">Samba安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-Pure-ftp-%E5%AE%89%E8%A3%85%E5%AE%89%E8%A3%85"><span class="toc-number">1.11.5.</span> <span class="toc-text">5.Pure-ftp 安装安装</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/10/12/Hexo%E6%96%B0%E5%A2%9E%E5%88%86%E7%B1%BB%E6%A0%87%E7%AD%BE%E4%B8%8E%E8%87%AA%E5%AE%9A%E4%B9%89%E9%A1%B5%E9%9D%A2%E8%AF%A6%E8%A7%A3/" title="Hexo 新增分类、标签与自定义页面详解">Hexo 新增分类、标签与自定义页面详解</a><time datetime="2025-10-12T05:46:03.000Z" title="发表于 2025-10-12 13:46:03">2025-10-12</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/10/08/%E9%AB%98%E5%8F%AF%E7%94%A8%E9%AB%98%E5%B9%B6%E5%8F%91%E5%90%8E%E7%AB%AF%E6%9E%B6%E6%9E%84%E9%80%9A%E7%94%A8%E8%93%9D%E5%9B%BE/" title="高可用高并发后端架构通用蓝图">高可用高并发后端架构通用蓝图</a><time datetime="2025-10-08T15:42:00.000Z" title="发表于 2025-10-08 23:42:00">2025-10-08</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/10/08/AI%E6%8F%90%E7%A4%BA%E8%AF%8D_%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E7%94%9F%E6%88%90/" title="AI提示词_学习笔记生成">AI提示词_学习笔记生成</a><time datetime="2025-10-08T15:15:00.000Z" title="发表于 2025-10-08 23:15:00">2025-10-08</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/10/08/AI%E6%8F%90%E7%A4%BA%E8%AF%8D_%E8%AF%95%E9%A2%98%E7%94%9F%E6%88%90/" title="AI提示词_试题生成">AI提示词_试题生成</a><time datetime="2025-10-08T15:15:00.000Z" title="发表于 2025-10-08 23:15:00">2025-10-08</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/10/08/Golang_swag/" title="Golang swag 库">Golang swag 库</a><time datetime="2025-10-08T15:07:00.000Z" title="发表于 2025-10-08 23:07:00">2025-10-08</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url(/Image/topImage.jpg);"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2023 - 2025 By 棨</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 8.0.0</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.5.1</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.5.1"></script><script src="/js/main.js?v=5.5.1"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar@0.1.16/dist/snackbar.min.js"></script><div class="js-pjax"><script>(() => {
+  const runMermaid = ele => {
+    window.loadMermaid = true
+    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+    ele.forEach((item, index) => {
+      const mermaidSrc = item.firstElementChild
+      const mermaidThemeConfig = `%%{init:{ 'theme':'${theme}'}}%%\n`
+      const mermaidID = `mermaid-${index}`
+      const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+
+      const renderFn = mermaid.render(mermaidID, mermaidDefinition)
+      const renderMermaid = svg => {
+        mermaidSrc.insertAdjacentHTML('afterend', svg)
+      }
+
+      // mermaid v9 and v10 compatibility
+      typeof renderFn === 'string' ? renderMermaid(renderFn) : renderFn.then(({ svg }) => renderMermaid(svg))
+    })
+  }
+
+  const codeToMermaid = () => {
+    const codeMermaidEle = document.querySelectorAll('pre > code.mermaid')
+    if (codeMermaidEle.length === 0) return
+
+    codeMermaidEle.forEach(ele => {
+      const preEle = document.createElement('pre')
+      preEle.className = 'mermaid-src'
+      preEle.hidden = true
+      preEle.textContent = ele.textContent
+      const newEle = document.createElement('div')
+      newEle.className = 'mermaid-wrap'
+      newEle.appendChild(preEle)
+      ele.parentNode.replaceWith(newEle)
+    })
+  }
+
+  const loadMermaid = () => {
+    if (true) codeToMermaid()
+    const $mermaid = document.querySelectorAll('#article-container .mermaid-wrap')
+    if ($mermaid.length === 0) return
+
+    const runMermaidFn = () => runMermaid($mermaid)
+    btf.addGlobalFn('themeChange', runMermaidFn, 'mermaid')
+    window.loadMermaid ? runMermaidFn() : btf.getScript('https://cdn.jsdelivr.net/npm/mermaid@11.12.0/dist/mermaid.min.js').then(runMermaidFn)
+  }
+
+  btf.addGlobalFn('encrypt', loadMermaid, 'mermaid')
+  window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+})()</script></div><canvas class="fireworks" mobile="false"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/dist/fireworks.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><i class="fas fa-spinner fa-pulse" id="loading-status" hidden="hidden"></i><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="local-search-input"><input placeholder="搜索文章" type="text"/></div><hr/><div id="local-search-results"></div><div class="ais-Pagination" id="local-search-pagination" style="display:none;"><ul class="ais-Pagination-list"></ul></div><div id="local-search-stats"></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=5.5.1"></script></div></div></body></html>
