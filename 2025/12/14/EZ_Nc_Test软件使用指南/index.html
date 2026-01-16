@@ -1,0 +1,227 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>EZ Nc Test软件使用指南 | 柊</title><meta name="author" content="棨"><meta name="copyright" content="棨"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#59b9c6"><meta name="description" content="本文档主要介绍EZNcTest软件的使用方法，用于与三菱机床控制器进行通信测试（M800M型号）">
+<meta property="og:type" content="article">
+<meta property="og:title" content="EZ Nc Test软件使用指南">
+<meta property="og:url" content="https://blog.198425.xyz/2025/12/14/EZ_Nc_Test%E8%BD%AF%E4%BB%B6%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/index.html">
+<meta property="og:site_name" content="柊">
+<meta property="og:description" content="本文档主要介绍EZNcTest软件的使用方法，用于与三菱机床控制器进行通信测试（M800M型号）">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://blog.198425.xyz/Image/avatar.png">
+<meta property="article:published_time" content="2025-12-14T06:44:30.000Z">
+<meta property="article:modified_time" content="2026-01-16T14:40:58.943Z">
+<meta property="article:author" content="棨">
+<meta property="article:tag" content="EZNcTest">
+<meta property="article:tag" content="Mitsubishi">
+<meta property="article:tag" content="protected">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://blog.198425.xyz/Image/avatar.png"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "EZ Nc Test软件使用指南",
+  "url": "https://blog.198425.xyz/2025/12/14/EZ_Nc_Test%E8%BD%AF%E4%BB%B6%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/",
+  "image": "https://blog.198425.xyz/Image/avatar.png",
+  "datePublished": "2025-12-14T06:44:30.000Z",
+  "dateModified": "2026-01-16T14:40:58.943Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "棨",
+      "url": "https://blog.198425.xyz"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://blog.198425.xyz/2025/12/14/EZ_Nc_Test%E8%BD%AF%E4%BB%B6%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=5.5.1"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar@0.1.16/dist/snackbar.min.css" media="print" onload="this.media='all'"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0a1014')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#59b9c6')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          const hour = new Date().getHours()
+          const isNight = hour <= 24 || hour >= 24
+          if (theme === undefined) isNight ? activateDarkMode() : activateLightMode()
+          else theme === 'light' ? activateLightMode() : activateDarkMode()
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"pagination":{"enable":false,"hitsPerPage":8},"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":30,"highlightFullpage":true,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: {"chs_to_cht":"已切换为繁体中文","cht_to_chs":"已切换为简体中文","day_to_night":"已切换为深色模式","night_to_day":"已切换为浅色模式","bgLight":"#165e83","bgDark":"#507ea4","position":"bottom-left"},
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.12.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'EZ Nc Test软件使用指南',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 8.0.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/Image/avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">79</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">94</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">56</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴/归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-list"></i><span> 清单</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> Music</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> Movie</span></a></li><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> 链接</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/Image/topImage.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><img class="site-icon" src="/Image/Logo.ico" alt="Logo"><span class="site-name">柊</span></a><a class="nav-page-title" href="/"><span class="site-name">EZ Nc Test软件使用指南</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴/归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-list"></i><span> 清单</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> Music</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> Movie</span></a></li><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> 链接</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">EZ Nc Test软件使用指南</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2025-12-14T06:44:30.000Z" title="发表于 2025-12-14 14:44:30">2025-12-14</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-01-16T14:40:58.943Z" title="更新于 2026-01-16 22:40:58">2026-01-16</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/CNC%E8%BF%9E%E6%8E%A5/">CNC连接</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">9</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>1分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><div class="hbe hbe-container" id="hexo-blog-encrypt" data-wpm="抱歉, 这个密码看着不太对, 请再试试." data-whm="抱歉, 这个文章不能被校验, 不过您还是能看看解密后的内容.">
+  <script id="hbeData" type="hbeData" data-hmacdigest="b992132e5ea4bc599cd2c0fa10dc8ddf8851b7a49302ab7b3657fa1e25d7a48d">8e6e23ff52784cdaa23aca558b12e29ac28b6f3606c80994e945b6b38d16378420366bf92925faa54831c95a7c98670b1d17df2ecae4f5b87b77c95bd394a93714054d0712d994aadf91ced87616169977410e58266605577c239081a84521a8f5c9e79df121a8d2e23d853e39615c197360810b3341f719f960d59ae4e37f209cd83ef181a1409f3fc670ad19aba38c00e89edd08aa2d2b39c05e5c4cbb205ebf042ebeadb9f897656095bb01fbb3ca9bdde80d273d23264f2262c5109fd882269be3993fdf79c0853aa36dbc33f5e2b173daab29dbe21f203ad0229b7a5763a5dc6bbbabb7b4113ced0e31293e8783f02c33f4c50189a18343487396ac92c1fee4638a7b4241cd0ad6963f68bc0b10c8eaef457a8c5c83771c8dbfeddf0debfb712009322ac253b110a64148dd9ba8a045406de2bbc0f96ef9778e36eb54a087910fdb1521a1af5b678d4e99d6849f875da4aa84182225f94ad2d6affb6e6bd83ff1717dce2b4eef7bdd501dc50fafb2863a5328cbc05519a8fa0fe4eff4faa6cd1460b3ab0361370598a9de6bc25e43b7fbf37a12e844e52be9affe67d757d6df8a38eddda18f376a864a778584a8ff52736366f12e799ae54957a6d74c8d3105877c380a2189d4bc2e1a31de15b6bf35835c82fd6be21c7f6f469ae6f3c064fc0d64f5322a641c985369206f869f9588b016e52b87777885972a31f3ff41b24da6d211891ef758f3afeec608e8d43d286da989cf1d2a5c07a1b523bf5d2f7ecc34d201e2bd96bf31763aa72a6aa5332de91398f4655e9eb75d155174f7bc7535347e51f9721953fa1a16fde764e66e0158070f3d8e669a8aea1b40bf9d0719ec659426dd860a3edac442df871c34ecb37149ec196560d6edc9ab5b9250b7a076f4af158625a92bcfdd601fd37b7303a7ea46c52567a9d703a7be3071ef589e764c588d0153e3c2f045e0cdf2a012d8015e091b73d41fe09d647ab0dc2e6e4ea7734abfa043c5c11dbbe6da03b85851ebc54d0dc36469a70fe35f65d8f4cd444b0a55d6717e22f651ae93f8fa4189cdcab5e28123d4948cb0bd5cb2cc927502e14fbbbb0792c7681725bbd21e8a759d26557e4535394ba9aceb52b019fee63ca9e3e853596f6417d1adcffed40221bbeafb5cce468f4315497004d296f3d55c30c1a44a70bfca67ffb87dd5d0f72dd572e7528ab3986e4434f9dfa2ef9d33722613594f4e99cff73816aa94f02df53097b37a9aa045f56f57c91dbaf0922456a13d7bdb41e42eabff4e74b9debd13a7a6215c1cacf285f015b8f03757501a0dbc0cc3b28ec17082f0395a301280a4dab76ce420d4273b23c3e98e72ec98cc198d925985533ab6c166084e10a6fed892c42edcb859feea1d37bc81e4a25e3f69fd7e41d44c7b7f4f30b5260cb1815239561306253a41be707a1fd9ec5d66a9d58e79ee6c9f77eb8c8bbe686deda7efa76b4d7c5293f594dbe5fc451451a4ee2f31f37f81ab324a8507f9d412f4979d7c8f20b1b998e8fd110116cd192e984e250111053a40be5d4f36e420e5c762d5b3c16babe690a12945c789f1367da455dedeee54d0d9b23d258befb17d6843bf69dbda257ec9bb4fd1bbb4ec4b6443a03eb4caf46db8bd2970fad237c9e153417ad646fea61bbef54b080a778be66337a7aa9c965b07c36f40009e9333496dd7315e351b50b648d1e9b88ae19958a3ba9d0c34e7dc04d9713fa05e0c8d75af9305f633b3ee0761947799939839fd3a5eaf435cf978f23ec3ca15bc42da952f1b62254ae2caa7ec9844bf2ecdb903c27099ee0f19e2f71ef13eb16663d3cbb25a53adca3858fbf6c2c32bf2abcdab745d73fb6ac440f210ef489f26a3b03e2d7b0f690475e8fff3be8e9e6bf09567cd4f0d86b253a6b44e375540fcde49779e40190c72f73473b19988b442f5c64a209962fc9bdc1515907bcbae4c7e6b867db4a2bf3ae961c1a056a94fca97d314601ad141d9c5e85e9e8a722bef44be6865a26116df0936e6a721f861055a9038f1e164e816530dbcc21538f91a6ebbd7166c7814ac0ca73fba75d4e085ca861c8028c4fe73be619b9a8a9537d76d28aa028d975f2da5fb952559d6cfacf20108ef60997a0dc719cb0da6556a96686346ee8205c9a8d58f0a62f9020a5f5266e6dc9133ffa2bf1c394c80701bfab80127922f34700ca2d5aa9ad168dbb7c6bf4e3e449621ff200e555ef26936d239bd982200680efa5d7feceee5410b32c5002d303e4ba8bc9b1b372208b3a3c55c2739359e1e14becd65d9fea2325956cca60821caeb13e6118e88afbf672963cabbf25c901e3203f6da9b0e6e59df88241d239b2a793e7c007d20f1bf6a325d0d4b2071d2bba21fde380923f1224434f404020384ad979d946cb11b2e14778678622f04be37ddd701f41ed40f9d84d802cd4be98337ac91195ad04c6e2caff1886d1f4a71f6d6e14d5d8c056e66c0ba066e3748bf214dbb507fcf3cd6b11c42573ec58c8427bb0ff55c215d29cb5fa6635d369222282936ec2097177144737262235ebf342212a134d4473503aa9ba259078bdace099c039769d9ef34d2fda7f870cb0fd88fc80155a95bb468fa1f94e922dbb34666546bd8587210a1082b30f562421c98b3acc79dc01441d377ce9a72c59a57b67bebf2753c41450e9e5ba7609f87c9d4e49eb8307f6372b5a2cb8ab581b760e3cc012862a5c3c008e08feff07e653e1378c90f207b259738a9d0cda9b90b16ab584ea652381d7418f9ebe827307d803221b163e8862481fa7747016dfe57c10920023ec27f5b66094a04a1a5b6db7700a7f2bb6883d905ca19d5c6fbd1a712ce86173121313d49fdb9b44b088f7c42bccdac081de0c26a1f28539e467b6c60564f8d3991c09e8ce7b65acadd4b9f05cf58c2f2a178db3000dc8ba92257ac7937be307647057ad8379a9ba96ce9cd21817fa326670c2836a5810fb93523dd2cb4f2da3c256f2de95c404b172a33582f7708339e446a93e96081f87c9b1e3af9424dee898f8f8f0bf85710f6ec8d94a6a7833a7ebacf4a3bf25ffac23462401f76ce9634ecfa1455ca0c9c2e15acb52d85e884ba41e8ec879226b8916320a23c79729e5aff27c453fb63857d45758b42f7e9f13f71d02242a77f867e3a7d49924677b3a7d66a8646bba2f8af9a9f59c2a5f89b3de14bf4ff43f5d8d0c576d663f168a3177164dbe0ea9ce2b58f007d3b0bb400a4747a4c17769ba1b16f376b1f0456e3fd7061fa295ba5a9380564cedd820e641610a59398b224db168214ff02d1bc8fa4fad93d1a26a89661dd97c3fd15b351023c2f74a8b5aca60ad7d0f657e47ab51ce09d75cf8e187011aeafe2059b0d090bc5cff6b9919da4a6cc220e3f8b380fde8e4ea35abaf64f488a85121c2d889b44d57b78dea795588252cd40a65066d6dc5b447a80168439e1669573d4d9bb98ab14689342f94dc36ecd6a3672c49861b9cd1c7784f8720e4045a79a1f3be58c40ab00aa0369eaa94779609bcdb4d36f987257b63315f629d8f7ca82a48da9620c07c41da781a7cfdcd1196c370e70b7bbb26b2aa80c06aaea127766ac2c5e645de54b0a3119cd9ddd20e9a1c79096bb723b3ad0b12464a6490a3d2b2d8a319239f92d6d9f9b137e5d9a5b4ea6c25445a03d2dbe43033e18c2a5f6e9cb47d249a3763570f418c5a4dc1a8ae15cbd74c79f9192ce269ec297be55ee8a6d207d2cd501a55ef1e3bf53bb9d33a1d3a3f600d3273b040047716fa6c016e182797ccb976ab5b2d5157f4532d6b1b4771e292f20c4fe490f6d13530082922b4ba5cc7c1324ad7c811d2a49f5e117bd0856c4b34cece19e544f5f62701d918db75cfbf78bce21bbf7546f0ce606620d0387df17056fc79a513b8f28d1ed641054e5da6b9c6961b26f7d35d99ca3992b585a8db64541e27036b73249a5829428d023666ede9460717fb537b9bea66c439d8ef3c7a76cd10a3fb839503c7b4d7f9f280f47a8d363b1156dced08b64c429467ce0acd8fe214a342145d4b57871dc434bc3be80cd5b4e32bec36107bebd533b7dcec5b3eb4305a13c2158b7e6072c5efda7728f2c5b4d810c950418a2863ded2e4df7cf9ec83cd75709ce00e2e3a094433da7c2cb87f4478ae46c55fe88b2e2c76c67b4a948348d793977f08564b965f21bfe27a443fa0e86f10571de11ffda44c8912d38b082e6ac9be47cf1c2ba97a7afddd5b41ceb5ea8f7939db7ecfaa24fdedbd8f90fe933fa674e38380efe293ef5451237c1796a60bd6d516400b9fb56935fcb60013f24faad02c11599815ee550c4ceee109fd56548a78c6d8446b88d6926bc94225b102121566a51b9c0f734863c68cabef10f59ca78a80ad8fde19134ffe9f6e0f058d4cc17439bc350eed53656add4be8e30bdb3847f3b221789ad506938e53dcc51043dac414a3e79a00ce83302d6c8edfdd3da8572146bf0e9f6e17861908b25c522639ffe5d0caeb480ddf5c99b7875d554f762eec8cbe24e6dee1d82efecfca33d50ba1da0fb168f3073bb23473b045c4b29f269eb96825d639c345b8aab4fd15572e84a387456f0eb661a5e9d0fa93fee541b3832a42ec1165a69d0d28ca26c92416c0cc8c5f18d1acedad38274805456db60c2dd58bc00e2930b754253748ca3a25b5d5dc2368014d74576e1be76d5b31f870baf7932dc704e1753d02780ae147f6d9c9e070d444e5f2f0b699853933eed53f3d1986b54e171c6c7ea977a6a09c17a9f9e9733b615b8ec9e0ceb3a37e5efe21ca13e22abdc26ba5dc7ba49513071432fb94eda63b0a2d01c8ebec87a5e992dd75949c6ada300b1ad7d421ffd28d6c5c4ef465e244697e90eb0e8742657f216d6ba784aae60c5b87bb3994d54934b263289eeedf57907397543fa77b4d0d8990f3160eed6d71f0998dc24038f6288dfd5a46636812ac718389086946a4a3dc1b94caf4b079f2bb3c9f501978bcda37b2b4a281514540cd58fde6d6164278067c08458be7963914c9f5c43ecfdd515ee573704b2e047f4c6bde36b07a5df8b3683582e9dba104842a3c4c2721dbefc164f3553aa9a1b875ab899cff581ffedd5c7640ea681384894184980726f611d61bba8f1f3451c96cb8d4b620ba5f3d15b2cd4767a07d1cfe2c6d728b5c8c0b809c2666c573d00c390e96ff25bf75d0e14127acc8743d844814bc0f7e55dbbf3472a7902ec846d9d722876656b8e14e32ce192cdc866823ea149ea4f141d429bc72df4bac720522d56c2dc87869622623e17925361808a777ef66f54c0a71b6b5f00f0608d8db153a48ccb2d20dcf881cbf96df245c809d9b7862b9c329b340974ac0a101ca0b52d2d19fadb0645c0a1e56420e7d43da154cc2d77f4083621a966d62fa70605ef97eaca79229f4b6bd7def6620b9c2fb2dbf0763cb50d426b227f20795ec5e2e7e06d11ab805750fbbe659c70b60934302950ac53186ec6e2465851656d51ca9fb79939b407b0e7672ac36c91215f9c7b4f7b5e0fe114cc7da34d8d3c5d5a2c3887531fb6bb78720e03f47fa648fecc75b4fa374a851517fed3f5b236c0ee4cc967a70b27c0eb6b078dce640650d6d4ebde8872fbca9ef5e7ab477e21e1d4fdbd592ee61e826c1a25b8e3961f62ba6b764e1cbadb792086586ffece9839acc0882ca08bdd7f8bb1fbc74ebb4d3ad910c841df3929316a1f0785e525fbe2d9b4ee8a1ebb6050432868f59b4d1fbd90ce455025938c0b47d7736d0b86badfb3b32d1e566caada29298d00e325f2186366ed706fc0301f8572b4ac40769a80b62c980272a9d26c3545d11aa2545c762aceb29a482a1ec42661c1706ea0f18d723b911f306d9518964a20039de1cb7ea5da3c9760c79cddf7fb5fd16e24a2f0d46e697b29999f3d1cbc33cdd54f679ce7dac678175f72e53e258394f59b83e6c19ef2d6503338eece8f90ac60793fb22eb390a1632fddefe3e296e364ca11a2d1383e2a0062b5292f89e26fd67f7f0149e895</script>
+  <div class="hbe hbe-content">
+    <div class="hbe hbe-input hbe-input-default">
+      <input class="hbe hbe-input-field hbe-input-field-default" type="password" id="hbePass">
+      <label class="hbe hbe-input-label hbe-input-label-default" for="hbePass">
+        <span class="hbe hbe-input-label-content hbe-input-label-content-default">您好, 这里需要密码.</span>
+      </label>
+    </div>
+  </div>
+</div>
+<script data-pjax src="/lib/hbe.js"></script><link href="/css/hbe.style.css" rel="stylesheet" type="text/css"></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://blog.198425.xyz">棨</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://blog.198425.xyz/2025/12/14/EZ_Nc_Test%E8%BD%AF%E4%BB%B6%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/">https://blog.198425.xyz/2025/12/14/EZ_Nc_Test软件使用指南/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://blog.198425.xyz" target="_blank">柊</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/protected/">protected</a><a class="post-meta__tags" href="/tags/EZNcTest/">EZNcTest</a><a class="post-meta__tags" href="/tags/Mitsubishi/">Mitsubishi</a></div><div class="post-share"><div class="social-share" data-image="/Image/avatar.png" data-sites="facebook,x,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2025/12/06/Go%E8%AF%AD%E8%A8%80%E7%B1%BB%E5%9E%8B%E7%B3%BB%E7%BB%9F%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5/" title="Go 语言类型系统核心概念"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">Go 语言类型系统核心概念</div></div><div class="info-2"><div class="info-item-1">本章节主要介绍了 Go 语言类型系统核心概念，包括命名类型、未命名类型、预声明类型、类型字面量、自定义类型之间的关系。</div></div></div></a><a class="pagination-related  no-desc" href="/2025/12/14/PDFTest/" title="PDFTest"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">PDFTest</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2025/10/08/AI%E6%8F%90%E7%A4%BA%E8%AF%8D_%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E7%94%9F%E6%88%90/" title="AI提示词_学习笔记生成"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-10-08</div><div class="info-item-2">AI提示词_学习笔记生成</div></div><div class="info-2"><div class="info-item-1">AI提示词，用于引导AI生成学习笔记，根据提示的设定，对没有基础背景背景的小白生成学习笔记。</div></div></div></a><a class="pagination-related" href="/2025/10/08/AI%E6%8F%90%E7%A4%BA%E8%AF%8D_%E8%AF%95%E9%A2%98%E7%94%9F%E6%88%90/" title="AI提示词_试题生成"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-10-08</div><div class="info-item-2">AI提示词_试题生成</div></div><div class="info-2"><div class="info-item-1">AI提示词，用于根据提示信息生成对应的试题，帮助学习者检验理解深度。</div></div></div></a><a class="pagination-related" href="/2025/05/04/Armbian%E7%B3%BB%E7%BB%9F%E4%BD%BF%E7%94%A8RNDIS%E5%8D%8F%E8%AE%AE%E8%BF%9B%E8%A1%8C%E4%B8%8A%E7%BD%91/" title="Armbian系统使用RNDIS协议进行上网"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-05-04</div><div class="info-item-2">Armbian系统使用RNDIS协议进行上网</div></div><div class="info-2"><div class="info-item-1">Armbian系统使用RNDIS协议进行上网</div></div></div></a><a class="pagination-related" href="/2023/01/08/C++STL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" title="C++ STL学习笔记"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2023-01-08</div><div class="info-item-2">C++ STL学习笔记</div></div><div class="info-2"><div class="info-item-1">C++ STL学习笔记</div></div></div></a><a class="pagination-related" href="/2023/12/01/Docker%E5%9F%BA%E7%A1%80%E6%95%99%E7%A8%8B/" title="Docker基础教程"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2023-12-01</div><div class="info-item-2">Docker基础教程</div></div><div class="info-2"><div class="info-item-1">Docker基础教程</div></div></div></a><a class="pagination-related" href="/2023/06/07/ESP8266%E5%BC%95%E8%84%9A%E8%AF%B4%E6%98%8E/" title="ESP8266引脚说明"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2023-06-07</div><div class="info-item-2">ESP8266引脚说明</div></div><div class="info-2"><div class="info-item-1">ESP8266引脚说明</div></div></div></a></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/Image/avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">棨</div><div class="author-info-description"></div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">79</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">94</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">56</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="mailto:chaoqijiang@outlook.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content toc-div-class" style="display:none"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#EZNcTest%E8%BD%AF%E4%BB%B6%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97"><span class="toc-number">1.</span> <span class="toc-text">EZNcTest软件使用指南</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%89%93%E5%BC%80%E8%BD%AF%E4%BB%B6"><span class="toc-number">1.1.</span> <span class="toc-text">打开软件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BB%BA%E7%AB%8B%E8%BF%9E%E6%8E%A5"><span class="toc-number">1.2.</span> <span class="toc-text">建立连接</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AF%BB%E5%8F%96PLC%E7%82%B9%E4%BD%8D"><span class="toc-number">1.3.</span> <span class="toc-text">读取PLC点位</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AF%BB%E5%8F%96%E5%85%B1%E5%8F%98%E9%87%8F"><span class="toc-number">1.4.</span> <span class="toc-text">读取共变量</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/12/14/EZ_Nc_Test%E8%BD%AF%E4%BB%B6%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/" title="EZ Nc Test软件使用指南">EZ Nc Test软件使用指南</a><time datetime="2025-12-14T06:44:30.000Z" title="发表于 2025-12-14 14:44:30">2025-12-14</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/12/14/PDFTest/" title="PDFTest">PDFTest</a><time datetime="2025-12-14T06:44:30.000Z" title="发表于 2025-12-14 14:44:30">2025-12-14</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/12/14/%E9%83%A8%E7%BD%B2v2raya%E4%BB%A3%E7%90%86%E6%9C%8D%E5%8A%A1/" title="部署v2raya代理服务">部署v2raya代理服务</a><time datetime="2025-12-14T06:44:30.000Z" title="发表于 2025-12-14 14:44:30">2025-12-14</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/12/06/Go%E8%AF%AD%E8%A8%80%E7%B1%BB%E5%9E%8B%E7%B3%BB%E7%BB%9F%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5/" title="Go 语言类型系统核心概念">Go 语言类型系统核心概念</a><time datetime="2025-12-05T20:25:38.000Z" title="发表于 2025-12-06 04:25:38">2025-12-06</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/12/06/%E5%AF%84%E5%AD%98%E5%99%A8%E4%BF%9D%E5%AD%98%E6%A8%A1%E5%BC%8F%E4%BB%8B%E7%BB%8D%EF%BC%9ACaller-save%E4%B8%8ECallee-save/" title="寄存器保存模式介绍：Caller-save 与 Callee-save">寄存器保存模式介绍：Caller-save 与 Callee-save</a><time datetime="2025-12-05T19:40:28.000Z" title="发表于 2025-12-06 03:40:28">2025-12-06</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url(/Image/topImage.jpg);"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2023 - 2026 By 棨</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 8.0.0</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.5.1</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.5.1"></script><script src="/js/main.js?v=5.5.1"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar@0.1.16/dist/snackbar.min.js"></script><div class="js-pjax"><script>(() => {
+  const runMermaid = ele => {
+    window.loadMermaid = true
+    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+    ele.forEach((item, index) => {
+      const mermaidSrc = item.firstElementChild
+      const mermaidThemeConfig = `%%{init:{ 'theme':'${theme}'}}%%\n`
+      const mermaidID = `mermaid-${index}`
+      const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+
+      const renderFn = mermaid.render(mermaidID, mermaidDefinition)
+      const renderMermaid = svg => {
+        mermaidSrc.insertAdjacentHTML('afterend', svg)
+      }
+
+      // mermaid v9 and v10 compatibility
+      typeof renderFn === 'string' ? renderMermaid(renderFn) : renderFn.then(({ svg }) => renderMermaid(svg))
+    })
+  }
+
+  const codeToMermaid = () => {
+    const codeMermaidEle = document.querySelectorAll('pre > code.mermaid')
+    if (codeMermaidEle.length === 0) return
+
+    codeMermaidEle.forEach(ele => {
+      const preEle = document.createElement('pre')
+      preEle.className = 'mermaid-src'
+      preEle.hidden = true
+      preEle.textContent = ele.textContent
+      const newEle = document.createElement('div')
+      newEle.className = 'mermaid-wrap'
+      newEle.appendChild(preEle)
+      ele.parentNode.replaceWith(newEle)
+    })
+  }
+
+  const loadMermaid = () => {
+    if (true) codeToMermaid()
+    const $mermaid = document.querySelectorAll('#article-container .mermaid-wrap')
+    if ($mermaid.length === 0) return
+
+    const runMermaidFn = () => runMermaid($mermaid)
+    btf.addGlobalFn('themeChange', runMermaidFn, 'mermaid')
+    window.loadMermaid ? runMermaidFn() : btf.getScript('https://cdn.jsdelivr.net/npm/mermaid@11.12.0/dist/mermaid.min.js').then(runMermaidFn)
+  }
+
+  btf.addGlobalFn('encrypt', loadMermaid, 'mermaid')
+  window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+})()</script></div><canvas class="fireworks" mobile="false"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/dist/fireworks.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><i class="fas fa-spinner fa-pulse" id="loading-status" hidden="hidden"></i><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="local-search-input"><input placeholder="搜索文章" type="text"/></div><hr/><div id="local-search-results"></div><div class="ais-Pagination" id="local-search-pagination" style="display:none;"><ul class="ais-Pagination-list"></ul></div><div id="local-search-stats"></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=5.5.1"></script></div></div></body></html>
