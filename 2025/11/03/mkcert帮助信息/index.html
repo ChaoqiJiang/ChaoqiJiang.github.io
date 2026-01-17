@@ -1,0 +1,227 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>mkcert帮助信息 | 柊</title><meta name="author" content="棨"><meta name="copyright" content="棨"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#59b9c6"><meta name="description" content="本文是 mkcert 的帮助信息，用于快速查找 mkcert 的使用方法。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="mkcert帮助信息">
+<meta property="og:url" content="https://blog.198425.xyz/2025/11/03/mkcert%E5%B8%AE%E5%8A%A9%E4%BF%A1%E6%81%AF/index.html">
+<meta property="og:site_name" content="柊">
+<meta property="og:description" content="本文是 mkcert 的帮助信息，用于快速查找 mkcert 的使用方法。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://blog.198425.xyz/Image/avatar.png">
+<meta property="article:published_time" content="2025-11-03T15:38:52.000Z">
+<meta property="article:modified_time" content="2026-01-17T03:54:08.537Z">
+<meta property="article:author" content="棨">
+<meta property="article:tag" content="mkcert">
+<meta property="article:tag" content="protected">
+<meta property="article:tag" content="ssl">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://blog.198425.xyz/Image/avatar.png"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "mkcert帮助信息",
+  "url": "https://blog.198425.xyz/2025/11/03/mkcert%E5%B8%AE%E5%8A%A9%E4%BF%A1%E6%81%AF/",
+  "image": "https://blog.198425.xyz/Image/avatar.png",
+  "datePublished": "2025-11-03T15:38:52.000Z",
+  "dateModified": "2026-01-17T03:54:08.537Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "棨",
+      "url": "https://blog.198425.xyz"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://blog.198425.xyz/2025/11/03/mkcert%E5%B8%AE%E5%8A%A9%E4%BF%A1%E6%81%AF/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=5.5.1"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar@0.1.16/dist/snackbar.min.css" media="print" onload="this.media='all'"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0a1014')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#59b9c6')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          const hour = new Date().getHours()
+          const isNight = hour <= 24 || hour >= 24
+          if (theme === undefined) isNight ? activateDarkMode() : activateLightMode()
+          else theme === 'light' ? activateLightMode() : activateDarkMode()
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"pagination":{"enable":false,"hitsPerPage":8},"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":30,"highlightFullpage":true,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: {"chs_to_cht":"已切换为繁体中文","cht_to_chs":"已切换为简体中文","day_to_night":"已切换为深色模式","night_to_day":"已切换为浅色模式","bgLight":"#165e83","bgDark":"#507ea4","position":"bottom-left"},
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.12.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'mkcert帮助信息',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 8.0.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/Image/avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">87</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">101</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">61</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴/归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-list"></i><span> 清单</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> Music</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> Movie</span></a></li><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> 链接</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/Image/topImage.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><img class="site-icon" src="/Image/Logo.ico" alt="Logo"><span class="site-name">柊</span></a><a class="nav-page-title" href="/"><span class="site-name">mkcert帮助信息</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴/归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-list"></i><span> 清单</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> Music</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> Movie</span></a></li><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> 链接</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">mkcert帮助信息</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2025-11-03T15:38:52.000Z" title="发表于 2025-11-03 23:38:52">2025-11-03</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-01-17T03:54:08.537Z" title="更新于 2026-01-17 11:54:08">2026-01-17</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/ssl/">ssl</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">9</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>1分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><div class="hbe hbe-container" id="hexo-blog-encrypt" data-wpm="抱歉, 这个密码看着不太对, 请再试试." data-whm="抱歉, 这个文章不能被校验, 不过您还是能看看解密后的内容.">
+  <script id="hbeData" type="hbeData" data-hmacdigest="aa5dc90a8a29b092902f3d110b67c9e785b98b0cf893ac1e9d0a7a60e54580ca">8e6e23ff52784cdaa23aca558b12e29aaff95b9fe95dee250b9c3ac09243e5ee01b16a3ca80179575f12b192b9457f84ffe8cd809db6404b2e14eabdd7cfea65fbfdd7908434b96e76f784161e21c4bd93f957687e772e62871889e2487a49bb14ece6820e61e76f0f275fc6f53c91527f1d6dd8ce4e80c91717cd1957b0d4edb2517b30084368656e0eaf68ad78bcf25814544900a6e028a55061f562fb4e91d6d768e72fe7a346e744862be7cde5dbe995bf77b8ea9024f6bec753cc406ac38b252a7e8cc86c087464b721ebd632e69dd23e42ff5584855383420579b8f9f43ddd0afa0d06cac028f7dfe7726f57a7a19eb95a1b6f4d9b0ea805d9570374f20ac9c249af58629a3a3bdfe96cee8bb99e25b3b8d11e3f92cc8db0d0c40d9e4044db2d27576669eadeeceb227791f7960d2794972575f5f5b5afe0c4d26a2e9907b7b5632d23394dd7798bb39656801495a908fd834f1fd8ca20e3637f82823ade9cb7f6a38a04d2f7964f3269ad17765150b7c6b4d164bc9da579d6419a7b48316c727f6d2959cc03676600fdb9977ae67f65c2f02dd2bb62e1ed049c888253eaaccd0835a3c8d6660b77b2c04a9a523d7c7e56f4b8b4ef3dd3ccc59a342a84e26690ef7294c4417ebce56dd3b8d840b196066d9dd99dc7aa8bf0519d3a074df7d6252baef92e9d650ccf44ecd43bed2f65ccca8d963d7b3eae8de0abc661614ea3ff795bde29d7e435f6513ab80c3baf529f04ade39947db1ea584cb80d38b081a91815f7d13425ccce06fae734907768759d6f686beb168009d3e39eb721c5f8fd97b84e52d24393bf67d9c864c80596222dc70ff0731df2932c10230d529d3a20b2d46d3a51b9e4f957580e2247a00396ad51f857b5c47fcd359f92ed820398ebf47e87e23fc7a5d43a08d141a227e207164c5541a19ee6413c9d76423dbd128de0b096e86be630a98c4230207148d90aa39650c6f1d2beba67a1935b1ad9fb399aa18a6953b84de555cd777af885144f9f8744a87330ba40ca9e69fe4ffb87c550efa0c8e917f5dfcade9647a5b946d3748f889b485eeb967dcf669b398931a637c9b768f85697e2516acd4f1478f9aa889aad32db76d961207e8f7114d01ad7e80b0fc0c95bb2675385d02f3af417c0ad3b01531de3cdd8d1696171d4521ce46031f45d82f2a9e14a4027074ebaac29fb9691f93ece749abf7823b9a04f79a315f566f052cd687f10cadd20eb6852e1f35274de3b93fc4318395bbe9e473740a6b677b887632775711c69f4965c649e5209b69811c87b76b85e7aa69c9c40ea7264925033fa355356f48b3905f36ded28cd70ddac242dbee1ecb72a9ce4f10a6c22f440a43ecff6d8f293e1ac82e856ce8da33a8ee56e4a53db16795865a5ccabef38b7f5fa15354b384e18bd7e2e5106df6ed2203b0909948a349238d1aaf930f4980d3fad2b02fd8e239bd547e708ca0181df492477860fd4f237cffba217d2877375320efde3d31cebfd5786d4f7504ee354639817a37033b263a886a3e7600b3c4258514c7b7167dd2be52ae8fa944fb39249806c9cab192852e3e355139df33fd6e859bca6431096cc98edf84f2493e31eece4c4e9672dd25a86b5b8a294a803ece00537be01ff0b95fdddb234ed22f9ba6b0d54e4a52fd2fc7212c6595caf5196bb5972b616ae07e82c6597deba98d8b030502f4aa31d77d4850648a5da171841c2945d49af8f75dee377584d6460bf2b3ea9c7b0b2b3e69d49c3141813002dc4f059532b226fced3e21bedbac89b7360401d34a2f850aa2ebf80abb4e85818be3819a46276e86154b6e6a7a3b4ba7e14c5ffba6a1034d9042d23a1cbacee53a4e28e91ea7ee7482c987ee01a5413e573e25d802666d2a3423ed1c6313bb91268dcb1e1015ec19980ba1c22caebd361093443de8a2630764971b75235f2fab3df4f7979a642aa976e330e244b69dabaa24f8b616a875bd4e1f744ccf3155767147e85747a68f824bdf0d6c95462084e44e25f99dcdd5d10fd5561892c426e46b0121a08f4623892d5b118b830926fdd453fd1792ecec9aaf585eb2d5c9a5af9f851c9b3df168e81fcfcb8ff6e02dec3468b0c918c33a7a11191230b931bda89708e8e7ca84fd02c1e557b71b40063c4db922f653a112bd3de9d83565d8af67aa9108b58042690a143aeb495b1f8d9a6ce0b193aa2e8775a46e3f00bf6c02d178242dfea5cf4f0aab4d8111480238722965cdc7cf0a5ba3bad6244b52e0fec2f12ae8fd371a560b248962cd6eb7e25daf509da7449736db76c09459e3e8bfcd5d2142ba2bab86756a39edbf25080c18a11806cf6d0db171fd155b86d744fa172e0099151d1267e8b63e9ae545792e80891ea98ef32e6ef1fc0b9eac61b5b8badd4a716918724812aa364d929d5e1dee02f5695989de025dcfe5f3c7c0783fca0c2fab277383b441775eac1f8bb37717fda59b90f7d83ad3d5bd8f1e1568f5f884f78d4a3b6dcac883acc1d0ab11436a0dad19f16f1fc6878c897d9845ab6d1727a495eebb595233c23ccc60967f22e6b0ce66373782d32fb68751ceaae5e0870e6b74293edd657a5242726ec9750fc45753022efbacb235d1edce45de1d88548267fa7abe1a4b19c2120536776b90929ffb81220cd330f2623e3ddea1887a27653769ac0691a769f63b35a1fece782cbae48d3874657338e5e488474babd422d9d15ade8f07668f2f1a8033dcea5079fca2fa0b08a1bbd4f6035525302ad161b1fd8374c84d9bb7d9fdc973d48521fe7e403faaeb71894bf77099c043c16dade6c04a7534ec1f2cb23edd864df0eea01ce761b7cc8dd0799cb3cd844a7d77f66a1ec2ac12970bd29376d1e9f398c8c3a0c2ab687d8e87681eacfeaabdf4aa9d750bb07947c0c28b48a7bdd28704afd49afbf9a28ff18654a0942b8e28fd23f8ae0e73cc1c8df11ecdf880e4d83392b33bf6e1afac7c9f5dba477e0c9212932f99b2a835743256a868f31e3b01f7f4379b3cef9ba12b37ddf5f4a4f290356a254f2b56b2c5efe53579234581099b04fd316564751a1b61f6310da3bef73d1d1d0a330040542c7e1cc78550fc0e7c0a55240ab3bca55942c87feaf4d8a36cb4edf1b2ee288174ccdfde7eaf9116d5358c2d6086ad7288c119800abccf973a6b7b637a147867d9d1eb76238d02f19b9b752db11086cd057c500d6c2ecd910ce482432517c443792dd3716aea815baa1a97f43c68df83fafea4148b503020e46c4be8adef78c9e8b340e466ea7d887705a46debfd10137309d1ffd4ef6658a446d44354164518afeefe5f96dd8c123bdea9229b6435f8666eb674a2a00817c3613e80fecc279c33f3353434577929f8b1b8627281aa6c857c9c435225a9ea7811092993e68db73502cf9ec3d3efbbdbc2005d8a4e355cbc1edd3dadb801dd47c8524f18244d06c2001d4048211e63fbbc053526262e9c66efad2afddd89b25f354ee19a27438036faf6e57cfd977ac669f1460614b8fc06d0d4667a357f5b910ea74963328e9c3a346138c62e6b6bb9099d75c0234df0f043c3d7a63d0556d2ab7ef59698172a21d17f339674c14f0a0e7041c71501940a6f4318dcc755ee4c0c0e1c29bd849c79479165c50f5746c38e2736e35f26937a5d83d14280333055d2ee545ec9aaeec9d53aa19cae1ede0de239d548276fc2334b127d74c56d2641fc352abfe7e695cf621b7edfc3837f6f74ebaa599c5b6371dda0b34359359d43265947d04f92b1039134e32ea9f02ce1deef377d83c61c7ba5ec82778994800188633d5aa44c601dc16206a69beb9e138ed0a68e63e2d02fd931cd4f78008e05ec2eb0183ddb6a149b39ecd0fc93bca7aaf10316866365f47c0e02dbcb2f513934a17c91e588268ce41df6c478889987ceffafc3b8d619c9fd081344be7fb9f563ecbebc5b9ad52fc61c159a5b4ffeb01bee12a9633d3e2864ec396e4a35444659d46bf00a62e1bd08743aac786433cfe33357d0cd4aa16f29039fd6d179bbc8c3b6933cebc7436d9ba2edcd907c1f5050000086d248ddb2666381259e07ff90e191b7f79b450429ec21c070cef8516e8fbd2c992eaa329f7305af21185642b7d9cedb06dc497994454b1bf8aca5bb374b8ab0d3dff76c0102109d5a618216f25043fc3223b2bcef4cc491e15874b0d032d1229f4d7c2e36c9287447ff737e79d91dd885819064eedf1b46de66828c2c0d848e9600d53bd7265f1a26be987ba358da56b8087d399f434352371dbe595fbd06a1e4985dcce622ede5da20fc397458ed1e8bc4ad649835512d888dda8e8ca0c060d29be9a4e97b7791b14b9286b3c74916877811d85fccb45593291908b43a51400b14910cf672b68f3047e31e3317a0d8d6b68a1636dd2ba8599c</script>
+  <div class="hbe hbe-content">
+    <div class="hbe hbe-input hbe-input-default">
+      <input class="hbe hbe-input-field hbe-input-field-default" type="password" id="hbePass">
+      <label class="hbe hbe-input-label hbe-input-label-default" for="hbePass">
+        <span class="hbe hbe-input-label-content hbe-input-label-content-default">您好, 这里需要密码.</span>
+      </label>
+    </div>
+  </div>
+</div>
+<script data-pjax src="/lib/hbe.js"></script><link href="/css/hbe.style.css" rel="stylesheet" type="text/css"></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://blog.198425.xyz">棨</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://blog.198425.xyz/2025/11/03/mkcert%E5%B8%AE%E5%8A%A9%E4%BF%A1%E6%81%AF/">https://blog.198425.xyz/2025/11/03/mkcert帮助信息/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://blog.198425.xyz" target="_blank">柊</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/protected/">protected</a><a class="post-meta__tags" href="/tags/mkcert/">mkcert</a><a class="post-meta__tags" href="/tags/ssl/">ssl</a></div><div class="post-share"><div class="social-share" data-image="/Image/avatar.png" data-sites="facebook,x,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2025/11/03/mkcert%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E/" title="mkcert 工具使用说明"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">mkcert 工具使用说明</div></div><div class="info-2"><div class="info-item-1">本文主要介绍了 mkcert 工具的使用方法，包括安装、使用和注意事项。通过使用 mkcert，可以轻松地为本地开发环境生成受信任的 SSL 证书。</div></div></div></a><a class="pagination-related" href="/2025/11/14/Linux%E7%BD%91%E7%BB%9C%E9%85%8D%E7%BD%AE_IP%E5%9C%B0%E5%9D%80%E8%AE%BE%E7%BD%AE/" title="Linux网络配置：IP地址设置"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">Linux网络配置：IP地址设置</div></div><div class="info-2"><div class="info-item-1">本文档将介绍如何在Linux系统中配置IP地址。</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2025/12/14/mkcert%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97%EF%BC%9A%E5%A6%82%E4%BD%95%E5%BF%AB%E9%80%9F%E5%88%9B%E5%BB%BA%E8%87%AA%E7%AD%BE%E5%90%8DSSL%E8%AF%81%E4%B9%A6/" title="mkcert 使用指南：如何快速创建自签名 SSL 证书"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-12-14</div><div class="info-item-2">mkcert 使用指南：如何快速创建自签名 SSL 证书</div></div><div class="info-2"><div class="info-item-1">本文介绍如何使用 mkcert 快速创建自签名 SSL 证书，并部署到本地开发环境，解决浏览器不信任自签名证书的问题。</div></div></div></a><a class="pagination-related" href="/2025/11/03/mkcert%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E/" title="mkcert 工具使用说明"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-11-03</div><div class="info-item-2">mkcert 工具使用说明</div></div><div class="info-2"><div class="info-item-1">本文主要介绍了 mkcert 工具的使用方法，包括安装、使用和注意事项。通过使用 mkcert，可以轻松地为本地开发环境生成受信任的 SSL 证书。</div></div></div></a><a class="pagination-related" href="/2025/10/08/AI%E6%8F%90%E7%A4%BA%E8%AF%8D_%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E7%94%9F%E6%88%90/" title="AI提示词_学习笔记生成"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-10-08</div><div class="info-item-2">AI提示词_学习笔记生成</div></div><div class="info-2"><div class="info-item-1">AI提示词，用于引导AI生成学习笔记，根据提示的设定，对没有基础背景背景的小白生成学习笔记。</div></div></div></a><a class="pagination-related" href="/2025/05/04/Armbian%E7%B3%BB%E7%BB%9F%E4%BD%BF%E7%94%A8RNDIS%E5%8D%8F%E8%AE%AE%E8%BF%9B%E8%A1%8C%E4%B8%8A%E7%BD%91/" title="Armbian系统使用RNDIS协议进行上网"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-05-04</div><div class="info-item-2">Armbian系统使用RNDIS协议进行上网</div></div><div class="info-2"><div class="info-item-1">Armbian系统使用RNDIS协议进行上网</div></div></div></a><a class="pagination-related" href="/2025/10/08/AI%E6%8F%90%E7%A4%BA%E8%AF%8D_%E8%AF%95%E9%A2%98%E7%94%9F%E6%88%90/" title="AI提示词_试题生成"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-10-08</div><div class="info-item-2">AI提示词_试题生成</div></div><div class="info-2"><div class="info-item-1">AI提示词，用于根据提示信息生成对应的试题，帮助学习者检验理解深度。</div></div></div></a><a class="pagination-related" href="/2025/06/28/Cobra%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E5%8F%8A%E9%92%A9%E5%AD%90%E5%85%A5%E9%97%A8/" title="Cobra学习笔记及钩子入门"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-06-28</div><div class="info-item-2">Cobra学习笔记及钩子入门</div></div><div class="info-2"><div class="info-item-1">Cobra 学习笔记及钩子入门，包括命令行工具的创建、参数处理和高级功能。</div></div></div></a></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/Image/avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">棨</div><div class="author-info-description"></div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">87</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">101</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">61</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="mailto:chaoqijiang@outlook.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content toc-div-class" style="display:none"></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/12/14/EZ_Nc_Test%E8%BD%AF%E4%BB%B6%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/" title="EZ Nc Test软件使用指南">EZ Nc Test软件使用指南</a><time datetime="2025-12-14T06:44:30.000Z" title="发表于 2025-12-14 14:44:30">2025-12-14</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/12/14/PDFTest/" title="PDFTest">PDFTest</a><time datetime="2025-12-14T06:44:30.000Z" title="发表于 2025-12-14 14:44:30">2025-12-14</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/12/14/mkcert%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97%EF%BC%9A%E5%A6%82%E4%BD%95%E5%BF%AB%E9%80%9F%E5%88%9B%E5%BB%BA%E8%87%AA%E7%AD%BE%E5%90%8DSSL%E8%AF%81%E4%B9%A6/" title="mkcert 使用指南：如何快速创建自签名 SSL 证书">mkcert 使用指南：如何快速创建自签名 SSL 证书</a><time datetime="2025-12-14T06:44:30.000Z" title="发表于 2025-12-14 14:44:30">2025-12-14</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/12/14/%E9%83%A8%E7%BD%B2v2raya%E4%BB%A3%E7%90%86%E6%9C%8D%E5%8A%A1/" title="部署v2raya代理服务">部署v2raya代理服务</a><time datetime="2025-12-14T06:44:30.000Z" title="发表于 2025-12-14 14:44:30">2025-12-14</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/12/06/Go%E8%AF%AD%E8%A8%80%E7%B1%BB%E5%9E%8B%E7%B3%BB%E7%BB%9F%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5/" title="Go 语言类型系统核心概念">Go 语言类型系统核心概念</a><time datetime="2025-12-05T20:25:38.000Z" title="发表于 2025-12-06 04:25:38">2025-12-06</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url(/Image/topImage.jpg);"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2023 - 2026 By 棨</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 8.0.0</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.5.1</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.5.1"></script><script src="/js/main.js?v=5.5.1"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar@0.1.16/dist/snackbar.min.js"></script><div class="js-pjax"><script>(() => {
+  const runMermaid = ele => {
+    window.loadMermaid = true
+    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+    ele.forEach((item, index) => {
+      const mermaidSrc = item.firstElementChild
+      const mermaidThemeConfig = `%%{init:{ 'theme':'${theme}'}}%%\n`
+      const mermaidID = `mermaid-${index}`
+      const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+
+      const renderFn = mermaid.render(mermaidID, mermaidDefinition)
+      const renderMermaid = svg => {
+        mermaidSrc.insertAdjacentHTML('afterend', svg)
+      }
+
+      // mermaid v9 and v10 compatibility
+      typeof renderFn === 'string' ? renderMermaid(renderFn) : renderFn.then(({ svg }) => renderMermaid(svg))
+    })
+  }
+
+  const codeToMermaid = () => {
+    const codeMermaidEle = document.querySelectorAll('pre > code.mermaid')
+    if (codeMermaidEle.length === 0) return
+
+    codeMermaidEle.forEach(ele => {
+      const preEle = document.createElement('pre')
+      preEle.className = 'mermaid-src'
+      preEle.hidden = true
+      preEle.textContent = ele.textContent
+      const newEle = document.createElement('div')
+      newEle.className = 'mermaid-wrap'
+      newEle.appendChild(preEle)
+      ele.parentNode.replaceWith(newEle)
+    })
+  }
+
+  const loadMermaid = () => {
+    if (true) codeToMermaid()
+    const $mermaid = document.querySelectorAll('#article-container .mermaid-wrap')
+    if ($mermaid.length === 0) return
+
+    const runMermaidFn = () => runMermaid($mermaid)
+    btf.addGlobalFn('themeChange', runMermaidFn, 'mermaid')
+    window.loadMermaid ? runMermaidFn() : btf.getScript('https://cdn.jsdelivr.net/npm/mermaid@11.12.0/dist/mermaid.min.js').then(runMermaidFn)
+  }
+
+  btf.addGlobalFn('encrypt', loadMermaid, 'mermaid')
+  window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+})()</script></div><canvas class="fireworks" mobile="false"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/dist/fireworks.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><i class="fas fa-spinner fa-pulse" id="loading-status" hidden="hidden"></i><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="local-search-input"><input placeholder="搜索文章" type="text"/></div><hr/><div id="local-search-results"></div><div class="ais-Pagination" id="local-search-pagination" style="display:none;"><ul class="ais-Pagination-list"></ul></div><div id="local-search-stats"></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=5.5.1"></script></div></div></body></html>

@@ -1,0 +1,226 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>浏览器处理不同 MIME 类型的逻辑 | 柊</title><meta name="author" content="棨"><meta name="copyright" content="棨"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#59b9c6"><meta name="description" content="本文介绍浏览器处理不同 MIME 类型的逻辑。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="浏览器处理不同 MIME 类型的逻辑">
+<meta property="og:url" content="https://blog.198425.xyz/2025/11/21/%E6%B5%8F%E8%A7%88%E5%99%A8%E5%A4%84%E7%90%86%E4%B8%8D%E5%90%8CMIME%E7%B1%BB%E5%9E%8B%E7%9A%84%E9%80%BB%E8%BE%91/index.html">
+<meta property="og:site_name" content="柊">
+<meta property="og:description" content="本文介绍浏览器处理不同 MIME 类型的逻辑。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://blog.198425.xyz/Image/avatar.png">
+<meta property="article:published_time" content="2025-11-21T13:50:51.000Z">
+<meta property="article:modified_time" content="2026-01-17T04:09:18.509Z">
+<meta property="article:author" content="棨">
+<meta property="article:tag" content="MIME">
+<meta property="article:tag" content="protected">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://blog.198425.xyz/Image/avatar.png"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "浏览器处理不同 MIME 类型的逻辑",
+  "url": "https://blog.198425.xyz/2025/11/21/%E6%B5%8F%E8%A7%88%E5%99%A8%E5%A4%84%E7%90%86%E4%B8%8D%E5%90%8CMIME%E7%B1%BB%E5%9E%8B%E7%9A%84%E9%80%BB%E8%BE%91/",
+  "image": "https://blog.198425.xyz/Image/avatar.png",
+  "datePublished": "2025-11-21T13:50:51.000Z",
+  "dateModified": "2026-01-17T04:09:18.509Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "棨",
+      "url": "https://blog.198425.xyz"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://blog.198425.xyz/2025/11/21/%E6%B5%8F%E8%A7%88%E5%99%A8%E5%A4%84%E7%90%86%E4%B8%8D%E5%90%8CMIME%E7%B1%BB%E5%9E%8B%E7%9A%84%E9%80%BB%E8%BE%91/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=5.5.1"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar@0.1.16/dist/snackbar.min.css" media="print" onload="this.media='all'"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0a1014')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#59b9c6')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          const hour = new Date().getHours()
+          const isNight = hour <= 24 || hour >= 24
+          if (theme === undefined) isNight ? activateDarkMode() : activateLightMode()
+          else theme === 'light' ? activateLightMode() : activateDarkMode()
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"pagination":{"enable":false,"hitsPerPage":8},"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":30,"highlightFullpage":true,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: {"chs_to_cht":"已切换为繁体中文","cht_to_chs":"已切换为简体中文","day_to_night":"已切换为深色模式","night_to_day":"已切换为浅色模式","bgLight":"#165e83","bgDark":"#507ea4","position":"bottom-left"},
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.12.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '浏览器处理不同 MIME 类型的逻辑',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 8.0.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/Image/avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">87</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">101</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">61</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴/归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-list"></i><span> 清单</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> Music</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> Movie</span></a></li><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> 链接</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/Image/topImage.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><img class="site-icon" src="/Image/Logo.ico" alt="Logo"><span class="site-name">柊</span></a><a class="nav-page-title" href="/"><span class="site-name">浏览器处理不同 MIME 类型的逻辑</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴/归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-list"></i><span> 清单</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> Music</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> Movie</span></a></li><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> 链接</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">浏览器处理不同 MIME 类型的逻辑</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2025-11-21T13:50:51.000Z" title="发表于 2025-11-21 21:50:51">2025-11-21</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-01-17T04:09:18.509Z" title="更新于 2026-01-17 12:09:18">2026-01-17</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/MIME/">MIME</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">9</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>1分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><div class="hbe hbe-container" id="hexo-blog-encrypt" data-wpm="抱歉, 这个密码看着不太对, 请再试试." data-whm="抱歉, 这个文章不能被校验, 不过您还是能看看解密后的内容.">
+  <script id="hbeData" type="hbeData" data-hmacdigest="c707c369e20bbbb8c50be76729cede62c522a9fdc9ed62d34b37aa9f421b0275">8e6e23ff52784cdaa23aca558b12e29ac28b6f3606c80994e945b6b38d163784592201c06bc940e772577aa5639d6c72ab64429b9589c6587a19a4ee3fee721203a22439dd653eb850894434186462b8496a7407687fd09e35af43fbf6f08cb3891f04dc394b7988c035a772a8c109f7ad8cd1f923b4aeac86bdbc33940368fb1bfa7776fd697bca3d92eb72e7864894077b18c5828d7fd3cbed5c4c80a5c68bc1dbac431c7a86c5c5dc214c83c6fff28e34a5dce3eaa1a6d57441e6b1fe9613a6912b4f6614597c0a47b826ba8ba5f137a2eaf0c0ace058d777b35ec6c7449fff37965cb1d51b16ee45dbc6ca9caad7cfb9b9ff57e4045e5fbf7b8b07d4f188502d60bfbb87e5dd68bfe0ad502a2147bbbc513021fc6e447884ee8e3eb361eaac7ed2dc883b85c68161719a2c0dbdaebc93f519696ba7ee46d6d0b72e059eac391f419dfe2d66ca625ab4ad3e0ac4046877b568bff1495a72af0bcc5b1db3b65a944a54d4885671330d3d8476f5aa217a04fe76903f5210579415a491c8d867779bcb0d7342ba3d1c8c13b2c6456cc4de9511919b4d9a7cdb4e98c1d030ab5b154889c1a1dfe0c2d818977c1b56cb4cbd5b969f0c66bba99be6145c143e64c8932705d8a12f6a507f5c901eed05acb17004b744ee7ea0698f18a149f3fd74e0f0aecc8f751490dbca8fbbd718b9750251ed2636c00fbd166870f8c32cfae3273960450d767d9731c7b1ee8bda7f42290fd96ec4398479ef54099ce4e8529eca3114ca5dc56a1fd316897fbec270ead577f367cfc08c9b50239ec8a048c1be3891373108d6fba414b8cc6f16f9aab1fcc3e08cf8d6753104c6fa76bb9551238da96abeb65333ccb4ac17c1e37df24d8e0d22f2d6b54eacd44aa96d8f27b99a6770acc9e3c32bcb631041b42ba74383cf661815df9ac40b29494274d93b5f0248128d482c3210e543df9c9f7f72c98d715f7fde8a93018d7cebbd9d54e66f28c16be2c0458c9992cdfc742cbd1944dc3d4cdaf89b4596ca6f9795b596056b4991969b194ecce780459ce7adffa5f7dfdf17e3ca97a51806277a246fc103ac3cdf61f93c354d7f2201186314c8947efbebe9266933c325bf2ccfd61a54f1c1b64d8d27e59240a7440ac5c08959985948a1dbd518960cbe1e988dc09a2f50ca0ee1606d10549a0fc283a3d1ab591ae032f9b16b293befa2dfac07f3628dafbd914caed2780455f2531953cb2815716933fe5000ab31380012e737bc35e08872893b147f1513b293982c6d3682dd07a05eddbfe1a0bb08369c10a9ebd185287a2e205befa871c0e0db70624115f26f521a1766136d2569f6a40b932b583e53407d4d8bfd1415791e4b184f20d839990aeaef9f8f469f3660947e6d58fc4c0a01c118ce6e9db50e4e0bceb7f2a958bd84b6cf0b2303da77b4f7fa90d11358c19689f402c04ee427ec5795da31f9c745696032646b801dd6bcc8ec78c3baa67ab47481907dbc570953c6749f7043875963007fb9ce9227ed0a1d0d39e089c561fa02a6a02ee90acd1a1549b57befd44246cb0e94dca95544e1c3eb36f0b3ca8a7454bae3709e1460fcbe107c18a6ac89a1eb0a5d3e58f2ab3fb86f96c8fc2af386c4ef05e56bfdc5bb9f6ebc86ac93d68f77dae76800d7300d4a5dede90de88cb01c13841e58fd09406ee537019d741b1382e75c1b39a166fe8708b2a3330f97d3cfbf953c02f15a5f6d574eb6e7e78c6123c0c10cdea578e6574d351b50d18835d43ec94166bc24e966d28b5590bef5e231b06bd628d8621c2c5cbfaa92e76b8ee8715cd9ae77b3b3fd2dde88101e285fea907aecf3f99de51c35b71e198a016a798577c5280de67cdecc77fcc791c96656fbd311c25ff29a6f5da977a1f9561bc32e4d9cbcd6a4630f96d72747971d11ca650809eceb73a39c5b50fe3dd4d2b42bdbe78a10ad0555b3f8838fe0c72743c5f72dfb17abb113c1233ec402dce4283bd1952d9671e53978e370d63361c3a83c5a1e152790ee08d4ceda80df6751e53ac0b5fc895d4c1dcd31314dc2b6c87660c1609b8cd96045e5e792ac46777f7f6a2c561d4f54f07553cd0528b1d717ff93cb8eaa62d19acfe0fa4150bd3995bd16053e583cfdeb1c3f4eebc388ce9d99fdfdf9e13331d0667ff7ae2e724d8963309bae978ac42c8103a2bc67e1dff130ac00908a6dad4c5949135421a9968563a6e6e1e77fdd9b68413bbad64868868b2051461b5366fa42b608513d9281ae26f986935da250a7b7fe7704b8dcb42e6903835b62e80a3f10760422054b799020c748c795b3261eba08ddd28fe4c33b75638a676eb10ee7e859d222dc1def5ec00459ed1f2dee32ec4d0ae10fc9599c3c06941afdf6125eb9fb97cb86dd3cac568eea2c6c34ef18596776711912c2e1d51961fa66265b623fb6397f2581f6256c5ed295a68dd95fe1046ff6ef59371df0b2070729683567da51ef6bb21b4f901cee0b8b82756f928d168346b2fd9053c53c64c442d53d2387c778003f1b206e212d3c75b8e107cd1266bea29e0f5713d1872d48c89aff04ffebd9373c4d564bf6eba67e0a31c886b18839d768d37ed59d1df6e9126791f209245a5c47360f26ace9d52727527f44f5ce2d461a8921e56db63db4ae5b133be00690da95aadb99c826228886f472abf79b9fb4658a230e603c5f5df5ec62271cab9157eee52cfa0205b62e036eaccc90550577f28b31df5d3a9f48d4186049532533f4ebe4c84133ec04b4cfb8867cc91ce9d2580ef7f17ce1d9a619a0517bdbb4721e065267f5563062dc78a900b5bdd794cb57cac0f63592864f479b3da8cec82178c330a23b0379debcad2757e34aa1aa2022a75e3f0e637c1a948e1a725ba66f695930679f15875ea1cc94254cf5ba187f87c07776cc9fdc47a72ff32d4f2677fda6015446cfb4fb8a26835cde4c22ffae9d88d52101b7887f7926687de527e262e07866eb7976006fb72d04f6576bd970715e8af1b4a8a29fb693ffa4c958c8f62014692f3b67b0cd68a588646b89c675367b29447ecd7877348342afdd4f03ad384e875bbcd40c3d4a9718d4908fa74c5cd421db4d83f0e852fa3ba744a41b1c9ca057d804b8658eb170389d177eba5200097b40ff62d757b526909a57a8724ba89842769bf5b22286557f00d252c5b53a3a7f62846b31ee6c5e79523a041f1d5d7fda1e36a10fb63b0b4ad185097a64dcb75a57e6334f16ee5785d444c8d571139c99fc4f6b2d2c6d520fafb21a2f0c8a2d6894c09c39dc9d4f88b5b18972836b262ac3bb4e032c4cef5359859ac6091f98e90e596a9a2f9edef85da22ff8431f267ffee527d473484dc557c504e4b1dcc901ba66a9e33a76f67e897a4a7338c229a4e7487c7d6646125428745ff0db235dafddbef7e9c800392054f6e336d74ed56057f64c64e049abb765f3ccee59c212136ef3037e30fd11393db8a4cea8ceb9121aa7b7f76d32629fd5a2184b2852c6222f37d212b606f205c3391ccf9502c2d97f39d805711fca29859868142415637003652017570b4f28270cb6d139c26d4ac4d49c8733912db3397c53c173befb867a628029f3bfbd8effff03c155f29e9a599d02c2b5b22bc3732ca1a855e6724bfeb3845c0ac8e36bffb80bd143ae6eab846c4b6affa61b573455469d80705f2cfc13a8d21f5b7171899763b59ddd3bb0dbcf75141374f765bd2032712360eb077659201e60c5f8811966631b08b92c8c773c1c5825a6ba7cb686a72cc47c970cd9e68a8c397fda8ce64cd2a5051c9ec4cdcc1f76639c87d04625403d0bad5febfdf8f871f9ad1c18ffe136245922746182aa5f99da0d4a23f5976e4b2cac190447f6f4d509abdecdd15bf808bc7163a88eee1112469c0004cddc7af0f242f1a64056a94877d312a334bd4ab49f16d021e15a8153b326665b6f1ff40033ef81cd85c90af083fa0c8b60dce965449433d734dd6f957d71fb0aad6aade29f09c93ced22def9cdc43775134015e408f4e10a40c60602e443b57cfa8b8dfee0407df8b5611103d21fe5db8199de45791b70c97a666bb620b8ed874ffb7285f2499ca72f2a3dbb1ba039140bcb08e869c7723bf9a846c846c7a66bcc228e40a3a8beeac1984369f20c10c2ec4a441d6d11982c38c868f8692a079886defa0ca8fafdb0325b372acdac209d992012ffadcb561f85f16fdc15927156c23d84be1d73e369bee2af35537162e94a1a59fd3aa4d9e633541f8c86688e08d5f963f2335fdc044b20dfabe9da40b32257240c202a6d1d36a55de3986f545a067ba5e58745fb78539b00d87a7d2294bcc81aaf9cdfc30225e3f38ed161582ff7a5343dd4871c8dac8b91cbdc38c492aea4df35db6abf747d5911db7123556c5d86e6ba0124950e9adf957f2a47bdf4fa52d75bef9f77d71ac783a0975ee2bdf0c1e9dc2847f664648424a6a1ba83cd064fdff159a01ae90c05a250a0dc098137476e011936e25fc50f0bde047e747f184d6d02d7a286b3b73788daa2efa1562aac03259f8dabb4c6e1b3533f2789fe5cdc2c296e1b686401c67cb3bc444ed09983e3e769c7f821a2fe5f666e5ae6e13847ff024ce06bb1ae10f9832cb4ae94bc0ac8035ac4c4f7d55c463f32abf966d3ae934f3794062a34b5f12e70385474c6fb531bffab880952f2513f733046d24e60f0c976c337472b8af3a2bbea4be313803fffe07b9eec6bf454e0d60bb000e5cefef741b1fdbc61bf5840cd32e558c03a340674b8049fdf6ceb8c6039376b4b26b8b20b956bebab30f61c65369732993a255722bff1cd8486b9268a01d452cd4a7a37b44db16d38ab47d533d9c28761e856968ea569340ae34bd0464e33cd151d5798be9d0d20ca8fffeeb01e5fc4a8e7d7700c720bc66765e343f590b11ef0b8ba63dc5467fbd3a6b8dc6bb6d448ad3b76086ef2e62eaab444c0a6918434747e4150e8d20541c6e904e529dc4d7f14719dd061f16c7347fd1118d8811411751e952d00efd0278f868969920ca3ff9d3a393c15ea4435a605e0b1f68596cf8998a9841688be5ef70161fd81fa6cd70360a06c2b66e456380d879707ce088a3a970b197f5d4c92bdc95751ebbe4f38c53fb2592d80baa29bad70ae57fecef58ba2da9cf2c53852472c5ef03b5771d89be6fbd7e69bd54b71ecdb496553cd2f231ba09753d762547729612e1888e96e9be64e7d3b0fc4f743190d5cb4145f8fedbf7844033af9ecede8c4a5f354dc66794a171db15472bc6cc66145edf7906b2878d1288cc5d7ed922ac9945d5ca0cd9a80a7a5db5e34003d91795a84b6e960c6b6611e5d2bfe5c0cf527f950f1649ad4585fb1107418ab0467f0a147ca57bd8e5519a826ed227b770daf34897564efd50d2ad278cf4e871e295bbf6894af59b14d2546cc5e21b248fb169445a4f5ca7021b318c4115b6453d151f58921a7d7b96a75063e4503b1b6ac1221cecdea1ab39bc8f07b0fbebc40b7889a5f0a157d79d45af73081f51ac7aeeeb28d53661605d81a861736f02a89623241489e9046726723c05e5c49211468db01b9fefe3618808cdb11b12337d18e8ff887fbdfffb1b92bc101090ae214237c5f419876ff1b18e1074583213da563e87396f5eac56e1f34caf421cdf6fa5c3432c146aac80b97aa91d2a0b869800611e3939148c0e7d05afb7e0a78fcea0f9f2b9677fdea40b041366597b0c9e2df52198d2228d4e4085bfa53fe0afb419ddd236c47ef609cac51d655456e4eb0f5fdcf34c5008efa6088939b924ee242dab1a44447941aa81ff1cb0abe9d17a9fbe5706a1a8917957e0e71b3ce17691bc034f3d9584058fffbfaa742d80cca9814c4b50b889f13e3b4c28e0af0437cbb94a99a7a3aec30de37aa252155b5813b2749b46e8bbb55a098d67aea753ea6c5d82dcc2b8463ac1d5a023679559de2b85ba00ff1d574a79c69637f59598ba48e9b85b776649100c99a1b9446cc1e3049a524db591df656a7817f30e05f237916a514bbdcb933405569014cd115ce96f591d9cb89b4e048dbdad196ca2761a44dc25691e4f985d352dd41f69c06112f729fc3f05a661427bcc5303dded69d2c91b48167c98465b1de424a166ae9a58bfc595cfcac38bbc0fa7782b78681702f2934da6fe796740791b5e04156fa8476259d527c6eee688ea15e4f4eaa4323f7e2089895814a3d4f7bc24aa7aa7dd7f7bbac6abc840e0852945a4f77e3272debde0e2d5e2a459d8ecb6cbc4cc43c9768a34d41a377ff0643b67bb6ada04d939e900fb9bf9f94716e68b005a44ebe0c4b98e96f92ab1e274e793485668883a41b9cbc5a2da1c16e989c5525c8960266f571e39303a484a546f8983440d990511df16596e417bf3b71279e3698235d41b0ea21934ce69eef4f7a9b30517329779f90ee30ac2b8291f3d6432eebfcf5b95d6966ae766f231a015a744322ac91e2999c9d4acdb2dd3e528b5bd5d029274af7260de39678be5334cb91cf7e11ed1206b6450ff65354771f43731d97f61a0f8387940ceaaf6d1ad0222b1a71624a6c0797183bcbc8f5815985cee29bda02a7049dbb7fca1b17a285b0833e7969538e89a0ad0e80ff08512e3a169c37f73996ff78d609f913b69c77aa1acf544dd3736564eef0123e0b20a02e50a6eedce3d7c74485de6b4a0b97ec22a2e15b378dac6a57cd763862fe1f7c1f3931f16368f0516423768e11a553325461004289b3a16ab0044c8ed8a727c7da049334c62ef495d4eaf903308dab8b543d31ab281743601f8fe343a1eed5db8dbc2e6e81b2ec1c0dce1f114d0cafaa26dfe722e6c6d6d38794e58c5dfb139946e06d071195b5a2acb5eb28c77f9edbd3c33d78e5794d339e6efc78da2df33e90f5c4b9776946e88358a310af75c5c06cae6dd870f62b620a75d9c17d2f1dcc0ce9a5dd66005d99e4dd143ca56924766e4f240f836ba3c6e2486c1c54c17df9212664f0fbae553776bbba9c60c6dc304f210a0c401c9d3fe8ea54c37622e7defe88bddddedac9b7b5b03fc550b9e497dff705e0cb459d9a17bc5348107bb137609e5551782cc49ed5405213caf0c0fe91723aaa8030eea03357200991febb3442b5501b79957238d639e786fbbb7c9b28e4f610479bbf8ce8c8b648d6bcc09e250183455b7d3e55ce278aaf342201c6b020951c945bc3aa3d7659f0e413fb310900703c9db76054e7ba953c45b5a8937883b50e5a08787b1f619ef2e28bdd9dcecf48b7a4392c2726cf3be08d58e53ba9c09d50c9a6bcb5747eed17863a8da57b61dc400c64a10e05d85e3c5326928dc959003e830243568785b70dde61c42098962ff1967154af0b25cb0c9a833d48c9b0598f5485733b7402d79ece25f672524ce8c61566aee5123122b738defb7978db8cd93df1f75345b6a0a72e154c9968831207b2cd58553409428c1cc7f48b9b44df86e8740eb252c1a4517c6be43390a388b0c07c390a692b15ca786425d30d78939d9275db63d0562f1643aa04cc136f07afdbd9556af39724b3a30fd5bacb480d5409770c063b6d3810</script>
+  <div class="hbe hbe-content">
+    <div class="hbe hbe-input hbe-input-default">
+      <input class="hbe hbe-input-field hbe-input-field-default" type="password" id="hbePass">
+      <label class="hbe hbe-input-label hbe-input-label-default" for="hbePass">
+        <span class="hbe hbe-input-label-content hbe-input-label-content-default">您好, 这里需要密码.</span>
+      </label>
+    </div>
+  </div>
+</div>
+<script data-pjax src="/lib/hbe.js"></script><link href="/css/hbe.style.css" rel="stylesheet" type="text/css"></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://blog.198425.xyz">棨</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://blog.198425.xyz/2025/11/21/%E6%B5%8F%E8%A7%88%E5%99%A8%E5%A4%84%E7%90%86%E4%B8%8D%E5%90%8CMIME%E7%B1%BB%E5%9E%8B%E7%9A%84%E9%80%BB%E8%BE%91/">https://blog.198425.xyz/2025/11/21/浏览器处理不同MIME类型的逻辑/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://blog.198425.xyz" target="_blank">柊</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/protected/">protected</a><a class="post-meta__tags" href="/tags/MIME/">MIME</a></div><div class="post-share"><div class="social-share" data-image="/Image/avatar.png" data-sites="facebook,x,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2025/11/14/Linux_ip_a_%E5%91%BD%E4%BB%A4%E7%BB%93%E6%9E%9C%E8%AF%A6%E8%A7%A3/" title="Linux: ip a 命令结果详解"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">Linux: ip a 命令结果详解</div></div><div class="info-2"><div class="info-item-1">本文主要讲解了 `ip a` 命令的输出结果，包括接口名称、状态、IP 地址、MAC 地址、MTU 等。通过阅读本文，你可以快速理解 `ip a` 命令的输出内容。</div></div></div></a><a class="pagination-related" href="/2025/11/21/MIME%E7%B1%BB%E5%9E%8B%E8%AF%A6%E8%A7%A3%E5%BD%92%E6%A1%A3%E6%96%87%E6%A1%A3/" title="MIME 类型详解归档文档"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">MIME 类型详解归档文档</div></div><div class="info-2"><div class="info-item-1">本文详细介绍了 MIME 类型，包括其结构、用途以及常见的 MIME 类型。通过本文，你可以深入了解 MIME 类型是如何工作的，以及它在网络通信中的重要性。</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2025/11/21/MIME%E7%B1%BB%E5%9E%8B%E8%AF%A6%E8%A7%A3%E5%BD%92%E6%A1%A3%E6%96%87%E6%A1%A3/" title="MIME 类型详解归档文档"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-11-21</div><div class="info-item-2">MIME 类型详解归档文档</div></div><div class="info-2"><div class="info-item-1">本文详细介绍了 MIME 类型，包括其结构、用途以及常见的 MIME 类型。通过本文，你可以深入了解 MIME 类型是如何工作的，以及它在网络通信中的重要性。</div></div></div></a><a class="pagination-related" href="/2023/11/05/MIME%E7%B1%BB%E5%9E%8B%E5%8F%8A%E5%AF%B9%E7%85%A7%E8%A1%A8/" title="MIME类型及对照表"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2023-11-05</div><div class="info-item-2">MIME类型及对照表</div></div><div class="info-2"><div class="info-item-1">MIME类型及对照表</div></div></div></a><a class="pagination-related" href="/2025/10/08/AI%E6%8F%90%E7%A4%BA%E8%AF%8D_%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E7%94%9F%E6%88%90/" title="AI提示词_学习笔记生成"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-10-08</div><div class="info-item-2">AI提示词_学习笔记生成</div></div><div class="info-2"><div class="info-item-1">AI提示词，用于引导AI生成学习笔记，根据提示的设定，对没有基础背景背景的小白生成学习笔记。</div></div></div></a><a class="pagination-related" href="/2025/05/04/Armbian%E7%B3%BB%E7%BB%9F%E4%BD%BF%E7%94%A8RNDIS%E5%8D%8F%E8%AE%AE%E8%BF%9B%E8%A1%8C%E4%B8%8A%E7%BD%91/" title="Armbian系统使用RNDIS协议进行上网"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-05-04</div><div class="info-item-2">Armbian系统使用RNDIS协议进行上网</div></div><div class="info-2"><div class="info-item-1">Armbian系统使用RNDIS协议进行上网</div></div></div></a><a class="pagination-related" href="/2025/10/08/AI%E6%8F%90%E7%A4%BA%E8%AF%8D_%E8%AF%95%E9%A2%98%E7%94%9F%E6%88%90/" title="AI提示词_试题生成"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-10-08</div><div class="info-item-2">AI提示词_试题生成</div></div><div class="info-2"><div class="info-item-1">AI提示词，用于根据提示信息生成对应的试题，帮助学习者检验理解深度。</div></div></div></a><a class="pagination-related" href="/2025/06/28/Cobra%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E5%8F%8A%E9%92%A9%E5%AD%90%E5%85%A5%E9%97%A8/" title="Cobra学习笔记及钩子入门"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-06-28</div><div class="info-item-2">Cobra学习笔记及钩子入门</div></div><div class="info-2"><div class="info-item-1">Cobra 学习笔记及钩子入门，包括命令行工具的创建、参数处理和高级功能。</div></div></div></a></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/Image/avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">棨</div><div class="author-info-description"></div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">87</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">101</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">61</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="mailto:chaoqijiang@outlook.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content toc-div-class" style="display:none"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%B5%8F%E8%A7%88%E5%99%A8%E5%A4%84%E7%90%86%E4%B8%8D%E5%90%8C-MIME-%E7%B1%BB%E5%9E%8B%E7%9A%84%E9%80%BB%E8%BE%91"><span class="toc-number">1.</span> <span class="toc-text">浏览器处理不同 MIME 类型的逻辑</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E6%A6%82%E8%BF%B0"><span class="toc-number">1.1.</span> <span class="toc-text">1. 概述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E6%B5%8F%E8%A7%88%E5%99%A8%E5%A4%84%E7%90%86%E6%B5%81%E7%A8%8B"><span class="toc-number">1.2.</span> <span class="toc-text">2. 浏览器处理流程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E5%B8%B8%E8%A7%81-MIME-%E7%B1%BB%E5%9E%8B%E5%A4%84%E7%90%86%E7%A4%BA%E4%BE%8B"><span class="toc-number">1.3.</span> <span class="toc-text">3. 常见 MIME 类型处理示例</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-Nginx-%E9%85%8D%E7%BD%AE%E7%A4%BA%E4%BE%8B"><span class="toc-number">1.4.</span> <span class="toc-text">4. Nginx 配置示例</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-%E6%80%BB%E7%BB%93"><span class="toc-number">1.5.</span> <span class="toc-text">5. 总结</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/12/14/EZ_Nc_Test%E8%BD%AF%E4%BB%B6%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/" title="EZ Nc Test软件使用指南">EZ Nc Test软件使用指南</a><time datetime="2025-12-14T06:44:30.000Z" title="发表于 2025-12-14 14:44:30">2025-12-14</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/12/14/PDFTest/" title="PDFTest">PDFTest</a><time datetime="2025-12-14T06:44:30.000Z" title="发表于 2025-12-14 14:44:30">2025-12-14</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/12/14/mkcert%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97%EF%BC%9A%E5%A6%82%E4%BD%95%E5%BF%AB%E9%80%9F%E5%88%9B%E5%BB%BA%E8%87%AA%E7%AD%BE%E5%90%8DSSL%E8%AF%81%E4%B9%A6/" title="mkcert 使用指南：如何快速创建自签名 SSL 证书">mkcert 使用指南：如何快速创建自签名 SSL 证书</a><time datetime="2025-12-14T06:44:30.000Z" title="发表于 2025-12-14 14:44:30">2025-12-14</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/12/14/%E9%83%A8%E7%BD%B2v2raya%E4%BB%A3%E7%90%86%E6%9C%8D%E5%8A%A1/" title="部署v2raya代理服务">部署v2raya代理服务</a><time datetime="2025-12-14T06:44:30.000Z" title="发表于 2025-12-14 14:44:30">2025-12-14</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/12/06/Go%E8%AF%AD%E8%A8%80%E7%B1%BB%E5%9E%8B%E7%B3%BB%E7%BB%9F%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5/" title="Go 语言类型系统核心概念">Go 语言类型系统核心概念</a><time datetime="2025-12-05T20:25:38.000Z" title="发表于 2025-12-06 04:25:38">2025-12-06</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url(/Image/topImage.jpg);"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2023 - 2026 By 棨</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 8.0.0</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.5.1</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.5.1"></script><script src="/js/main.js?v=5.5.1"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar@0.1.16/dist/snackbar.min.js"></script><div class="js-pjax"><script>(() => {
+  const runMermaid = ele => {
+    window.loadMermaid = true
+    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+    ele.forEach((item, index) => {
+      const mermaidSrc = item.firstElementChild
+      const mermaidThemeConfig = `%%{init:{ 'theme':'${theme}'}}%%\n`
+      const mermaidID = `mermaid-${index}`
+      const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+
+      const renderFn = mermaid.render(mermaidID, mermaidDefinition)
+      const renderMermaid = svg => {
+        mermaidSrc.insertAdjacentHTML('afterend', svg)
+      }
+
+      // mermaid v9 and v10 compatibility
+      typeof renderFn === 'string' ? renderMermaid(renderFn) : renderFn.then(({ svg }) => renderMermaid(svg))
+    })
+  }
+
+  const codeToMermaid = () => {
+    const codeMermaidEle = document.querySelectorAll('pre > code.mermaid')
+    if (codeMermaidEle.length === 0) return
+
+    codeMermaidEle.forEach(ele => {
+      const preEle = document.createElement('pre')
+      preEle.className = 'mermaid-src'
+      preEle.hidden = true
+      preEle.textContent = ele.textContent
+      const newEle = document.createElement('div')
+      newEle.className = 'mermaid-wrap'
+      newEle.appendChild(preEle)
+      ele.parentNode.replaceWith(newEle)
+    })
+  }
+
+  const loadMermaid = () => {
+    if (true) codeToMermaid()
+    const $mermaid = document.querySelectorAll('#article-container .mermaid-wrap')
+    if ($mermaid.length === 0) return
+
+    const runMermaidFn = () => runMermaid($mermaid)
+    btf.addGlobalFn('themeChange', runMermaidFn, 'mermaid')
+    window.loadMermaid ? runMermaidFn() : btf.getScript('https://cdn.jsdelivr.net/npm/mermaid@11.12.0/dist/mermaid.min.js').then(runMermaidFn)
+  }
+
+  btf.addGlobalFn('encrypt', loadMermaid, 'mermaid')
+  window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+})()</script></div><canvas class="fireworks" mobile="false"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/dist/fireworks.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><i class="fas fa-spinner fa-pulse" id="loading-status" hidden="hidden"></i><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="local-search-input"><input placeholder="搜索文章" type="text"/></div><hr/><div id="local-search-results"></div><div class="ais-Pagination" id="local-search-pagination" style="display:none;"><ul class="ais-Pagination-list"></ul></div><div id="local-search-stats"></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=5.5.1"></script></div></div></body></html>
